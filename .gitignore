@@ -47,6 +47,7 @@ local.properties
 [Dd]ebug/
 [Rr]elease/
 x64/
+_gen/
 build/
 [Bb]in/
 [Oo]bj/
@@ -78,6 +79,7 @@ build/
 *.pidb
 *.log
 *.scc
+verassemblyinfo.cs
 
 # Visual C++ cache files
 ipch/
