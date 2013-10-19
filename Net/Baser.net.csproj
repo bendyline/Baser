@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{21F29B74-23A1-4EAB-B359-206EF926983A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bendyline.Base</RootNamespace>
+    <AssemblyName>Bendyline.Base.Net</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <IntermediateOutputPath>serverobj\Debug\</IntermediateOutputPath>
+    <OutputPath>..\..\out\bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <IntermediateOutputPath>serverobj\Debug\</IntermediateOutputPath>
+    <OutputPath>..\..\out\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Bendyline.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuthenticationResult.cs" />
+    <Compile Include="AuthenticatorStatus.cs" />
+    <Compile Include="BaseLists.cs" />
+    <Compile Include="CallbackResult.cs" />
+    <Compile Include="CallbackState.cs" />
+    <Compile Include="ColorDefinition.cs" />
+    <Compile Include="CommandBase.cs" />
+    <Compile Include="CommandLineLogger.cs" />
+    <Compile Include="DataStoreClause.cs" />
+    <Compile Include="DataStoreClauseGroup.cs" />
+    <Compile Include="DataStoreComparisonClause.cs" />
+    <Compile Include="DataStoreEqualsClause.cs" />
+    <Compile Include="DataStoreItemEvent.cs" />
+    <Compile Include="DataStoreItemSet.cs" />
+    <Compile Include="DataStoreItemSetEvent.cs" />
+    <Compile Include="DataStoreQuery.cs" />
+    <Compile Include="ErrorHandler.clr.cs" />
+    <Compile Include="DataSourceItemStatus.cs" />
+    <Compile Include="DataStore.cs" />
+    <Compile Include="DataStoreFieldType.cs" />
+    <Compile Include="DataStoreItemBase.cs" />
+    <Compile Include="IAuthenticator.cs" />
+    <Compile Include="IDataStore.cs" />
+    <Compile Include="IDataStoreField.cs" />
+    <Compile Include="IDataStoreItem.cs" />
+    <Compile Include="IDataStoreItemSet.cs" />
+    <Compile Include="IDataStoreList.cs" />
+    <Compile Include="IdEvent.cs" />
+    <Compile Include="IProtocolRequest.cs" />
+    <Compile Include="LoginData.cs" />
+    <Compile Include="LoginEvent.cs" />
+    <Compile Include="Operation.cs" />
+    <Compile Include="RichContentContainer.cs" />
+    <Compile Include="RichContentDocument.cs" />
+    <Compile Include="RichContentElement.cs" />
+    <Compile Include="RichContentRun.cs" />
+    <Compile Include="RichContentSection.cs" />
+    <Compile Include="StorageFile.clr.cs" />
+    <Compile Include="StorageGroup.clr.cs" />
+    <Compile Include="StorageManager.clr.cs" />
+    <Compile Include="FileUtilities.cs" />
+    <Compile Include="ICommand.cs" />
+    <Compile Include="ISerializableObject.cs" />
+    <Compile Include="Log.clr.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="LogItem.cs" />
+    <Compile Include="LogItemEvent.cs" />
+    <Compile Include="ObservableDictionary.cs" />
+    <Compile Include="SerializableObject.clr.cs" />
+    <Compile Include="SerializableObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializableProperty.clr.cs" />
+    <Compile Include="SerializableProperty.cs" />
+    <Compile Include="SerializablePropertyAttribute.cs" />
+    <Compile Include="SerializablePropertyType.cs" />
+    <Compile Include="SerializableType.clr.cs" />
+    <Compile Include="SerializableType.cs" />
+    <Compile Include="SerializableTypeAttribute.cs" />
+    <Compile Include="SerializableTypeManager.cs" />
+    <Compile Include="TextUtilities.cs" />
+    <Compile Include="Timer.Windows.cs" />
+    <Compile Include="UrlUtilities.cs" />
+    <Compile Include="UserInfo.cs" />
+    <Compile Include="Utilities.clr.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="Utilities.scriptparity.cs" />
+    <Compile Include="XmlUtilities.cs" />
+    <Compile Include="_gen\verassemblyinfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Bendyline.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

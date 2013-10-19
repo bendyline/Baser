@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{674D49A1-23AD-45C2-A93E-B637418B772F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BL</RootNamespace>
+    <AssemblyName>BL</AssemblyName>
+    <ScriptTemplate>Properties\Script.template</ScriptTemplate>
+    <CodeAnalysisRuleSet>Properties\FxCop.ruleset</CodeAnalysisRuleSet>
+    <GenerateScript>True</GenerateScript>
+    <GenerateResources>True</GenerateResources>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\web\gs\Baser\dbg\</OutputPath>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;SCRIPTSHARP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0028, 1591, 1684</NoWarn>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\web\gs\Baser\1.0\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;SCRIPTSHARP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0028, 1591, 1684</NoWarn>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="IDisposable.cs" />
+    <Compile Include="Operation.cs" />
+    <Compile Include="PropertyChangedEvent.cs" />
+    <Compile Include="RichContentContainer.cs" />
+    <Compile Include="RichContentDocument.cs" />
+    <Compile Include="RichContentElement.cs" />
+    <Compile Include="RichContentRun.cs" />
+    <Compile Include="RichContentSection.cs" />
+    <Compile Include="SerializableObject.cs" />
+    <Compile Include="SerializableProperty.cs" />
+    <Compile Include="SerializablePropertyType.cs" />
+    <Compile Include="SerializableType.cs" />
+    <Compile Include="SerializableTypeManager.cs" />
+    <Compile Include="TextUtilities.cs" />
+    <Compile Include="UrlUtilities.cs" />
+    <Compile Include="Utilities.cs" />
+    <None Include="packages.config" />
+    <None Include="Properties\FxCop.ruleset" />
+    <None Include="Properties\Script.template" />
+    <Compile Include="AsyncCallback.cs" />
+    <Compile Include="CallbackResult.cs" />
+    <Compile Include="CallbackState.cs" />
+    <Compile Include="ColorDefinition.cs" />
+    <Compile Include="IAsyncResult.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="LogItem.cs" />
+    <Compile Include="LogItemEvent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Script.Web">
+      <HintPath>..\..\packages\ScriptSharp.Lib.HTML.0.7.5.0\lib\Script.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\ScriptSharp.0.7.5.1\tools\ScriptSharp.targets" Condition="Exists('..\..\packages\ScriptSharp.0.7.5.1\tools\ScriptSharp.targets')" />
+</Project>
