@@ -1,4 +1,7 @@
-﻿using System;
+﻿/* Copyright (c) Bendyline LLC. All rights reserved. Licensed under the Apache License, Version 2.0.
+    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. */
+
+using System;
 using System.Threading;
 
 namespace Bendyline.Base
@@ -25,13 +28,10 @@ namespace Bendyline.Base
             }
         }
 
-        // Summary:
-        //     Gets a user-defined object that qualifies or contains information about an
-        //     asynchronous operation.
-        //
-        // Returns:
-        //     A user-defined object that qualifies or contains information about an asynchronous
-        //     operation.
+        /// <summary>
+        /// A user-defined object that qualifies or contains information about an asynchronous 
+        /// operation.
+        /// </summary>
         public object AsyncState 
         {
             get
