@@ -41,6 +41,7 @@ local.properties
 *.user
 *.sln.docstates
 *.snk
+web.config
 
 # Build results
 
@@ -51,6 +52,11 @@ _gen/
 build/
 [Bb]in/
 [Oo]bj/
+*Test/
+ts/
+out/
+dbg/
+rel/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -69,6 +75,8 @@ build/
 *.sbr
 *.tlb
 *.tli
+*.sln
+*.suo
 *.tlh
 *.tmp
 *.tmp_proj

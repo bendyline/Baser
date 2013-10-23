@@ -1,5 +1,7 @@
-﻿using System;
-using System.Net;
+﻿/* Copyright (c) Bendyline LLC. All rights reserved. Licensed under the Apache License, Version 2.0.
+    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. */
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -124,11 +126,8 @@ namespace BL
             LogItem item = new LogItem(message, document, status, timeTaken, null);
             item.Id = id;
             item.Details = details;
-            //lock (logItems)
-            //{
             logItems.Add(item);
-            //}
-
+            
             if (ItemAdded != null)
             {
                 LogItemEventArgs liea = new LogItemEventArgs(item);
