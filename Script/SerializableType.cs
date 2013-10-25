@@ -73,7 +73,7 @@ namespace BL
 
         }
 
-        public SerializableProperty EnsureCollection(String propertyName, String itemName, String containerNodeName, String propertyToAddObjectTo, String itemTypeName)
+        public SerializableProperty EnsureScalarCollection(String propertyName, String itemName, String containerNodeName, String propertyToAddObjectTo, String itemTypeName)
         {
             String propNameCanon = propertyName.ToLowerCase();
 
@@ -90,7 +90,7 @@ namespace BL
             SerializableProperty sp = new SerializableProperty();
             sp.Name = propertyName;
             sp.IsAttribute = false;
-            sp.Type = SerializablePropertyType.Collection;
+            sp.Type = SerializablePropertyType.ScalarCollection;
             sp.ContainerNodeName = containerNodeName;
             sp.PropertyToAddObjectTo = propertyToAddObjectTo;
             sp.ItemName = itemName;

@@ -87,7 +87,10 @@ namespace BL
 
             foreach (SerializableProperty sp in properties)
             {
-                Script.Literal("var sv = {0}.get_name();var sd={0}.getShortTypeName();var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = {1}[sv]; if (!(val === undefined)) {{ fn.apply(this, new Array(val)); }}}}", sp, o);
+                Script.Literal(@"var sv = {0}.get_name();var sd={0}.getShortTypeName();var st={0}.get_type(); if (st==6) 
+{{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; if (!(val === undefined)) {{coll.clear(); for (var i=0; i<val.length; i++) {{ var item=val[i]; coll.add(item); }} }}  }} }}  }} else if (st==10)
+{{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; if (!(val === undefined)) {{coll.clear(); for (var i=0; i<val.length; i++) {{ var item=val[i]; var newobj = coll.create(); newobj.applyObject(item); coll.add(newobj); }} }}  }} }}  }} else 
+{{var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = {1}[sv]; if (!(val === undefined)) {{ fn.apply(this, [val]); }}}}}}", sp, o);
             }
         }
 
@@ -103,7 +106,7 @@ namespace BL
                 propertyName = String.FromCharCode(initial+32) + propertyName.Substring(1, propertyName.Length);
             }
 
-            Script.Literal("var fn = this['set_' + {1} + '_' + {0}];  if (fn != null) {{fn.apply(this, new Array({2}) );}}", propertyName, sp.GetShortTypeName(), value);
+            Script.Literal("var fn = this['set_' + {1} + '_' + {0}];  if (fn != null) {{fn.apply(this, [{2}] );}}", propertyName, sp.GetShortTypeName(), value);
         }
 
         private void EnsureInitializedForSerialization()

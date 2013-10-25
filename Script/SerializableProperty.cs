@@ -153,6 +153,12 @@ namespace BL
                 case SerializablePropertyType.Object:
                     return 'o';
 
+                case SerializablePropertyType.ObjectCollection:
+                    return 'p';
+
+                case SerializablePropertyType.ScalarCollection:
+                    return 'q';
+
                 case SerializablePropertyType.Bool:
                     return 'b';
 
@@ -173,6 +179,12 @@ namespace BL
             {
                 case 's':
                     this.propertyType = SerializablePropertyType.String;
+                    break;
+                case 'p':
+                    this.propertyType = SerializablePropertyType.ObjectCollection;
+                    break;
+                case 'q':
+                    this.propertyType = SerializablePropertyType.ScalarCollection;
                     break;
                 case 'u':
                     this.propertyType = SerializablePropertyType.UrlString;

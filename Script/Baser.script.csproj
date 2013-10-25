@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IDisposable.cs" />
+    <Compile Include="ISerializableCollection.cs" />
     <Compile Include="Operation.cs" />
     <Compile Include="PropertyChangedEvent.cs" />
     <Compile Include="RichContentContainer.cs" />
