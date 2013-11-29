@@ -210,6 +210,47 @@ namespace BL
             }
         }
 
+        public object GetValue(object value)
+        {
+            try
+            {
+                if (this.Type == SerializablePropertyType.Bool)
+                {
+                    if (value is String)
+                    {
+                        value = Boolean.Parse((String)value);
+                    }
+                }
+                else if (this.Type == SerializablePropertyType.Integer)
+                {
+                    if (value is String)
+                    {
+                        value = Int32.Parse((String)value);
+                    }
+                }
+                else if (this.Type == SerializablePropertyType.Number)
+                {
+                    if (value is String)
+                    {
+                        value = Double.Parse((String)value);
+                    }
+                }
+                else if (this.Type == SerializablePropertyType.Date)
+                {
+                    if (value is String)
+                    {
+                        value = Date.Parse((String)value);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                value = null;
+            }
+
+            return value;
+        }
+
         internal void SetToObject(object so, object value)
         {
         }

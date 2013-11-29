@@ -106,6 +106,8 @@ namespace BL
                 propertyName = String.FromCharCode(initial+32) + propertyName.Substring(1, propertyName.Length);
             }
 
+            value = sp.GetValue(value);
+
             Script.Literal("var fn = this['set_' + {1} + '_' + {0}];  if (fn != null) {{fn.apply(this, [{2}] );}}", propertyName, sp.GetShortTypeName(), value);
         }
 

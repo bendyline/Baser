@@ -7,7 +7,7 @@ namespace BL
     public interface ISerializableCollection 
     {
         void Clear();
-        object Create();
-        void Add(object o);
+        SerializableObject Create();
+        void Add(SerializableObject o);
     }
 }
