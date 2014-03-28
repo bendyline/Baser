@@ -81,12 +81,12 @@ namespace BL
 
                 if (this.Foreground != null)
                 {
-                    formatHash.Append(this.Foreground.Xml);
+    //                formatHash.Append(this.Foreground.Xml);
                 }
 
                 if (this.Background != null)
                 {
-                    formatHash.Append(this.Background.Xml);
+          //          formatHash.Append(this.Background.Xml);
                 }
 
                 formatHash.Append("</F>");

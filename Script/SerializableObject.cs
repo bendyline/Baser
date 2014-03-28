@@ -43,20 +43,6 @@ namespace BL
             }
         }
 
-        public String Xml
-        {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-
-                return sb.ToString();
-            }
-
-            set
-            {
-            }
-        }
-
         public SerializableObject()
         {
             this.EnsureInitializedForSerialization();
@@ -75,7 +61,10 @@ namespace BL
 
             foreach (SerializableProperty sp in properties)
             {
-                Script.Literal("var sv={0}.get_name();var sd={0}.getShortTypeName();var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var val=fn(); if (val != null){{o[{0}.get_name()]=val;}}}}", sp, o);
+                Script.Literal(@"var sv={0}.get_name();var sd={0}.getShortTypeName();var st={0}.get_type();var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ 
+                if (st==10) {{var val=fn.apply(this); var arr = new Array(); var enumer=ss.IEnumerator.getEnumerator(val); while (enumer.moveNext()) {{ arr.push(enumer.current.getObject()); }} o[{0}.get_name()]=arr;  }}
+                else if (st==5) {{var val=fn.apply(this); if (val != null) {{ val = val.getObject(); o[{0}.get_name()]=arr; }}  }}
+                else {{var val=fn.apply(this);if (val != null){{o[{0}.get_name()]=val;}}}}}}", sp, o);
             }
 
             return o;
@@ -89,7 +78,8 @@ namespace BL
             {
                 Script.Literal(@"var sv = {0}.get_name();var sd={0}.getShortTypeName();var st={0}.get_type(); if (st==6) 
 {{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; if (!(val === undefined)) {{coll.clear(); for (var i=0; i<val.length; i++) {{ var item=val[i]; coll.add(item); }} }}  }} }}  }} else if (st==10)
-{{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; if (!(val === undefined)) {{coll.clear(); for (var i=0; i<val.length; i++) {{ var item=val[i]; var newobj = coll.create(); newobj.applyObject(item); coll.add(newobj); }} }}  }} }}  }} else 
+{{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; if (!(val === undefined)) {{coll.clear(); for (var i=0; i<val.length; i++) {{ var item=val[i]; var newobj = coll.create(); newobj.applyObject(item); coll.add(newobj); }} }}  }} }}  }} else if (st == 7)
+{{var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = new Date({1}[sv]); if (!(val === undefined)) {{ fn.apply(this, [val]); }}}}}} else
 {{var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = {1}[sv]; if (!(val === undefined)) {{ fn.apply(this, [val]); }}}}}}", sp, o);
             }
         }
