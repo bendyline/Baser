@@ -87,7 +87,13 @@ namespace BL
         public void SetProperty(String propertyName, object value)
         {
             SerializableProperty sp = this.SerializableType.GetProperty(propertyName);
+
             Debug.Assert(sp != null);
+
+            if (sp == null)
+            {
+                return;
+            }
 
             int initial = propertyName.CharCodeAt(0);
 
@@ -98,7 +104,7 @@ namespace BL
 
             value = sp.GetValue(value);
 
-            Script.Literal("var fn = this['set_' + {1} + '_' + {0}];  if (fn != null) {{fn.apply(this, [{2}] );}}", propertyName, sp.GetShortTypeName(), value);
+            Script.Literal("var fn = this['set_' + {1} + '_' + {0}];  if (fn != null) {{fn.apply(this, [{2}] );}}", sp.Name, sp.GetShortTypeName(), value);
         }
 
         private void EnsureInitializedForSerialization()

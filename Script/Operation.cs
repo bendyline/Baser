@@ -9,6 +9,7 @@ namespace BL
     public class Operation
     {
         private List<CallbackState> callbackStates;
+        private object tag;
 
         public List<CallbackState> CallbackStates
         {
@@ -18,9 +19,34 @@ namespace BL
             }
         }
 
+        public object Tag
+        {
+            get
+            {
+                return this.tag;
+            }
+
+            set
+            {
+                this.tag = value;
+            }
+        }
+
         public Operation()
         {
             this.callbackStates = new List<CallbackState>();
+        }
+
+        public void AddCallback(AsyncCallback c, object state)
+        {
+            if (c != null)
+            {
+                CallbackState cs = new CallbackState();
+                cs.Callback = c;
+                cs.State = state;
+
+                this.callbackStates.Add(cs);
+            }
         }
 
         public void Complete(IAsyncResult template)
