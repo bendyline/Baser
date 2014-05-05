@@ -34,8 +34,10 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Context.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="INotifyCollectionChanged.cs" />
+    <Compile Include="HtmlUtilities.cs" />
     <Compile Include="StringEvent.cs" />
     <Compile Include="ISerializableCollection.cs" />
     <Compile Include="IntegerEvent.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="SerializablePropertyType.cs" />
     <Compile Include="SerializableType.cs" />
     <Compile Include="SerializableTypeManager.cs" />
+    <Compile Include="JsonUtilities.cs" />
     <Compile Include="TextUtilities.cs" />
     <Compile Include="UrlUtilities.cs" />
     <Compile Include="Utilities.cs" />

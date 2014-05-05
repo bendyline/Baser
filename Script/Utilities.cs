@@ -10,10 +10,10 @@ namespace BL
     public static partial class Utilities
     {
         private static String versionHash;
-        private static String feedbackServicesBaseUrl;
+    /*    private static String feedbackServicesBaseUrl;
         private static String nationeerBaseUrl;
         private static String nationeerServicesBaseUrl;
-        private static String contentBaseUrl;
+        private static String contentBaseUrl;*/
         private static bool initialized;
 
         public static String GetString(object value)
@@ -34,7 +34,7 @@ namespace BL
             {
                 versionHash = "1.0.0.0";
             }
-
+            /*
             if (feedbackServicesBaseUrl == null)
             {
                 feedbackServicesBaseUrl = "http://feedback.nationeer.com";
@@ -53,7 +53,7 @@ namespace BL
             if (nationeerBaseUrl == null)
             {
                 nationeerBaseUrl = "http://nationeer.com";
-            }
+            }*/
 
             initialized = true;
         }
@@ -62,11 +62,11 @@ namespace BL
         private static void InitializeDebug()
         {
             versionHash = Utilities.CreateRandomId();
-            feedbackServicesBaseUrl = "http://feedback.nationeerdev.com";
+      /*      feedbackServicesBaseUrl = "http://feedback.nationeerdev.com";
             nationeerBaseUrl = "http://nationeerdev.com";
             nationeerServicesBaseUrl = "http://services.nationeerdev.com";
             contentBaseUrl = "http://nationeerdev.com";
-
+            */
          //               Log.ItemAdded += new LogItemEventHandler(Log_LogItemAdded);
         }
   /*      
@@ -75,7 +75,7 @@ namespace BL
             Debug.WriteLine(e.Item.Message);
         }
    */
-
+        /*
         public static String FeedbackServicesBaseUrl
         {
             get
@@ -121,7 +121,7 @@ namespace BL
             {
                 return contentBaseUrl;
             }
-        }
+        }*/
 
         public static String VersionHash
         {
@@ -180,15 +180,15 @@ namespace BL
 
                 if (typeSwitch <= 1 && i > 0)
                 {
-                    id += String.FromCharCode((Math.Random() % 10) + 48);
+                    id += String.FromCharCode((Math.Random() * 10) + 48);
                 }
                 else if (typeSwitch <= 4)
                 {
-                    id += String.FromCharCode((Math.Random() % 26) + 97);
+                    id += String.FromCharCode((Math.Random() * 26) + 97);
                 }
                 else
                 {
-                    id += String.FromCharCode((Math.Random() % 26) + 65);
+                    id += String.FromCharCode((Math.Random() * 26) + 65);
                 }
             }
 
@@ -204,6 +204,37 @@ namespace BL
             }
 
             return str;
+        }
+
+        public static String GetRandomId()
+        {
+            String id = "";
+
+            for (int i = 0; i < 4; i++ )
+            {
+                Number choice = Math.Random() * 3;
+
+                if (choice < 1)
+                {
+                    int index = (int)(Math.Floor(Math.Random() * 26));
+
+                    id += String.FromCharCode(index + 65);
+                }
+                else if (choice < 2)
+                {
+                    int index = (int)(Math.Floor(Math.Random() * 26));
+
+                    id += String.FromCharCode(index + 97);
+                }
+                else 
+                {
+                    int index = (int)(Math.Floor(Math.Random() * 10));
+
+                    id += String.FromCharCode(index + 48);
+                }
+            }
+
+            return id;
         }
 
         public static String GetHMSMFromDateTime(Date dt)

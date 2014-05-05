@@ -62,9 +62,9 @@ namespace BL
             foreach (SerializableProperty sp in properties)
             {
                 Script.Literal(@"var sv={0}.get_name();var sd={0}.getShortTypeName();var st={0}.get_type();var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ 
-                if (st==10) {{var val=fn.apply(this); var arr = new Array(); var enumer=ss.IEnumerator.getEnumerator(val); while (enumer.moveNext()) {{ arr.push(enumer.current.getObject()); }} o[{0}.get_name()]=arr;  }}
-                else if (st==5) {{var val=fn.apply(this); if (val != null) {{ val = val.getObject(); o[{0}.get_name()]=arr; }}  }}
-                else {{var val=fn.apply(this);if (val != null){{o[{0}.get_name()]=val;}}}}}}", sp, o);
+                if (st==10) {{var val=fn.apply(this); var arr = new Array(); var enumer=ss.IEnumerator.getEnumerator(val); while (enumer.moveNext()) {{ arr.push(enumer.current.getObject()); }} {1}[{0}.get_name()]=arr;  }}
+                else if (st==5) {{var val=fn.apply(this); if (val != null) {{ val = val.getObject(); {1}[{0}.get_name()]=val; }}  }}
+                else {{var val=fn.apply(this);if (val != null){{{1}[{0}.get_name()]=val;}}}}}}", sp, o);
             }
 
             return o;
@@ -74,12 +74,18 @@ namespace BL
         {
             ICollection<SerializableProperty> properties = this.SerializableType.Properties;
 
+            if (o == null)
+            {
+                throw new Exception("Applying empty object");
+            }
+
             foreach (SerializableProperty sp in properties)
             {
                 Script.Literal(@"var sv = {0}.get_name();var sd={0}.getShortTypeName();var st={0}.get_type(); if (st==6) 
 {{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; if (!(val === undefined)) {{coll.clear(); for (var i=0; i<val.length; i++) {{ var item=val[i]; coll.add(item); }} }}  }} }}  }} else if (st==10)
 {{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; if (!(val === undefined)) {{coll.clear(); for (var i=0; i<val.length; i++) {{ var item=val[i]; var newobj = coll.create(); newobj.applyObject(item); coll.add(newobj); }} }}  }} }}  }} else if (st == 7)
-{{var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = new Date({1}[sv]); if (!(val === undefined)) {{ fn.apply(this, [val]); }}}}}} else
+{{var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = new Date({1}[sv]); if (!(val === undefined)) {{ fn.apply(this, [val]); }}}}}} else if (st == 5)
+{{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var obj=fn.apply(this); if (obj != null) {{ var val = {1}[sv]; if (!(val === undefined)) {{ obj.applyObject(val); }}}}}}}} else
 {{var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = {1}[sv]; if (!(val === undefined)) {{ fn.apply(this, [val]); }}}}}}", sp, o);
             }
         }
@@ -128,6 +134,14 @@ namespace BL
                     this.serializableType.EndInit();
                 }
             }
+        }
+
+        public void ApplyTo(SerializableObject objectToApplyTo)
+        {
+            // this is a bit inefficient to get and then apply a JSON serialization, we can do something a bit more efficient here.
+            object o = this.GetObject();
+
+            objectToApplyTo.ApplyObject(o);
         }
 
         protected void NotifyPropertyChanged(String propertyName)
