@@ -15,6 +15,8 @@ namespace Bendyline.Base
             get; 
         }
 
+        void LoadFromSettings(Dictionary<String, String> settings);
+
         void OutputHelp();
         bool Validate();
         void Execute();

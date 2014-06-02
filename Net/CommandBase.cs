@@ -12,6 +12,7 @@ namespace Bendyline.Base
     {
         public abstract bool Validate();
         public abstract void Execute();
+        public abstract void LoadFromSettings(Dictionary<String, String> settings);
         
         public abstract String Id
         {

@@ -108,6 +108,21 @@ namespace BL
                 propertyName = String.FromCharCode(initial+32) + propertyName.Substring(1, propertyName.Length);
             }
 
+            // for lists of strings, convert a comma seperated list to a list of strings
+            if (sp.Type == SerializablePropertyType.ScalarCollection && value is String)
+            {
+                String[] values = ((String)value).Split(',');
+
+                List<String> valueList = new List<String>();
+
+                foreach (String val in values)
+                {
+                    valueList.Add(val);
+                }
+
+                value = values;
+            }
+
             value = sp.GetValue(value);
 
             Script.Literal("var fn = this['set_' + {1} + '_' + {0}];  if (fn != null) {{fn.apply(this, [{2}] );}}", sp.Name, sp.GetShortTypeName(), value);

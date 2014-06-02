@@ -9,11 +9,24 @@ namespace BL
     {
         private Date created;
         private String message;
-        private RichContentDocument document;
         private LogStatus status;
         private double timeTaken;
         private object details;
         private String id;
+        private int eventId;
+
+        public int EventId
+        {
+            get
+            {
+                return this.eventId;
+            }
+
+            set
+            {
+                this.eventId = value;
+            }
+        }
 
         public String Id
         {
@@ -46,20 +59,6 @@ namespace BL
             get
             {
                 return this.created;
-            }
-        }
-
-        public RichContentDocument Document
-        {
-            get
-            {
-                if (this.document == null && this.message != null)
-                {
-                    this.document = new RichContentDocument();
-                    this.document.Text = this.message;
-                }
-
-                return this.document;
             }
         }
 
@@ -100,11 +99,14 @@ namespace BL
             }
         }
 
-        public LogItem(String message, RichContentDocument document, LogStatus status, double timeTaken, object details)
+        public LogItem(int eventId, String message, LogStatus status, double timeTaken, object details)
         {
-            this.created = Date.Now;
+            this.eventId = eventId;
+
+            Date now = Date.Now;
+
+            this.created = new Date(now.GetUTCFullYear(), now.GetUTCMonth(), now.GetUTCDate(), now.GetUTCHours(), now.GetUTCMinutes(), now.GetUTCSeconds(), now.GetUTCMilliseconds());
             this.message = message;
-            this.document = document;
             this.status = status;
             this.timeTaken = timeTaken;
             this.details = details;

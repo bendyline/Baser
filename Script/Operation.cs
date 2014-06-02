@@ -49,9 +49,18 @@ namespace BL
             }
         }
 
+        public void CompleteAsAsyncDone(object data)
+        {
+            CallbackResult cr = new CallbackResult();
+            cr.IsCompleted = true;
+            cr.CompletedSynchronously = true;
+            cr.Data = data;
+
+            this.Complete(cr);
+        }
+
         public void Complete(IAsyncResult template)
         {
-
             foreach (CallbackState cs in this.callbackStates)
             {
                 if (cs.Callback != null)
@@ -62,6 +71,7 @@ namespace BL
                     cr.IsCompleted = template.IsCompleted;
                     cr.CompletedSynchronously = template.CompletedSynchronously;
                     cr.Tag = cs.Tag;
+                    cr.Data = template.Data;
 
                     cs.Callback(cr);
                 }

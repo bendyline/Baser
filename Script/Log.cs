@@ -20,7 +20,7 @@ namespace BL
     public static partial class Log
     {
         private static List<LogItem> logItems;
-        private static Dictionary<string, Date> scopeStarts;
+        private static Dictionary<int, Date> scopeStarts;
 
         public static ICollection<LogItem> Items
         {
@@ -35,36 +35,36 @@ namespace BL
         static Log()
         {
             logItems = new List<LogItem>();
-            scopeStarts = new Dictionary<string, Date>();
+            scopeStarts = new Dictionary<int, Date>();
         }
 
         [Conditional("DEBUG")]
-        public static void EnterScope(String id)
+        public static void EnterScope(int eventId)
         {
-            EnterScopeMessage(id, null);
+            EnterScopeMessage(eventId, null);
         }
 
         [Conditional("DEBUG")]
-        public static void EnterScopeMessage(String id, String message)
+        public static void EnterScopeMessage(int eventId, String message)
         {
-            scopeStarts[id] = Date.Now;
+            scopeStarts[eventId] = Date.Now;
 
             if (message != null)
             {
-                Full(id, message, LogStatus.ScopeStart);
+                Full(eventId, message, LogStatus.ScopeStart);
             }
         }
 
 
         [Conditional("DEBUG")]
-        public static void EndScope(String id, String message)
+        public static void EndScope(int eventId, String message)
         {
             Date now = Date.Now;
 
             String timeSummary = "";
             double timeTakenMs = -1;
 
-            if (scopeStarts.ContainsKey(id))
+            if (scopeStarts.ContainsKey(eventId))
             {
                 /*TimeSpan timeTaken = now.Subtract(scopeStarts[id]);
 
@@ -76,55 +76,60 @@ namespace BL
                 timeSummary = "unk";
             }
 
-            scopeStarts[id] = Date.Now;
+            scopeStarts[eventId] = Date.Now;
 
             if (message != null)
             {
-                FullTime(id, String.Format(message, timeSummary), null, LogStatus.ScopeEnd, timeTakenMs, null);
+                FullTime(eventId, String.Format(message, timeSummary), LogStatus.ScopeEnd, timeTakenMs, null);
             }
         }
 
         [Conditional("DEBUG")]
         public static void DebugMessageStatus(String message, LogStatus status)
         {
-            Full(null, message, status);
+            Full(-1, message, status);
         }
 
         [Conditional("DEBUG")]
         public static void DebugMessage(String message)
         {
-            FullTime(null, message, null, LogStatus.Verbose, -1, null);
+            FullTime(-1, message, LogStatus.Verbose, -1, null);
         }
 
         public static void DetailedMessage(String message, object details)
         {
-            FullTime(null, message, null, LogStatus.Normal, -1, details);
+            FullTime(-1, message, LogStatus.Normal, -1, details);
         }
 
-        public static void DetailedDocument(RichContentDocument document, object details)
+        public static void Event(int eventId)
         {
-            FullTime(null, null, document, LogStatus.Normal, -1, details);
+            FullTime(eventId, null, LogStatus.Normal, -1, null);
+        }
+
+        public static void DetailedEvent(int eventId, String message)
+        {
+            FullTime(eventId, null, LogStatus.Normal, -1, message);
         }
 
         public static void Message(String message)
         {
-            FullTime(null, message, null, LogStatus.Verbose, -1, null);
+            FullTime(-1, message, LogStatus.Verbose, -1, null);
         }
 
         public static void Error(String message)
         {
-            FullTime(null, message, null, LogStatus.UnexpectedError, -1, null);
+            FullTime(-1, message, LogStatus.UnexpectedError, -1, null);
         }
 
-        public static void Full(String id, String message, LogStatus status)
+        public static void Full(int eventId, String message, LogStatus status)
         {
-            FullTime(id, message, null, status, -1, null);
+            FullTime(eventId, message, status, -1, null);
         }
 
-        public static void FullTime(String id, String message, RichContentDocument document, LogStatus status, double timeTaken, object details)
+        public static void FullTime(int eventId, String message, LogStatus status, double timeTaken, object details)
         {
-            LogItem item = new LogItem(message, document, status, timeTaken, null);
-            item.Id = id;
+            LogItem item = new LogItem(eventId, message, status, timeTaken, null);
+
             item.Details = details;
             logItems.Add(item);
             
