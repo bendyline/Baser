@@ -13,12 +13,40 @@ namespace BL
         private NotifyCollectionChangedAction action;
         private IEnumerable newItems;
         private IEnumerable oldItems;
+        private IEnumerable changedItems;
+        private String stateChangePropertyName;
+
+        public String StateChangePropertyName
+        {
+            get
+            {
+                return this.stateChangePropertyName;
+            }
+            
+            set
+            {
+                this.stateChangePropertyName = value;
+            }
+        }
 
         public NotifyCollectionChangedAction Action
         {
             get
             {
                 return this.action;
+            }
+        }
+
+        public IEnumerable ChangedItems
+        {
+            get
+            {
+                return this.changedItems;
+            }
+
+            set
+            {
+                this.changedItems = value;
             }
         }
 
@@ -62,6 +90,19 @@ namespace BL
             al.Add(item);
 
             ncea.NewItems = al;
+
+            return ncea;
+        }
+
+        public static NotifyCollectionChangedEventArgs ItemStateChange(object item, String propertyName)
+        {
+            NotifyCollectionChangedEventArgs ncea = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.ItemStateChanged);
+
+            ArrayList al = new ArrayList();
+            al.Add(item);
+
+            ncea.ChangedItems = al;
+            ncea.StateChangePropertyName = propertyName;
 
             return ncea;
         }

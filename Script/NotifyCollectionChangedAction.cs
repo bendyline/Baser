@@ -10,6 +10,7 @@ namespace BL
         Move = 2,
         Remove = 3,
         Replace = 4,
-        Reset = 5
+        Reset = 5,
+        ItemStateChanged = 6
     }
 }

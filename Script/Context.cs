@@ -87,6 +87,14 @@ namespace BL
             }
         }
 
+        public bool IsPortrait
+        {
+            get
+            {
+                return (Window.InnerHeight > Window.InnerWidth);
+            }
+        }
+
         public bool IsSmallFormFactor
         {
             get
@@ -201,12 +209,20 @@ namespace BL
 
         public Context()
         {
-            String userAgent = Window.Navigator.UserAgent;
+            String userAgent = Window.Navigator.UserAgent.ToLowerCase();
 
             // per comment at https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
-            if (userAgent.IndexOf("Mobi") >= 0)
+            if (userAgent.IndexOf("mobi") >= 0)
             {
-                this.isSmallFormFactor = true;
+
+                if (userAgent.IndexOf("ipad") >= 0 || userAgent.IndexOf("tablet") >= 0)
+                {
+                    
+                }
+                else
+                {
+                    this.isSmallFormFactor = true;
+                }
                 this.isTouchOnly = true;
             }
         }

@@ -59,7 +59,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
+    <Compile Include="GeoBoundingBox.cs" />
+    <Compile Include="GeoUtilities.cs" />
     <Compile Include="IAppObjectProvider.cs" />
+    <Compile Include="INotifyCollectionAndStateChanged.cs" />
+    <Compile Include="Geopoint.cs" />
     <Compile Include="LongEvent.cs" />
     <Compile Include="PageErrorEvent.cs" />
     <Compile Include="PageError.cs" />
