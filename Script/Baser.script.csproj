@@ -58,6 +58,9 @@
     <CodeAnalysisRuleSet>Properties\FxCop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="UserManager.cs" />
+    <Compile Include="UserReference.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="GeoBoundingBox.cs" />
     <Compile Include="GeoUtilities.cs" />

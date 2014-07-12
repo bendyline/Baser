@@ -9,7 +9,6 @@ namespace Bendyline.Base
 {
     public static class TextUtilities
     {
-
         public static String GetContentsInBetween(String source, String start, String end)
         {
             int firstIndex = source.IndexOf(start);

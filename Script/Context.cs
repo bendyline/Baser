@@ -20,10 +20,13 @@ namespace BL
 
         private String resourceBasePath = null;
         private String webServiceBasePath = null;
-        private String userAccountName;
+        private String userContentBasePath = null;
+        private User user;
         private IAppObjectProvider objectProvider;
 
-        public event EventHandler UserAccountNameChanged;
+        public event PropertyChangedEventHandler UserChanged;
+
+        private PropertyChangedEventHandler userPropertyChanged; 
 
         public IAppObjectProvider ObjectProvider
         {
@@ -38,28 +41,43 @@ namespace BL
             }
         }
 
-        public String UserAccountName
+        public User User
         {
             get
             {
-                return this.userAccountName;
+                return this.user;
             }
 
             set
             {
-                if (this.userAccountName == value)
+                if (this.user == value)
                 {
                     return;
                 }
-
-                this.userAccountName = value;
-
-                if (this.UserAccountNameChanged != null)
+                
+                if (this.user != null)
                 {
-                    this.UserAccountNameChanged(this, EventArgs.Empty);
+                    this.user.PropertyChanged -= this.userPropertyChanged;
+                }
+
+                this.user = value;
+
+                if (this.user != null && !String.IsNullOrEmpty(this.user.NickName))
+                {
+                    this.user.IsLoaded = true;
+                }
+
+                UserManager.Current.AddUser(this.user);
+
+                this.User.PropertyChanged += this.userPropertyChanged;
+
+                if (this.UserChanged != null)
+                {
+                    this.UserChanged(this, PropertyChangedEventArgs.All);
                 }
             }
         }
+
 
         public bool IsTouchOnly
         {
@@ -160,6 +178,25 @@ namespace BL
                 this.webServiceBasePath = value;
             }
         }
+
+        public String UserContentBasePath
+        {
+            get
+            {
+                if (this.userContentBasePath == null)
+                {
+                    this.userContentBasePath = String.Empty;
+                }
+
+                return this.userContentBasePath;
+            }
+
+            set
+            {
+                this.userContentBasePath = value;
+            }
+        }
+
         public int Tokenid
         {
             get
@@ -211,6 +248,8 @@ namespace BL
         {
             String userAgent = Window.Navigator.UserAgent.ToLowerCase();
 
+            this.userPropertyChanged = new PropertyChangedEventHandler(this.HandleUserPropertyChanged);
+
             // per comment at https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
             if (userAgent.IndexOf("mobi") >= 0)
             {
@@ -227,12 +266,31 @@ namespace BL
             }
         }
 
-        public static void SetSite(String resourceBasePath, String webServiceBasePath, String versionHash)
+        private void HandleUserPropertyChanged(object sender, PropertyChangedEventArgs pchea)
+        {
+            if (this.UserChanged != null)
+            {
+                this.UserChanged(sender, pchea);
+            }
+        }
+
+        public User EnsureUser()
+        {
+            if (this.User == null)
+            {
+                this.User = new User();
+            }
+
+            return this.User;
+        }
+
+        public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash)
         {
             Context pc = Context.Current;
 
             pc.ResourceBasePath = resourceBasePath;
             pc.WebServiceBasePath = webServiceBasePath;
+            pc.UserContentBasePath = userContentBasePath;
             pc.VersionToken = versionHash;
         }
 

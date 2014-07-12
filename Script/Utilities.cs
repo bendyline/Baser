@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace BL
 {
@@ -137,6 +138,29 @@ namespace BL
         }
 
 
+        public static String GetDayName(int dayId)
+        {
+            switch (dayId)
+            {
+                case 0:
+                    return "Sunday";
+                case 1:
+                    return "Monday";
+                case 2:
+                    return "Tuesday";
+                case 3:
+                    return "Wednesday";
+                case 4:
+                    return "Thursday";
+                case 5:
+                    return "Friday";
+                case 6:
+                    return "Saturday";
+                default:
+                    throw new Exception("");
+            }
+        }
+
         public static String GetMonthName(int monthId)
         {
             switch (monthId)
@@ -169,6 +193,68 @@ namespace BL
                     throw new Exception("");
             }
         }
+
+        public static String GetHours(Date compare)
+        {
+            int hours = compare.GetHours();
+
+            if (hours == 0) 
+            {
+                return "12";
+            }
+            else if (hours > 12)
+            {
+                return (hours - 12).ToString();
+            }
+
+            return hours.ToString();
+        }
+
+        public static String GetFriendlyDateDescription(Date compare)
+        {
+            Date now = Date.Now;
+
+            long nowTime = (long)now.GetTime() / 1000;
+            long compareTime = (long)compare.GetTime() / 1000;
+
+            String minutesStr = compare.GetMinutes().ToString();
+
+            while (minutesStr.Length < 2)
+            {
+                minutesStr = "0" + minutesStr;
+            }
+
+            if (nowTime-compareTime > (long)(300 * 24 * 60 * 60))
+            {
+                return Utilities.GetMonthName(compare.GetMonth()) + " " + compare.GetDay() + " " + compare.GetFullYear();
+            }            
+            else if (nowTime-compareTime > (long)(7 * 24 * 60 * 60))
+            {
+                return Utilities.GetMonthName(compare.GetMonth()) + " " + compare.GetDay();
+            }                        
+            else if (nowTime-compareTime > (long)(7 * 24 * 60 * 60))
+            {
+                return Utilities.GetMonthName(compare.GetMonth()) + " " + compare.GetDay();
+            }
+            else if (nowTime - compareTime > (long)(7 * 24 * 60 * 60))
+            {
+                return Utilities.GetMonthName(compare.GetMonth()) + " " + compare.GetDay();
+            }
+            else if (nowTime - compareTime > (long)(1 * 24 * 60 * 60))
+            {
+                return GetDayName(compare.GetDay()) + " at " + GetHours(compare) + ":" + minutesStr;
+            }
+
+            if (compare.GetDay() == now.GetDay())
+            {
+                return "today at " + GetHours(compare) + ":" + minutesStr;
+            }
+            else
+            {
+                return "yesterday at " + GetHours(compare) + ":" + minutesStr;
+            }
+        }
+
 
         public static String CreateRandomId()
         {

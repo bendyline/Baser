@@ -18,6 +18,21 @@ namespace Bendyline.Base
             return path;
         }
 
+        public static String GetFileNameFromUrl(String url)
+        {
+            String lastPart = url;
+
+            int lastSlash = lastPart.LastIndexOf("/");
+
+            if (lastSlash >= 0)
+            {
+                lastPart = lastPart.Substring(lastSlash + 1, lastPart.Length);
+            }
+
+            return lastPart;
+        }
+
+
         public static String GetCanonicalBaseUrl(String url)
         {
             int nextSlash = url.IndexOf("/", 8);
