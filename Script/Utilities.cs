@@ -296,7 +296,7 @@ namespace BL
         {
             String id = "";
 
-            for (int i = 0; i < 4; i++ )
+            for (int i = 0; i < 6; i++ )
             {
                 Number choice = Math.Random() * 3;
 

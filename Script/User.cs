@@ -28,7 +28,7 @@ namespace BL
 
             set
             {
-                this.isLoaded = true;
+                this.isLoaded = value;
             }
         }
 
@@ -88,6 +88,11 @@ namespace BL
         {
             get
             {
+                if (this.ThumbnailImage == null)
+                {
+                    return null;
+                }
+
                 return Context.Current.UserContentBasePath + this.ContentContainer + "/" + this.ThumbnailImage;
             }
         }
@@ -122,6 +127,11 @@ namespace BL
 
         public void LoadUser(AsyncCallback callback, object state)
         {
+            if (this.Id == null)
+            {
+                throw new Exception("ID is not set.");
+            }
+
             bool isNew = false;
 
             if (this.isLoaded)

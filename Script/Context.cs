@@ -17,6 +17,7 @@ namespace BL
         private bool isSmallFormFactor = false;
         private bool isHostedInApp = false;
         private bool isTouchOnly = false;
+        private bool isTablet = false;
 
         private String resourceBasePath = null;
         private String webServiceBasePath = null;
@@ -78,17 +79,18 @@ namespace BL
             }
         }
 
-
+        public bool IsTablet
+        {
+            get
+            {
+                return this.isTablet;
+            }
+        }
         public bool IsTouchOnly
         {
             get
             {
                 return this.isTouchOnly;
-            }
-
-            set
-            {
-                this.isTouchOnly = value;
             }
         }
 
@@ -97,11 +99,6 @@ namespace BL
             get
             {
                 return this.isHostedInApp;
-            }
-
-            set
-            {
-                this.isHostedInApp = true;
             }
         }
 
@@ -118,11 +115,6 @@ namespace BL
             get
             {
                 return this.isSmallFormFactor;
-            }
-
-            set
-            {
-                this.isSmallFormFactor = true;
             }
         }
 
@@ -253,15 +245,21 @@ namespace BL
             // per comment at https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
             if (userAgent.IndexOf("mobi") >= 0)
             {
-
                 if (userAgent.IndexOf("ipad") >= 0 || userAgent.IndexOf("tablet") >= 0)
                 {
-                    
+                    this.isTablet = true;
                 }
                 else
                 {
                     this.isSmallFormFactor = true;
                 }
+
+                this.isTouchOnly = true;
+            }
+            // identify android tablets via user agent containing android but NOT mobile. 
+            else if ((userAgent.IndexOf("android") >= 0 || userAgent.IndexOf("silk") >= 0) && userAgent.IndexOf("mobi") < 0)
+            {
+                this.isTablet = true;
                 this.isTouchOnly = true;
             }
         }

@@ -52,6 +52,7 @@ namespace BL
         public void CompleteAsAsyncDone(object data)
         {
             CallbackResult cr = new CallbackResult();
+            
             cr.IsCompleted = true;
             cr.CompletedSynchronously = true;
             cr.Data = data;

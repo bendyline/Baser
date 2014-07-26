@@ -20,9 +20,17 @@ namespace BL
             }
             set
             {
+                if (this.id == value)
+                {
+                    return;
+                }
+
                 this.id = value;
+
+                this.NotifyPropertyChanged("Id");
             }
         }
+
         [ScriptName("s_nickName")]
         public String NickName
         {
@@ -32,7 +40,14 @@ namespace BL
             }
             set
             {
+                if (this.nickName == value)
+                {
+                    return;
+                }
+
                 this.nickName = value;
+
+                this.NotifyPropertyChanged("NickName");
             }
         }
     }

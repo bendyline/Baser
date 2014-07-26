@@ -58,6 +58,7 @@
     <CodeAnalysisRuleSet>Properties\FxCop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Easing.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="UserReference.cs" />
     <Compile Include="User.cs" />
