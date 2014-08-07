@@ -59,6 +59,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Easing.cs" />
+    <Compile Include="ObjectEvent.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="UserReference.cs" />
     <Compile Include="User.cs" />
