@@ -17,6 +17,11 @@ namespace BL
         ScopeEnd = 32
     }
 
+    /// <summary>
+    /// Provides a general static function for logging client side behaviors. (Log.Message, Log.Error, etc.)
+    /// Note that you still need a logging implementation that hooks ItemAdded events and actually persists them to 
+    /// a logging store of sort.
+    /// </summary>
     public static partial class Log
     {
         private static List<LogItem> logItems;
@@ -128,6 +133,8 @@ namespace BL
 
         public static void FullTime(int eventId, String message, LogStatus status, double timeTaken, object details)
         {
+            Debug.WriteLine("(Log) - " + eventId + " - " + message + " " + details);
+
             LogItem item = new LogItem(eventId, message, status, timeTaken, null);
 
             item.Details = details;

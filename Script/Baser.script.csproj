@@ -56,6 +56,7 @@
     <LangVersion>ISO-2</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>Properties\FxCop.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\..\web\gs\baser\1.0\bl.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Easing.cs" />

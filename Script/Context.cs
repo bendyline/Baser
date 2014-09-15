@@ -11,6 +11,7 @@ namespace BL
         private static Context current = new Context();
         private String versionHash;
         private String userName;
+        private String feedbackUrl;
         private int expId;
         private int tokenId;
 
@@ -24,6 +25,7 @@ namespace BL
         private String userContentBasePath = null;
         private User user;
         private IAppObjectProvider objectProvider;
+        private String initialHash = null;
 
         public event PropertyChangedEventHandler UserChanged;
 
@@ -153,6 +155,24 @@ namespace BL
             }
         }
 
+        public String FeedbackUrl
+        {
+            get
+            {
+                if (this.feedbackUrl == null)
+                {
+                    this.feedbackUrl = String.Empty;
+                }
+
+                return this.feedbackUrl;
+            }
+
+            set
+            {
+                this.feedbackUrl = value;
+            }
+        }
+
         public String WebServiceBasePath
         {
             get
@@ -240,6 +260,11 @@ namespace BL
         {
             String userAgent = Window.Navigator.UserAgent.ToLowerCase();
 
+            if (this.initialHash == null)
+            {
+                this.initialHash = Window.Location.Hash.Substring(1, Window.Location.Hash.Length).ToLowerCase();
+            }
+
             this.userPropertyChanged = new PropertyChangedEventHandler(this.HandleUserPropertyChanged);
 
             // per comment at https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
@@ -264,6 +289,51 @@ namespace BL
             }
         }
 
+        public bool IsHomeNavigation()
+        {
+            String currentHash = Window.Location.Hash;
+
+            if (currentHash != null)
+            {
+                currentHash = currentHash.Substring(1, currentHash.Length).ToLowerCase();
+            }
+
+            if (String.IsNullOrEmpty(currentHash) || currentHash == initialHash.ToLowerCase())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void NavigateInternal(String internalDestination)
+        {
+            String hash = internalDestination;
+
+            if (initialHash.ToLowerCase() == hash.ToLowerCase())
+            {
+                hash += ".1";
+            }
+
+            Window.Location.Hash = hash;
+        }
+
+        public String GetInternalDestination()
+        {
+            String hashCanon = Window.Location.Hash.ToLowerCase();
+
+            hashCanon = hashCanon.Substring(1, hashCanon.Length);
+
+            int lastPeriod = hashCanon.LastIndexOf(".");
+
+            if (lastPeriod > 0)
+            {
+                hashCanon = hashCanon.Substring(0, lastPeriod);
+            }
+
+            return hashCanon;
+        }
+
         private void HandleUserPropertyChanged(object sender, PropertyChangedEventArgs pchea)
         {
             if (this.UserChanged != null)
@@ -282,7 +352,7 @@ namespace BL
             return this.User;
         }
 
-        public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash)
+        public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash, String feedbackUrl)
         {
             Context pc = Context.Current;
 
@@ -290,6 +360,7 @@ namespace BL
             pc.WebServiceBasePath = webServiceBasePath;
             pc.UserContentBasePath = userContentBasePath;
             pc.VersionToken = versionHash;
+            pc.FeedbackUrl = feedbackUrl;
         }
 
         public static void SetSession(int tokenId, int expId, String userName)

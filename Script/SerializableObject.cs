@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Serialization;
 
 namespace BL
 {
@@ -156,12 +157,33 @@ namespace BL
             }
         }
 
+
+        public int GetPropertyChangedEventCount()
+        {
+            int count = -1;
+
+            Script.Literal("{0}={1}._targets.length / 2", count, this.PropertyChanged);
+
+            return count;
+        }
+
         public void ApplyTo(SerializableObject objectToApplyTo)
         {
             // this is a bit inefficient to get and then apply a JSON serialization, we can do something a bit more efficient here.
             object o = this.GetObject();
 
             objectToApplyTo.ApplyObject(o);
+        }
+
+        public bool IsEqualTo(SerializableObject compareTo)
+        {
+            object o = this.GetObject();
+            String source = Json.Stringify(o);
+
+            object compareObject = compareTo.GetObject();
+            String compare = Json.Stringify(compareObject);
+
+            return compare.CompareTo(source) == 0;
         }
 
         protected void NotifyPropertyChanged(String propertyName)

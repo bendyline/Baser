@@ -7,5 +7,11 @@ using System.Linq;
 
 namespace BL
 {
+    /// <summary>
+    /// Standard callback for callbacks based on the .net IAsync pattern.
+    /// </summary>
+    /// <param name="result">
+    /// Derived class that contains both standard result data plus any custom additional data. 
+    /// </param>
     public delegate void AsyncCallback(IAsyncResult result);
 }

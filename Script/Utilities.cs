@@ -11,10 +11,6 @@ namespace BL
     public static partial class Utilities
     {
         private static String versionHash;
-    /*    private static String feedbackServicesBaseUrl;
-        private static String nationeerBaseUrl;
-        private static String nationeerServicesBaseUrl;
-        private static String contentBaseUrl;*/
         private static bool initialized;
 
         public static String GetString(object value)
@@ -35,26 +31,6 @@ namespace BL
             {
                 versionHash = "1.0.0.0";
             }
-            /*
-            if (feedbackServicesBaseUrl == null)
-            {
-                feedbackServicesBaseUrl = "http://feedback.nationeer.com";
-            }
-
-            if (nationeerServicesBaseUrl == null)
-            {
-                nationeerServicesBaseUrl = "http://services.nationeer.com";
-            }
-
-            if (contentBaseUrl == null)
-            {
-                contentBaseUrl = "http://BL.com";
-            }
-
-            if (nationeerBaseUrl == null)
-            {
-                nationeerBaseUrl = "http://nationeer.com";
-            }*/
 
             initialized = true;
         }
@@ -63,66 +39,7 @@ namespace BL
         private static void InitializeDebug()
         {
             versionHash = Utilities.CreateRandomId();
-      /*      feedbackServicesBaseUrl = "http://feedback.nationeerdev.com";
-            nationeerBaseUrl = "http://nationeerdev.com";
-            nationeerServicesBaseUrl = "http://services.nationeerdev.com";
-            contentBaseUrl = "http://nationeerdev.com";
-            */
-         //               Log.ItemAdded += new LogItemEventHandler(Log_LogItemAdded);
         }
-  /*      
-        public static void Log_LogItemAdded(object sender, LogItemEventArgs e)
-        {
-            Debug.WriteLine(e.Item.Message);
-        }
-   */
-        /*
-        public static String FeedbackServicesBaseUrl
-        {
-            get
-            {
-                if (feedbackServicesBaseUrl == null)
-                {
-                    Initialize();
-                }
-
-                return feedbackServicesBaseUrl;
-            }
-        }
-
-        public static String NationeerServicesBaseUrl
-        {
-            get
-            {
-                if (nationeerServicesBaseUrl == null)
-                {
-                    Initialize();
-                }
-
-                return nationeerServicesBaseUrl;
-            }
-        }
-
-        public static String NationeerBaseUrl
-        {
-            get
-            {
-                if (nationeerBaseUrl == null)
-                {
-                    Initialize();
-                }
-
-                return nationeerBaseUrl;
-            }
-        }
-
-        public static String ContentBaseUrl
-        {
-            get
-            {
-                return contentBaseUrl;
-            }
-        }*/
 
         public static String VersionHash
         {
@@ -161,38 +78,39 @@ namespace BL
             }
         }
 
-        public static String GetMonthName(int monthId)
+        public static String GetMonthName(int zeroBasedMonthId)
         {
-            switch (monthId)
+            switch (zeroBasedMonthId)
             {
-                case 1:
+                case 0:
                     return "January";
-                case 2:
+                case 1:
                     return "February";
-                case 3:
+                case 2:
                     return "March";
-                case 4:
+                case 3:
                     return "April";
-                case 5:
+                case 4:
                     return "May";
-                case 6:
+                case 5:
                     return "June";
-                case 7:
+                case 6:
                     return "July";
-                case 8:
+                case 7:
                     return "August";
-                case 9:
+                case 8:
                     return "September";
-                case 10:
+                case 9:
                     return "October";
-                case 11:
+                case 10:
                     return "November";
-                case 12:
+                case 11:
                     return "December";
                 default:
                     throw new Exception("");
             }
         }
+
 
         public static String GetHours(Date compare)
         {
@@ -226,26 +144,26 @@ namespace BL
 
             if (nowTime-compareTime > (long)(300 * 24 * 60 * 60))
             {
-                return Utilities.GetMonthName(compare.GetMonth()) + " " + compare.GetDay() + " " + compare.GetFullYear();
+                return Utilities.GetMonthName(compare.GetMonth()) + " " + (compare.GetDate()).ToString() + " " + compare.GetFullYear();
             }            
             else if (nowTime-compareTime > (long)(7 * 24 * 60 * 60))
             {
-                return Utilities.GetMonthName(compare.GetMonth()) + " " + compare.GetDay();
+                return Utilities.GetMonthName(compare.GetMonth()) + " " + (compare.GetDate()).ToString();
             }                        
             else if (nowTime-compareTime > (long)(7 * 24 * 60 * 60))
             {
-                return Utilities.GetMonthName(compare.GetMonth()) + " " + compare.GetDay();
+                return Utilities.GetMonthName(compare.GetMonth()) + " " + (compare.GetDate()).ToString();
             }
             else if (nowTime - compareTime > (long)(7 * 24 * 60 * 60))
             {
-                return Utilities.GetMonthName(compare.GetMonth()) + " " + compare.GetDay();
+                return Utilities.GetMonthName(compare.GetMonth()) + " " + (compare.GetDate()).ToString();
             }
             else if (nowTime - compareTime > (long)(1 * 24 * 60 * 60))
             {
                 return GetDayName(compare.GetDay()) + " at " + GetHours(compare) + ":" + minutesStr;
             }
 
-            if (compare.GetDay() == now.GetDay())
+            if (compare.GetDate() == now.GetDate())
             {
                 return "today at " + GetHours(compare) + ":" + minutesStr;
             }
