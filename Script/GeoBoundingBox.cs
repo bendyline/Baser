@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
+    /// <summary>
+    /// Simple object definition of a geopgraphic bounding box.
+    /// </summary>
     [Imported]
     [IgnoreNamespace]
     [ScriptName("Object")]    

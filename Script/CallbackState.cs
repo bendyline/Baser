@@ -5,12 +5,19 @@ using System;
 
 namespace BL
 {
+    /// <summary>
+    /// Internal class that holds a collection of state items needed to process an asynchronous call, including the 
+    /// callback to fire when the call is complete.
+    /// </summary>
     public class CallbackState
     {
         private AsyncCallback callback;
         private object callbackState;
         private object tag;
 
+        /// <summary>
+        /// Callback to fire.
+        /// </summary>
         public AsyncCallback Callback
         {
             get
@@ -24,6 +31,9 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Temporary state passed by the caller to the asynchronous call, to "hold on to" during the call.
+        /// </summary>
         public object State
         {
             get
@@ -37,6 +47,9 @@ namespace BL
             }
         }
 
+        /// <summary>
+        /// Arbitrary extra data used by the callback, internally.
+        /// </summary>
         public object Tag
         {
             get
@@ -55,6 +68,12 @@ namespace BL
 
         }
 
+        /// <summary>
+        /// Helper function to construct a new callback state.
+        /// </summary>
+        /// <param name="callback">Callback to fire when the call is complete.</param>
+        /// <param name="state">State passed in by the caller.  Can be null.</param>
+        /// <returns>A new callbackstate object that the asynchronous call can use.</returns>
         public static CallbackState Wrap(AsyncCallback callback, object state)
         {
             CallbackState cs = new CallbackState();
@@ -65,6 +84,13 @@ namespace BL
             return cs;
         }
 
+        /// <summary>
+        /// Helper function to construct a callback state, with an optional "tag' blob of data.
+        /// </summary>
+        /// <param name="callback">Callback to fire when the call is complete.</param>
+        /// <param name="state"></param>
+        /// <param name="tag"></param>
+        /// <returns></returns>
         public static CallbackState WrapWithTag(AsyncCallback callback, object state, object tag)
         {
             CallbackState cs = new CallbackState();

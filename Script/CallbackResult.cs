@@ -5,6 +5,10 @@ using System;
 
 namespace BL
 {
+    /// <summary>
+    /// Contains the result of a particular callback method, including result Data and the original State that was 
+    /// passed by the caller.
+    /// </summary>
     public class CallbackResult : IAsyncResult
     {
         private object asyncState;

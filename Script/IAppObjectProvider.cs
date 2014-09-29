@@ -6,6 +6,10 @@ using System.Collections.Generic;
 
 namespace BL
 {
+    /// <summary>
+    /// Provides a basic interface to describe "object factories" -- for letting app implementations choose what kind
+    /// of object to create.
+    /// </summary>
     public interface IAppObjectProvider
     {
         object CreateObject(String objectName);

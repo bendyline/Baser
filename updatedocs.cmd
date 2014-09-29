@@ -1,0 +1,1 @@
+..\xmldoc2md\xmldoc2md\bin\Debug\xmldoc2md -mdpagetemplate misc\doctemplate.md -xmlinfile ..\web\gs\baser\1.0\bl.XML -mdoutfolder docs

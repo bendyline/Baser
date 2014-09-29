@@ -6,6 +6,9 @@ using System.Html;
 
 namespace BL
 {
+    /// <summary>
+    /// Provides all general, ambient, app agnostic app state, plus helper functions to determine properties of the browser.
+    /// </summary>
     public class Context 
     {
         private static Context current = new Context();

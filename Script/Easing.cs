@@ -8,6 +8,9 @@ using System.Runtime.CompilerServices;
 
 namespace BL.Extern
 {
+    /// <summary>
+    /// Imported ScriptSharp library for an easing library, for animations and other purposes. (see qlaextern.js.)
+    /// </summary>
     [Imported]
     public static class Easing
     {

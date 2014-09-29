@@ -6,6 +6,10 @@ using System.Collections.Generic;
 
 namespace BL
 {
+    /// <summary>
+    /// Standard interface to indicate that an object supports explicit Dispose semantics, where it will
+    /// clean itself up (e.g., unhook events, remove references to objects, etc.)
+    /// </summary>
     interface IDisposable
     {
         void Dispose();

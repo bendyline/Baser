@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
+    /// <summary>
+    /// Simple description of a point on the earth (note: this object does not include altitude.)
+    /// </summary>
     [Imported]
     [IgnoreNamespace]
     [ScriptName("Object")]    

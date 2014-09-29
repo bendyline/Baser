@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
+    /// <summary>
+    /// Helper functions for computing geopgrahic concepts.
+    /// </summary>
      public class GeoUtilities
     {
         private const double EarthsRadius = 6371.009; // Earth's mean radius
