@@ -92,18 +92,18 @@ namespace BL
         [Conditional("DEBUG")]
         public static void DebugMessageStatus(String message, LogStatus status)
         {
-            Full(-1, message, status);
+            Full(-6, message, status);
         }
 
         [Conditional("DEBUG")]
         public static void DebugMessage(String message)
         {
-            FullTime(-1, message, LogStatus.Verbose, -1, null);
+            FullTime(-6, message, LogStatus.Verbose, -1, null);
         }
 
         public static void DetailedMessage(String message, object details)
         {
-            FullTime(-1, message, LogStatus.Normal, -1, details);
+            FullTime(-5, message, LogStatus.Normal, -1, details);
         }
 
         public static void Event(int eventId)
@@ -118,12 +118,12 @@ namespace BL
 
         public static void Message(String message)
         {
-            FullTime(-1, message, LogStatus.Verbose, -1, null);
+            FullTime(-4, message, LogStatus.Verbose, -1, null);
         }
 
         public static void Error(String message)
         {
-            FullTime(-1, message, LogStatus.UnexpectedError, -1, null);
+            FullTime(-3, message, LogStatus.UnexpectedError, -1, null);
         }
 
         public static void Full(int eventId, String message, LogStatus status)

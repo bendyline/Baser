@@ -11,6 +11,7 @@ namespace BL
     /// </summary>
     public class Context 
     {
+        private String parsedUserAgent = null;
         private static Context current = new Context();
         private String versionHash;
         private String userName;
@@ -95,7 +96,21 @@ namespace BL
         {
             get
             {
+                // this is a hack for the HTML5Assist debugger. It boots the page with one user agent but then switches it
+                // to the emulated UA later.  So if this looks like a mobile device but our initial UA didn't indicate that, then
+                // try evaluating the UA one more time, since it may have changed.
+                if (this.parsedUserAgent != Window.Navigator.UserAgent)
+                {
+                    this.ParseUserAgent();
+                }
+
                 return this.isTouchOnly;
+            }
+
+            // note: this is set in JS in the app.
+            set
+            {
+                this.isTouchOnly = value;
             }
         }
 
@@ -104,6 +119,12 @@ namespace BL
             get
             {
                 return this.isHostedInApp;
+            }
+
+            // note: this is set in JS in the app.
+            set
+            {
+                this.isHostedInApp = value;
             }
         }
 
@@ -120,6 +141,12 @@ namespace BL
             get
             {
                 return this.isSmallFormFactor;
+            }
+
+            // note: this is set in JS in the app.
+            set
+            {
+                this.isSmallFormFactor = value;
             }
         }
 
@@ -261,14 +288,21 @@ namespace BL
 
         public Context()
         {
-            String userAgent = Window.Navigator.UserAgent.ToLowerCase();
-
             if (this.initialHash == null)
             {
                 this.initialHash = Window.Location.Hash.Substring(1, Window.Location.Hash.Length).ToLowerCase();
             }
 
             this.userPropertyChanged = new PropertyChangedEventHandler(this.HandleUserPropertyChanged);
+
+            this.ParseUserAgent();
+        }
+
+        private void ParseUserAgent()
+        {
+            this.parsedUserAgent = Window.Navigator.UserAgent;
+
+            String userAgent = this.parsedUserAgent.ToLowerCase();
 
             // per comment at https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
             if (userAgent.IndexOf("mobi") >= 0)
@@ -289,6 +323,10 @@ namespace BL
             {
                 this.isTablet = true;
                 this.isTouchOnly = true;
+            }
+            else if (Window.InnerWidth < 600 || Window.InnerHeight < 400)
+            {
+                this.isSmallFormFactor = true;
             }
         }
 
