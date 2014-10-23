@@ -44,24 +44,30 @@ namespace Bendyline.Base
 
         private void Log_ItemAdded(object sender, LogItemEventArgs e)
         {
+            bool setColor = false;
+
             if (e.Item.Status == LogStatus.UnexpectedError)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
+                setColor = true;
             }
             else if (e.Item.Status == LogStatus.Critical)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
+                setColor = true;
             }
             else if (e.Item.Status == LogStatus.Verbose)
             {
                 Console.ForegroundColor = ConsoleColor.Gray;
-            }
-            else
-            {
-                Console.ResetColor();
+                setColor = true;
             }
 
             Console.WriteLine(e.Item.Message);
+
+            if (setColor)
+            {
+                Console.ResetColor();
+            }
         }
     }
 }
