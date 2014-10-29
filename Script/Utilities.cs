@@ -262,7 +262,7 @@ namespace BL
                 temp = 0;
             }
 
-            Script.Literal("return temp;");
+            Script.Literal("return {0};", temp);
             return 0;
         }
 
@@ -275,7 +275,7 @@ namespace BL
                 temp = 255;
             }
 
-            Script.Literal("return temp;");
+            Script.Literal("return {0};", temp);
             return 0;
         }
 
