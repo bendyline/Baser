@@ -136,15 +136,7 @@ namespace BL
 
             if (this.isLoaded)
             {
-                if (callback != null)
-                {
-                    CallbackResult cr = new CallbackResult();
-                    cr.Data = this;
-                    cr.IsCompleted = true;
-                    cr.AsyncState = state;
-
-                    callback(cr);
-                }
+                CallbackResult.NotifySynchronousSuccess(callback, state, this);
 
                 return;
             }

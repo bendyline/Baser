@@ -10,6 +10,38 @@ namespace Bendyline.Base
 {
     public static class TextUtilities
     {
+
+        public static String StripTags(String text)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            int lastStart = 0;
+            int nextSlash = text.IndexOf("<");
+
+            while (nextSlash > 0)
+            {
+                sb.Append(text.Substring(lastStart, nextSlash - lastStart));
+
+                int end = text.IndexOf(">", nextSlash + 1);
+
+                if (end >= 0)
+                {
+                    lastStart = end + 1;
+
+                    nextSlash = text.IndexOf("<", lastStart);
+                }
+                else
+                {
+                    lastStart = text.Length;
+                    nextSlash = -1;
+                }
+            }
+
+            sb.Append(text.Substring(lastStart, text.Length - lastStart));
+
+            return sb.ToString();
+        }
+
         public static String GetContentsInBetween(String source, String start, String end)
         {
             int firstIndex = source.IndexOf(start);
