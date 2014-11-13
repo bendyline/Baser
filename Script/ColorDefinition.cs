@@ -8,55 +8,91 @@ namespace BL
     /// </summary>
     public class ColorDefinition : SerializableObject
     {
-        private byte red = 0;
-        private byte green = 0;
-        private byte blue = 0;
+        private int red = 0;
+        private int green = 0;
+        private int blue = 0;
 
         /// <summary>
         /// Red value of the color.
         /// </summary>
-        [ScriptName("y_red")]
-        public byte Red
+        [ScriptName("i_red")]
+        public int Red
         {
             get
             {
-                return red;
+                return this.red;
             }
             set
             {
-                red = value;
+                this.red = value;
+
+                this.red = Math.Round(this.red);
+
+                if (this.red< 0)
+                {
+                    this.red = 0;
+                }
+
+                if (this.red > 255)
+                {
+                    this.red = 255;
+                }
             }
         }
 
         /// <summary>
         /// Green value of the color.
         /// </summary>
-        [ScriptName("y_green")]
-        public byte Green
+        [ScriptName("i_green")]
+        public int Green
         {
             get
             {
-                return green;
+                return this.green;
             }
             set
             {
-                green = value;
+                this.green = value;
+
+                this.green = Math.Round(this.green);
+
+                if (this.green < 0)
+                {
+                    this.green = 0;
+                }
+
+                if (this.green > 255)
+                {
+                    this.green = 255;
+                }
             }
         }
 
         /// <summary>
         /// Blue value of the color.
         /// </summary>
-        [ScriptName("y_blue")]
-        public byte Blue
+        [ScriptName("i_blue")]
+        public int Blue
         {
             get
             {
-                return blue;
+                return this.blue;
             }
             set
             {
-                blue = value;
+                this.blue = value;
+
+                this.blue = Math.Round(this.blue);
+
+                if (this.blue < 0)
+                {
+                    this.blue = 0;
+                }
+
+                if (this.blue > 255)
+                {
+                    this.blue = 255;
+                }
             }
         }
 
@@ -65,13 +101,55 @@ namespace BL
 
         }
 
-        protected override void InitForSerialization()
+        public static ColorDefinition CreateFromString(String color)
         {
-            base.InitForSerialization();
+            ColorDefinition cd = new ColorDefinition();
 
-            this.SerializableType.EnsureString("red", "R");
-            this.SerializableType.EnsureString("green", "G");
-            this.SerializableType.EnsureString("blue", "B");
+            if (color.Length == 7 && color.StartsWith("#"))
+            {
+                cd.Red = Int32.Parse(color.Substring(1, 3), 16);
+                cd.Green = Int32.Parse(color.Substring(3, 5), 16);
+                cd.Blue = Int32.Parse(color.Substring(5, 7), 16);
+            }
+
+            return cd;
+        }
+    
+        public ColorDefinition GetPrecentageAdjustedColor(double percentageDifference)
+        {
+            ColorDefinition cd = new ColorDefinition();
+
+            cd.Red = this.Red + (int)(this.Red * percentageDifference);            
+            cd.Green = this.Green + (int)(this.Green * percentageDifference);
+            cd.Blue = this.Blue + (int)(this.Blue * percentageDifference);
+            
+            return cd;
+        }
+
+        public override string ToString()
+        {
+            String result = this.Blue.ToString(16);
+
+            while (result.Length < 2)
+            {
+                result = "0" + result;
+            }
+
+            result = this.Green.ToString(16) + result;
+
+            while (result.Length < 4)
+            {
+                result = "0" + result;
+            }
+
+            result = this.Red.ToString(16) + result;
+
+            while (result.Length < 6)
+            {
+                result = "0" + result;
+            }
+
+            return "#" + result;
         }
 
         /// <summary>
