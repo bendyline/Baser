@@ -76,6 +76,18 @@ namespace BL
             return o;
         }
 
+        public void ApplyString(String jsonSerialization)
+        {
+            object o = Json.Parse(jsonSerialization);
+
+            if (o == null)
+            {
+                return;
+            }
+
+            this.ApplyObject(o);
+        }
+
         public void ApplyObject(object o)
         {
             ICollection<SerializableProperty> properties = this.SerializableType.Properties;

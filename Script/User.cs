@@ -170,9 +170,7 @@ namespace BL
 
             if (xhr != null && xhr.ReadyState == ReadyState.Loaded)
             {
-                object o = Json.Parse(xhr.ResponseText);
-
-                this.ApplyObject(o);
+                this.ApplyString(xhr.ResponseText);
 
                 this.isLoaded = true;
                 this.userLoadedOperation.CompleteAsAsyncDone(this);
