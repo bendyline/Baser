@@ -108,6 +108,22 @@ namespace BL
             }
         }
 
+        public object GetProperty(String propertyName)
+        {
+            SerializableProperty sp = this.SerializableType.GetProperty(propertyName);
+
+            Debug.Assert(sp != null);
+
+            if (sp == null)
+            {
+                return null;
+            }
+
+            Script.Literal("var fn = this['get_' + {1} + '_' + {0}];  if (fn != null) {{return fn.apply(this, [] );}}", sp.Name, sp.GetShortTypeName());
+
+            return null;
+        }
+
         public void SetProperty(String propertyName, object value)
         {
             SerializableProperty sp = this.SerializableType.GetProperty(propertyName);
