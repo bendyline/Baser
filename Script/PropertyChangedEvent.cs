@@ -10,6 +10,34 @@ namespace BL
     public class PropertyChangedEventArgs : EventArgs
     {
         private String propertyName;
+        private object previousValue;
+        private object newValue;
+
+        public object PreviousValue
+        {
+            get
+            {
+                return this.previousValue;
+            }
+
+            set
+            {
+                this.previousValue = value;
+            }
+        }
+
+        public object NewValue
+        {
+            get
+            {
+                return this.newValue;
+            }
+
+            set
+            {
+                this.newValue = value;
+            }
+        }
 
         public String PropertyName
         {
@@ -21,7 +49,6 @@ namespace BL
         {
             this.propertyName = propertyName;
         }       
-
 
         public static PropertyChangedEventArgs All
         {

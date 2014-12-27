@@ -223,5 +223,16 @@ namespace BL
                 this.PropertyChanged(this, pcea);
             }
         }
+
+        protected void NotifyPropertyChangedWithValues(String propertyName, object previousValue, object newValue)
+        {
+            if (this.PropertyChanged != null)
+            {
+                PropertyChangedEventArgs pcea = new PropertyChangedEventArgs(propertyName);
+                pcea.PreviousValue = previousValue;
+                pcea.NewValue = newValue;
+                this.PropertyChanged(this, pcea);
+            }
+        }
     }
 }
