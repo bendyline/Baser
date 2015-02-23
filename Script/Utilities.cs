@@ -54,6 +54,10 @@ namespace BL
             }
         }
 
+        public static void ExecuteUnsafeFunction(Action a)
+        {
+            Script.Literal("if (typeof MSApp  !== \"undefined\" && typeof MSApp.execUnsafeLocalFunction !== \"undefined\") {{ MSApp.execUnsafeLocalFunction({0}); }} else {{ {0}(); }}", a);
+        }
 
         public static String GetDayName(int dayId)
         {

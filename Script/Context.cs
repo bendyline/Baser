@@ -6,6 +6,12 @@ using System.Html;
 
 namespace BL
 {
+    public enum DevicePlatform
+    {
+        Unknown = 0,
+        iOS = 1
+    }
+
     /// <summary>
     /// Provides all general, ambient, app agnostic app state, plus helper functions to determine properties of the browser.
     /// </summary>
@@ -19,6 +25,8 @@ namespace BL
         private int expId;
         private int tokenId;
 
+        private DevicePlatform devicePlatform;
+
         private bool isSmallFormFactor = false;
         private bool isHostedInApp = false;
         private bool isTouchOnly = false;
@@ -30,10 +38,21 @@ namespace BL
         private User user;
         private IAppObjectProvider objectProvider;
         private String initialHash = null;
+        private String activeHash = null;
 
         public event PropertyChangedEventHandler UserChanged;
+        public event StringEventHandler InternalNavigationChanged;
 
         private PropertyChangedEventHandler userPropertyChanged; 
+
+
+        public DevicePlatform DevicePlatform
+        {
+            get
+            {
+                return this.devicePlatform;
+            }
+        }
 
         public IAppObjectProvider ObjectProvider
         {
@@ -125,6 +144,16 @@ namespace BL
             set
             {
                 this.isHostedInApp = value;
+            }
+        }
+
+        public bool UsingBrowserStackNavigation
+        {
+            get
+            {
+                // using browser-based navigation on iOS causes left-page-swipe and right-page-swipe behaviors to 
+                // show up so we don't want to use it there.
+                return Context.Current.DevicePlatform != DevicePlatform.iOS;
             }
         }
 
@@ -288,6 +317,8 @@ namespace BL
 
         public Context()
         {
+            Window.AddEventListener("hashchange", this.HandleHashChange);
+
             if (this.initialHash == null)
             {
                 this.initialHash = Window.Location.Hash.Substring(1, Window.Location.Hash.Length).ToLowerCase();
@@ -298,11 +329,43 @@ namespace BL
             this.ParseUserAgent();
         }
 
+        public void NavigateToHome()
+        {
+            if (Context.Current.UsingBrowserStackNavigation)
+            {
+                Window.History.Go(-1);
+            }
+            else
+            {
+                this.NavigateInternal(null);
+            }
+        }
+
+        private void HandleHashChange(ElementEvent e)
+        {
+            this.FireInternalNavigationEvent();
+        }
+
+        private void FireInternalNavigationEvent()
+        {
+            if (this.InternalNavigationChanged != null)
+            {
+                StringEventArgs sea = new StringEventArgs(this.GetInternalDestination());
+
+                this.InternalNavigationChanged(this, sea);
+            }
+        }
+
         private void ParseUserAgent()
         {
             this.parsedUserAgent = Window.Navigator.UserAgent;
 
             String userAgent = this.parsedUserAgent.ToLowerCase();
+
+            if (userAgent.IndexOf("iphone") >= 0)
+            {
+                this.devicePlatform = DevicePlatform.iOS;
+            }
 
             // per comment at https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
             if (userAgent.IndexOf("mobi") >= 0)
@@ -332,15 +395,10 @@ namespace BL
 
         public bool IsHomeNavigation()
         {
-            String currentHash = Window.Location.Hash;
-
-            if (currentHash != null)
-            {
-                currentHash = currentHash.Substring(1, currentHash.Length).ToLowerCase();
-            }
+            String currentHash = this.GetActiveInternalDestination();
 
             if (String.IsNullOrEmpty(currentHash) || currentHash == initialHash.ToLowerCase())
-            {
+            {            
                 return true;
             }
 
@@ -351,19 +409,47 @@ namespace BL
         {
             String hash = internalDestination;
 
-            if (initialHash.ToLowerCase() == hash.ToLowerCase())
+            if (hash != null && initialHash.ToLowerCase() == hash.ToLowerCase())
             {
                 hash += ".1";
             }
 
-            Window.Location.Hash = hash;
+            if (!Context.Current.UsingBrowserStackNavigation)
+            {
+                activeHash = hash;
+
+                this.FireInternalNavigationEvent();
+            }
+            else
+            {
+                activeHash = null;
+
+                // this should implicitly fire the hash change event, and therefore the internal navigation event.
+                Window.Location.Hash = hash;
+            }
         }
+        public String GetActiveInternalDestination()
+        {
+            String hashCanon = null;
+
+            if (this.activeHash != null)
+            {
+                hashCanon = this.activeHash.ToLowerCase();
+            }
+            else
+            {
+                hashCanon = Window.Location.Hash.ToLowerCase();
+
+                hashCanon = hashCanon.Substring(1, hashCanon.Length);
+            }
+
+            return hashCanon;
+        }
+
 
         public String GetInternalDestination()
         {
-            String hashCanon = Window.Location.Hash.ToLowerCase();
-
-            hashCanon = hashCanon.Substring(1, hashCanon.Length);
+            String hashCanon = this.GetActiveInternalDestination();
 
             int lastPeriod = hashCanon.LastIndexOf(".");
 

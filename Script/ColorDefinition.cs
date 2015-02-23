@@ -101,6 +101,19 @@ namespace BL
 
         }
 
+        public bool IsPrimarilyLight
+        {
+
+            get
+            {
+                int average = (this.red + this.green + this.blue) / 3;
+
+                average = (average + Math.Max(this.red, this.green, this.blue)) / 2;
+
+                return average > 170;
+            }
+        }
+
         public static ColorDefinition CreateFromString(String color)
         {
             ColorDefinition cd = new ColorDefinition();
