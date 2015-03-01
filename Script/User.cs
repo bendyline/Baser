@@ -42,6 +42,8 @@ namespace BL
             set
             {
                 this.firstName = value;
+
+                this.NotifyPropertyChanged("FirstName");
             }
         }
 
@@ -55,6 +57,8 @@ namespace BL
             set
             {
                 this.lastName = value;
+
+                this.NotifyPropertyChanged("LastName");
             }
         }
 
@@ -68,6 +72,9 @@ namespace BL
             set
             {
                 this.contentContainer = value;
+
+                this.NotifyPropertyChanged("ContentContainer");
+
             }
         }
 
@@ -81,6 +88,8 @@ namespace BL
             set
             {
                 this.thumbnailImage = value;
+
+                this.NotifyPropertyChanged("ThumbnailImage");
             }
         }
 
@@ -93,7 +102,15 @@ namespace BL
                     return null;
                 }
 
-                return Context.Current.UserContentBasePath + this.ContentContainer + "/" + this.ThumbnailImage;
+                if (this.ThumbnailImage.StartsWith("[ir]"))
+                {
+                    return Context.Current.ResourceBasePath + "qla/images/" + this.ThumbnailImage.Substring(4, this.ThumbnailImage.Length);
+                }
+                else
+                {
+
+                    return Context.Current.UserContentBasePath + this.ContentContainer + "/" + this.ThumbnailImage;
+                }
             }
         }
 

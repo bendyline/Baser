@@ -133,7 +133,19 @@ namespace BL
 
         public static void FullTime(int eventId, String message, LogStatus status, double timeTaken, object details)
         {
-            Debug.WriteLine("(Log) - " + eventId + " - " + message + " " + details);
+            if (details == null)
+            {
+                details = "";
+            }
+
+            if (eventId < 0)
+            {
+                Debug.WriteLine("(Log) - " + message + " " + details);
+            }
+            else
+            {
+                Debug.WriteLine("(Log) - EID:" + eventId + " - " + message + " " + details);
+            }
 
             LogItem item = new LogItem(eventId, message, status, timeTaken, null);
 

@@ -1,8 +1,10 @@
 ﻿/* Copyright (c) Bendyline LLC. All rights reserved. Licensed under the Apache License, Version 2.0.
     You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. */
 
+using Bendyline.Base;
 using System;
 using System.Html;
+using System.Net;
 
 namespace BL
 {
@@ -39,6 +41,7 @@ namespace BL
         private IAppObjectProvider objectProvider;
         private String initialHash = null;
         private String activeHash = null;
+        private Operation userSignoutOperation = null;
 
         public event PropertyChangedEventHandler UserChanged;
         public event StringEventHandler InternalNavigationChanged;
@@ -93,9 +96,12 @@ namespace BL
                     this.user.IsLoaded = true;
                 }
 
-                UserManager.Current.AddUser(this.user);
+                if (this.user != null)
+                {
+                    UserManager.Current.AddUser(this.user);
 
-                this.User.PropertyChanged += this.userPropertyChanged;
+                    this.User.PropertyChanged += this.userPropertyChanged;
+                }
 
                 if (this.UserChanged != null)
                 {
@@ -327,6 +333,45 @@ namespace BL
             this.userPropertyChanged = new PropertyChangedEventHandler(this.HandleUserPropertyChanged);
 
             this.ParseUserAgent();
+        }
+
+
+        public void SignoutUser(AsyncCallback callback, object state)
+        {
+            bool isNew = false;
+
+            if (this.userSignoutOperation == null)
+            {
+                this.userSignoutOperation = new Operation();
+                isNew = true;
+            }
+
+            this.userSignoutOperation.CallbackStates.Add(CallbackState.Wrap(callback, state));
+
+            if (isNew)
+            {
+                XmlHttpRequest xhr = new XmlHttpRequest();
+                this.userSignoutOperation.Tag = xhr;
+                String endpoint = UrlUtilities.EnsurePathEndsWithSlash(Context.Current.WebServiceBasePath) + "api/signout/";
+
+                xhr.Open("POST", endpoint);
+                xhr.SetRequestHeader("Accept", "application/json");
+                xhr.SetRequestHeader("Content-Type", "application/json");
+
+                xhr.Send("");
+                xhr.OnReadyStateChange = new Action(this.SignoutUserContinue);
+            }
+        }
+
+        private void SignoutUserContinue()
+        {
+            XmlHttpRequest xhr = (XmlHttpRequest)this.userSignoutOperation.Tag;
+
+            if (xhr != null && xhr.ReadyState == ReadyState.Loaded)
+            {
+                this.User = null;
+                this.userSignoutOperation.CompleteAsAsyncDone(this);
+            }
         }
 
         public void NavigateToHome()
