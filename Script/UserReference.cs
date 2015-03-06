@@ -11,6 +11,11 @@ namespace BL
         private String id;
         private String nickName;
 
+
+        /// <summary>
+        /// NOTE NOTE: On the server, Id is a long.  But on the client, it's a string comprised of UniqueKey.
+        /// The client should never see longs.
+        /// </summary>
         [ScriptName("s_id")]
         public String Id
         {

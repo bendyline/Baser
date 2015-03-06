@@ -191,6 +191,7 @@ namespace BL
 
                 this.isLoaded = true;
                 this.userLoadedOperation.CompleteAsAsyncDone(this);
+                this.userLoadedOperation = null;
             }
         }
     }

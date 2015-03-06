@@ -22,10 +22,10 @@ namespace BL
         private String parsedUserAgent = null;
         private static Context current = new Context();
         private String versionHash;
-        private String userName;
+        private String userId;
         private String feedbackUrl;
         private int expId;
-        private int tokenId;
+        private long tokenId;
 
         private DevicePlatform devicePlatform;
 
@@ -274,7 +274,7 @@ namespace BL
             }
         }
 
-        public int Tokenid
+        public long TokenId
         {
             get
             {
@@ -308,16 +308,38 @@ namespace BL
             }
         }
 
-        public String UserName
+        public String UserId
         {
             get
             {
-                return this.userName;
+                if (this.user != null)
+                {
+                    return this.user.Id;
+                }
+
+                return this.userId;
             }
 
             set
             {
-                this.userName = value;
+                if (this.userId == value)
+                {
+                    return;
+                }
+
+                this.userId = value;
+
+                if ((this.user == null && this.userId != null) || (this.user != null && this.userId != this.user.Id))
+                {
+                    if (this.userId == null)
+                    {
+                        this.User = null;
+                    }
+                    else
+                    {
+                        this.EnsureUserById(this.userId);
+                    }
+                }
             }
         }
 
@@ -369,8 +391,12 @@ namespace BL
 
             if (xhr != null && xhr.ReadyState == ReadyState.Loaded)
             {
+                this.TokenId = -1;
+                this.userId = null;
                 this.User = null;
+
                 this.userSignoutOperation.CompleteAsAsyncDone(this);
+                this.userSignoutOperation = null;
             }
         }
 
@@ -524,6 +550,22 @@ namespace BL
             return this.User;
         }
 
+        public User EnsureUserById(String userId)
+        {
+            if (this.User == null)
+            {
+                User user = new User();
+
+                user.Id = userId;
+                this.userId = userId;
+
+                this.User = user;
+            }
+
+            return this.User;
+        }
+
+
         public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash, String feedbackUrl)
         {
             Context pc = Context.Current;
@@ -535,13 +577,13 @@ namespace BL
             pc.FeedbackUrl = feedbackUrl;
         }
 
-        public static void SetSession(int tokenId, int expId, String userName)
+        public static void SetSession(int tokenId, int expId, String userId)
         {
             Context pc = Context.Current;
 
             pc.ExpId = expId;
-            pc.Tokenid = tokenId;
-            pc.UserName = userName;
+            pc.TokenId = tokenId;
+            pc.UserId = userId;
         }
     }
 }

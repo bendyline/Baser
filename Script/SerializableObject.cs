@@ -88,6 +88,18 @@ namespace BL
             this.ApplyObject(o);
         }
 
+        public void LoadFromJson(String jsonObject)
+        {
+            object o = Json.Parse(jsonObject);
+
+            if (o == null)
+            {
+                return;
+            }
+
+            this.ApplyObject(o);
+        }
+
         public void ApplyObject(object o)
         {
             ICollection<SerializableProperty> properties = this.SerializableType.Properties;
