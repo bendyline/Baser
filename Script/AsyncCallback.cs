@@ -14,4 +14,6 @@ namespace BL
     /// Derived class that contains both standard result data plus any custom additional data. 
     /// </param>
     public delegate void AsyncCallback(IAsyncResult result);
+
+    public delegate void AsyncOperation(AsyncCallback callback, object state);
 }

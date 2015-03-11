@@ -176,8 +176,8 @@ namespace BL
                 xhr.SetRequestHeader("Accept", "application/json");
                 xhr.SetRequestHeader("Content-Type", "application/json");
 
-                xhr.Send("");
                 xhr.OnReadyStateChange = new Action(this.LoadUserContinue);
+                xhr.Send("");
             }
         }
 

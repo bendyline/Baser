@@ -16,6 +16,7 @@ namespace Bendyline.Base
                 return null;
             }
 
+            value = value.Replace("\\", "\\\\");
             value = value.Replace("\"", "\\\"");
 
             return value;

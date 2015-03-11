@@ -59,6 +59,7 @@
     <DocumentationFile>..\..\web\gs\baser\1.0\bl.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Delegates.cs" />
     <Compile Include="Easing.cs" />
     <Compile Include="ObjectEvent.cs" />
     <Compile Include="UserManager.cs" />
