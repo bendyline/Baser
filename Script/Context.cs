@@ -26,6 +26,7 @@ namespace BL
         private String feedbackUrl;
         private int expId;
         private long tokenId;
+        private String scriptLibraryTemplate;
 
         private DevicePlatform devicePlatform;
 
@@ -107,6 +108,19 @@ namespace BL
                 {
                     this.UserChanged(this, PropertyChangedEventArgs.All);
                 }
+            }
+        }
+
+        public String ScriptLibraryTemplate
+        {
+            get
+            {
+                return this.scriptLibraryTemplate;
+            }
+
+            set
+            {
+                this.scriptLibraryTemplate = value;
             }
         }
 
@@ -566,7 +580,7 @@ namespace BL
         }
 
 
-        public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash, String feedbackUrl)
+        public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash, String feedbackUrl, String scriptLibraryTemplate)
         {
             Context pc = Context.Current;
 
@@ -575,6 +589,7 @@ namespace BL
             pc.UserContentBasePath = userContentBasePath;
             pc.VersionToken = versionHash;
             pc.FeedbackUrl = feedbackUrl;
+            pc.ScriptLibraryTemplate = scriptLibraryTemplate;
         }
 
         public static void SetSession(int tokenId, int expId, String userId)

@@ -9,6 +9,12 @@ namespace Bendyline.Base
 {
     public static class JsonUtilities
     {
+        public static String EncodeDate(Date value)
+        {
+            Script.Literal("return {0}.toJSON()", value);
+            return null;
+        }
+
         public static String Encode(String value)
         {
             if (value == null)
