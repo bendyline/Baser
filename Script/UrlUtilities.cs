@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Bendyline.Base
+namespace BL
 {
     public static class UrlUtilities
     {
