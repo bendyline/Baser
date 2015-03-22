@@ -15,6 +15,7 @@ namespace BL
         private String lastName;
         private String contentContainer;
         private String thumbnailImage;
+        private Nullable<long> profileAppId;
 
         private Operation userLoadedOperation;
         private bool isLoaded = false;
@@ -44,6 +45,21 @@ namespace BL
                 this.firstName = value;
 
                 this.NotifyPropertyChanged("FirstName");
+            }
+        }
+
+        [ScriptName("i_profileAppId")]
+        public Nullable<long> ProfileAppId
+        {
+            get
+            {
+                return this.profileAppId;
+            }
+            set
+            {
+                this.profileAppId = value;
+
+                this.NotifyPropertyChanged("ProfileAppId");
             }
         }
 

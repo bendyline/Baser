@@ -34,6 +34,7 @@ namespace BL
         private bool isHostedInApp = false;
         private bool isTouchOnly = false;
         private bool isTablet = false;
+        private Nullable<bool> isFullScreenWebApp;
 
         private String resourceBasePath = null;
         private String webServiceBasePath = null;
@@ -131,6 +132,33 @@ namespace BL
                 return this.isTablet;
             }
         }
+
+        public int FullScreenTopBufferHeight
+        {
+            get
+            {
+                if (this.IsFullScreenWebApp)
+                {
+                    return 18;
+                }
+
+                return 0;
+            }
+        }
+
+        public bool IsFullScreenWebApp
+        {
+            get
+            {
+                if (this.isFullScreenWebApp == null)
+                {
+                    Script.Literal("{0}=((\"standalone\" in window.navigator) && window.navigator.standalone)", this.isFullScreenWebApp);
+                }
+
+                return (bool)isFullScreenWebApp;
+            }
+        }
+
         public bool IsTouchOnly
         {
             get

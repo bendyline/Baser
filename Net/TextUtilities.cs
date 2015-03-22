@@ -10,6 +10,66 @@ namespace Bendyline.Base
 {
     public static class TextUtilities
     {
+        public static bool IsLetterDigitOrDot(String path)
+        {
+            foreach (char c in path)
+            {
+                if (!Char.IsLetterOrDigit(c) && c != '.')
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool IsLetterOrDigit(String path)
+        {
+            foreach (char c in path)
+            {
+                if (!Char.IsLetterOrDigit(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool IsBasicLetterOrDigit(String path)
+        {
+            foreach (char c in path)
+            {
+                if (!(  (c >= 'a' && c<='z') || 
+                        (c >='A' && c<='Z') || 
+                        (c >= '0' && c <= '9')
+                     )
+                   )
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool IsBasicLetterDigitOrDash(String path)
+        {
+            foreach (char c in path)
+            {
+                if (!((c >= 'a' && c <= 'z') ||
+                        (c >= 'A' && c <= 'Z') ||
+                        (c >= '0' && c <= '9') ||
+                        c == '-'
+                     )
+                   )
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         public static String StripTags(String text)
         {
