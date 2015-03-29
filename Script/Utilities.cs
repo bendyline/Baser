@@ -178,7 +178,45 @@ namespace BL
                 minutesStr = "0" + minutesStr;
             }
 
-            if (nowTime-compareTime > (long)(300 * 24 * 60 * 60))
+            int hours = compare.GetHours();
+
+            String hoursStr = null;
+            String ampmStr = null;
+
+            if (hours > 12)
+            {
+                hoursStr = (hours - 12).ToString();
+                ampmStr = "pm";
+            }
+            else
+            {
+                hoursStr = (hours).ToString();
+                ampmStr = "am";
+            }
+
+            if (nowTime - compareTime < (long)(3 * 60))
+            {
+                return "just now";
+            }
+            else if (nowTime - compareTime < (long)(90 * 60))
+            {
+                return ((int)Math.Floor((nowTime - compareTime) / 60)).ToString() + " minutes ago";
+            }
+            else if (nowTime - compareTime < (long)(320 * 60))
+            {
+                hours = Math.Floor((nowTime - compareTime) / (60 * 60));
+                int minutes = Math.Floor( ((nowTime - compareTime) / 60) % 60);
+
+                if (hours == 1)
+                {
+                    return "1 hour " + minutes + " minutes ago";
+                }
+                else
+                {
+                    return hours + " hours " + minutes + " minutes ago";
+                }
+            }
+            else if (nowTime - compareTime > (long)(300 * 24 * 60 * 60))
             {
                 return Utilities.GetMonthName(compare.GetMonth()) + " " + (compare.GetDate()).ToString() + " " + compare.GetFullYear();
             }            
@@ -201,11 +239,11 @@ namespace BL
 
             if (compare.GetDate() == now.GetDate())
             {
-                return "today at " + GetHours(compare) + ":" + minutesStr;
+                return "today at " + hoursStr + ":" + minutesStr + " " + ampmStr;
             }
             else
             {
-                return "yesterday at " + GetHours(compare) + ":" + minutesStr;
+                return "yesterday at " + hoursStr + ":" + minutesStr + " " + ampmStr;
             }
         }
 

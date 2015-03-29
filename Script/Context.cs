@@ -617,6 +617,8 @@ namespace BL
             pc.VersionToken = versionHash;
             pc.FeedbackUrl = feedbackUrl;
             pc.ScriptLibraryTemplate = scriptLibraryTemplate;
+
+            // Script.Literal("requirejs.config({{paths:{{bl:{0} }} }});", resourceBasePath);
         }
 
         public static void SetSession(int tokenId, int expId, String userId)

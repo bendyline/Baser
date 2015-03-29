@@ -118,7 +118,20 @@ namespace BL
         {
             ColorDefinition cd = new ColorDefinition();
 
-            if (color.Length == 7 && color.StartsWith("#"))
+            color = color.Trim();
+
+            if (color.StartsWith("rgb(") && color.EndsWith(")"))
+            {
+                String[] vals = color.Substring(4, color.Length - 1).Split(",");
+
+                if (vals.Length == 3)
+                {
+                    cd.Red = Int32.Parse(vals[0]);
+                    cd.Green = Int32.Parse(vals[1]);
+                    cd.Blue = Int32.Parse(vals[2]);
+                }
+            }
+            else if (color.Length == 7 && color.StartsWith("#"))
             {
                 cd.Red = Int32.Parse(color.Substring(1, 3), 16);
                 cd.Green = Int32.Parse(color.Substring(3, 5), 16);

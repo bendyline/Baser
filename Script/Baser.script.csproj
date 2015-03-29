@@ -62,6 +62,7 @@
     <Compile Include="Delegates.cs" />
     <Compile Include="Easing.cs" />
     <Compile Include="ObjectEvent.cs" />
+    <Compile Include="BooleanEvent.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="UserReference.cs" />
     <Compile Include="User.cs" />
