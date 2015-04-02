@@ -3,6 +3,12 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
+    public enum UserReferenceType
+    {
+        StructuredUser = 0,
+        Adhoc = 1
+    }
+
     /// <summary>
     /// Specifies an abstract, implementation agnostic definition of a reference to a user.
     /// </summary>
@@ -10,7 +16,20 @@ namespace BL
     {
         private String id;
         private String nickName;
+        private UserReferenceType type;
 
+        [ScriptName("i_type")]
+        public UserReferenceType Type
+        {
+            get
+            {
+                return this.type;
+            }
+            set
+            {
+                this.type = value;
+            }
+        }
 
         /// <summary>
         /// NOTE NOTE: On the server, Id is a long.  But on the client, it's a string comprised of UniqueKey.

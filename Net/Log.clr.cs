@@ -13,7 +13,7 @@ namespace Bendyline.Base
         [Conditional("DEBUG")]
         public static void EndScope(String id, String message)
         {
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.Now.ToUniversalTime();
 
             String timeSummary = "";
             double timeTakenMs = -1;
@@ -30,7 +30,7 @@ namespace Bendyline.Base
                 timeSummary = "unk";
             }
 
-            scopeStarts[id] = DateTime.Now;
+            scopeStarts[id] = DateTime.Now.ToUniversalTime();
 
             if (message != null)
             {

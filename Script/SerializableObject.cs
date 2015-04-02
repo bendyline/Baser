@@ -59,6 +59,11 @@ namespace BL
             this.ApplyObject(sourceObject.GetObject());
         }
 
+        public String ToJson()
+        {
+            return Json.Stringify(this.GetObject());
+        }
+
         public object GetObject()
         {
             ICollection<SerializableProperty> properties = this.SerializableType.Properties;
