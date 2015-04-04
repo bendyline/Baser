@@ -2,6 +2,7 @@
     You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. */
 
 using System;
+using System.Globalization;
 
 namespace Bendyline.Base
 {
@@ -70,6 +71,47 @@ namespace Bendyline.Base
             this.SerializableType.EnsureString("Red", "R");
             this.SerializableType.EnsureString("Green", "G");
             this.SerializableType.EnsureString("Blue", "B");
+        }
+
+        public bool IsPrimarilyLight
+        {
+
+            get
+            {
+                int average = (this.red + this.green + this.blue) / 3;
+
+                average = (average + Math.Max(Math.Max(this.red, this.green), this.blue)) / 2;
+
+                return average > 170;
+            }
+        }
+
+
+        public static ColorDefinition CreateFromString(String color)
+        {
+            ColorDefinition cd = new ColorDefinition();
+
+            color = color.Trim();
+
+            if (color.StartsWith("rgb(") && color.EndsWith(")"))
+            {
+                String[] vals = color.Substring(4, color.Length - 5).Split(',');
+
+                if (vals.Length == 3)
+                {
+                    cd.Red = Byte.Parse(vals[0]);
+                    cd.Green = Byte.Parse(vals[1]);
+                    cd.Blue = Byte.Parse(vals[2]);
+                }
+            }
+            else if (color.Length == 7 && color.StartsWith("#"))
+            {
+                cd.Red = Byte.Parse(color.Substring(1, 2), NumberStyles.AllowHexSpecifier);
+                cd.Green = Byte.Parse(color.Substring(3, 2), NumberStyles.AllowHexSpecifier);
+                cd.Blue = Byte.Parse(color.Substring(5, 2), NumberStyles.AllowHexSpecifier);
+            }
+
+            return cd;
         }
 
         /// <summary>

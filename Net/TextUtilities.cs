@@ -78,7 +78,7 @@ namespace Bendyline.Base
             int lastStart = 0;
             int nextSlash = text.IndexOf("<");
 
-            while (nextSlash > 0)
+            while (nextSlash >= 0)
             {
                 sb.Append(text.Substring(lastStart, nextSlash - lastStart));
 

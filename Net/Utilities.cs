@@ -11,10 +11,6 @@ namespace Bendyline.Base
     {
         private readonly static Random random = new Random();
         private static String versionHash;
-        private static String feedbackServicesBaseUrl;
-        private static String nationeerBaseUrl;
-        private static String nationeerServicesBaseUrl;
-        private static String contentBaseUrl;
         private static bool initialized;
         private static IAuthenticator currentAuthenticator;
 
@@ -40,31 +36,13 @@ namespace Bendyline.Base
                 return;
             }
 
+            Context.InitializeCurrent();
+
             InitializeDebug();
 
             if (versionHash == null)
             {
                 versionHash = String.Format("{0}x{1}x{0}x{2}", AssemblyInfo.BuildNumber, AssemblyInfo.MajorVersion, AssemblyInfo.RevisionNumber);
-            }
-
-            if (feedbackServicesBaseUrl == null)
-            {
-                feedbackServicesBaseUrl = "http://feedback.nationeer.com";
-            }
-
-            if (nationeerServicesBaseUrl == null)
-            {
-                nationeerServicesBaseUrl = "http://services.nationeer.com";
-            }
-
-            if (contentBaseUrl == null)
-            {
-                contentBaseUrl = "http://bendyline.com";
-            }
-
-            if (nationeerBaseUrl == null)
-            {
-                nationeerBaseUrl = "http://nationeer.com";
             }
 
             initialized = true;
@@ -74,66 +52,14 @@ namespace Bendyline.Base
         private static void InitializeDebug()
         {
             versionHash = Utilities.CreateRandomId();
-            feedbackServicesBaseUrl = "http://feedback.nationeerdev.com";
-            nationeerBaseUrl = "http://nationeerdev.com";
-            nationeerServicesBaseUrl = "http://services.nationeerdev.com";
-            contentBaseUrl = "http://nationeerdev.com";
-
-                        Log.ItemAdded += new LogItemEventHandler(Log_LogItemAdded);
+ 
+            Log.ItemAdded += new LogItemEventHandler(Log_LogItemAdded);
         }
         
         public static void Log_LogItemAdded(object sender, LogItemEventArgs e)
         {
             Debug.WriteLine(e.Item.Message);
-        }
-        
-
-        public static String FeedbackServicesBaseUrl
-        {
-            get
-            {
-                if (feedbackServicesBaseUrl == null)
-                {
-                    Initialize();
-                }
-
-                return feedbackServicesBaseUrl;
-            }
-        }
-
-        public static String NationeerServicesBaseUrl
-        {
-            get
-            {
-                if (nationeerServicesBaseUrl == null)
-                {
-                    Initialize();
-                }
-
-                return nationeerServicesBaseUrl;
-            }
-        }
-
-        public static String NationeerBaseUrl
-        {
-            get
-            {
-                if (nationeerBaseUrl == null)
-                {
-                    Initialize();
-                }
-
-                return nationeerBaseUrl;
-            }
-        }
-
-        public static String ContentBaseUrl
-        {
-            get
-            {
-                return contentBaseUrl;
-            }
-        }
+        }        
 
         public static String VersionHash
         {
@@ -147,7 +73,6 @@ namespace Bendyline.Base
                 return versionHash;
             }
         }
-
 
         public static String GetMonthName(int monthId)
         {

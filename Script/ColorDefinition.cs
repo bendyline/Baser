@@ -101,6 +101,18 @@ namespace BL
 
         }
 
+        public static ColorDefinition GenerateRandomDarkColorFromSeed(long id)
+        {
+            String color = String.Empty; 
+
+            ColorDefinition cd = new ColorDefinition();
+            cd.Red = Math.Floor(Utilities.GenerateSeededRandom(id) * 128);
+            cd.Green = Math.Floor(Utilities.GenerateSeededRandom(id + 1) * 128);
+            cd.Blue = Math.Floor(Utilities.GenerateSeededRandom(id + 2) * 128);
+
+            return cd;
+        }
+
         public bool IsPrimarilyLight
         {
 

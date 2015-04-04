@@ -14,6 +14,7 @@ namespace BL
         private String lastName;
         private String contentContainer;
         private String thumbnailImage;
+        private String preferencesData;
         private Nullable<long> profileAppId;
 
         private Operation userLoadedOperation;
@@ -92,6 +93,23 @@ namespace BL
 
             }
         }
+
+        [ScriptName("s_preferences")]
+        public String PreferencesData
+        {
+            get
+            {
+                return this.preferencesData;
+            }
+            set
+            {
+                this.preferencesData = value;
+
+                this.NotifyPropertyChanged("Preferences");
+
+            }
+        }
+
 
         [ScriptName("s_thumbnailImage")]
         public String ThumbnailImage

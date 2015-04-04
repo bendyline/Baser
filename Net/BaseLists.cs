@@ -22,7 +22,7 @@ namespace Bendyline.Base
                 {
                     feedbackDataStore = DataStore.Create(DataStoreType.SharePoint);
                     feedbackDataStore.RequiresAuthentication = false;
-                    feedbackDataStore.Location = Utilities.FeedbackServicesBaseUrl;
+                    feedbackDataStore.Location = Context.Current.FeedbackUrl;
                 }
 
                 return feedbackDataStore;

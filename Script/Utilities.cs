@@ -54,6 +54,11 @@ namespace BL
             }
         }
 
+        public static Date ConvertToUtc(Date original)
+        {
+            return new Date(Date.UTC(original.GetFullYear(), original.GetMonth(), original.GetDate(), original.GetHours(), original.GetMinutes(), original.GetSeconds(), original.GetMilliseconds()));
+        }
+
         public static void ExecuteUnsafeFunction(Action a)
         {
             Script.Literal("if (typeof MSApp  !== \"undefined\" && typeof MSApp.execUnsafeLocalFunction !== \"undefined\") {{ MSApp.execUnsafeLocalFunction({0}); }} else {{ {0}(); }}", a);
@@ -245,6 +250,15 @@ namespace BL
             {
                 return "yesterday at " + hoursStr + ":" + minutesStr + " " + ampmStr;
             }
+        }
+
+        public static Number GenerateSeededRandom(Number seed)
+        {
+            Number n = Math.Sin(seed++) * 10000;
+
+            n = n - Math.Floor(n);
+
+            return n;
         }
 
 

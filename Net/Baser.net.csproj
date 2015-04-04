@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -55,6 +56,7 @@
     <Compile Include="ColorDefinition.cs" />
     <Compile Include="CommandBase.cs" />
     <Compile Include="CommandLineLogger.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="DataStoreClause.cs" />
     <Compile Include="DataStoreClauseGroup.cs" />
     <Compile Include="DataStoreComparisonClause.cs" />
