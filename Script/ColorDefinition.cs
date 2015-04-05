@@ -207,7 +207,6 @@ namespace BL
         public int CreateColorIntWithAlpha(byte alpha)
         {
             throw new Exception("Unimplemented");
-            return -1;
         }
     }
 }
