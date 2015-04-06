@@ -10,7 +10,6 @@ namespace Bendyline.Base
     {
         private bool isLink;
         private String linkId;
-        private RichContentContainer container;
         private String text;
 
         public override String Text
@@ -49,14 +48,6 @@ namespace Bendyline.Base
             set
             {
                 this.linkId = value;
-            }
-        }
-
-        public RichContentContainer Container
-        {
-            get
-            {
-                return this.container;
             }
         }
 

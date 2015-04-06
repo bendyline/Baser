@@ -97,6 +97,7 @@ namespace BL
 
         public RichContentRun(RichContentContainer container) : base(container)
         {
+            this.container = container;
         }
 
         /*
