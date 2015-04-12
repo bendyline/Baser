@@ -18,6 +18,27 @@ namespace BL
             return value.ToString();
         }
 
+        public static bool IsValidEmail(String email)
+        {
+            int indexOfAt = email.IndexOf("@");
+
+            if (email.Length < 6 || indexOfAt <= 0)
+            {
+                return false;
+            }
+
+            String suffix = email.Substring(indexOfAt, email.Length);
+
+            int period = suffix.LastIndexOf(".");
+
+            if (period <= 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public static void Initialize()
         {
             if (initialized)
