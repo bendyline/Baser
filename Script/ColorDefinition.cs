@@ -153,7 +153,7 @@ namespace BL
             return cd;
         }
     
-        public ColorDefinition GetPrecentageAdjustedColor(double percentageDifference)
+        public ColorDefinition GetPercentageAdjustedColor(double percentageDifference)
         {
             ColorDefinition cd = new ColorDefinition();
 
