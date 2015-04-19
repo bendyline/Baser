@@ -53,13 +53,13 @@ namespace BL
         {
             if (userReference != null)
             {
-                this.userReferencesById[userReference.Id] = null;
+                this.userReferencesById[userReference.UniqueKey] = null;
 
                 for (int i=0; i<this.userReferences.Count; i++)
                 {
                     UserReference ur = (UserReference)this.userReferences[i];
 
-                    if (ur.Id == userReference.Id)
+                    if (ur.UniqueKey == userReference.UniqueKey)
                     {
                         this.userReferences.Remove(ur);
                     }
@@ -94,7 +94,7 @@ namespace BL
         {
             this.userReferences.Add(userReference);
 
-            this.userReferencesById[((UserReference)userReference).Id] = (UserReference)userReference;
+            this.userReferencesById[((UserReference)userReference).UniqueKey] = (UserReference)userReference;
 
             if (this.CollectionChanged != null)
             {

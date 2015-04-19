@@ -29,7 +29,7 @@ namespace BL
 
         public void AddUser(User user)
         {
-            this.users[user.Id] = user;
+            this.users[user.UniqueKey] = user;
         }
 
         public User EnsureUser(String id)
@@ -41,7 +41,7 @@ namespace BL
 
             User user = new User();
 
-            user.Id = id;
+            user.UniqueKey = id;
 
             this.AddUser(user);
 

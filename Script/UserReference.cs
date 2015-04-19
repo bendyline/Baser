@@ -14,7 +14,7 @@ namespace BL
     /// </summary>
     public class UserReference : SerializableObject
     {
-        private String id;
+        private String uniqueKey;
         private String nickName;
         private UserReferenceType type;
 
@@ -36,20 +36,20 @@ namespace BL
         /// The client should never see longs.
         /// </summary>
         [ScriptName("s_id")]
-        public String Id
+        public String UniqueKey
         {
             get
             {
-                return this.id;
+                return this.uniqueKey;
             }
             set
             {
-                if (this.id == value)
+                if (this.uniqueKey == value)
                 {
                     return;
                 }
 
-                this.id = value;
+                this.uniqueKey = value;
 
                 this.NotifyPropertyChanged("Id");
             }

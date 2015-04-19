@@ -156,7 +156,7 @@ namespace BL
                     return this.NickName;
                 }
 
-                if (this.FirstName != null & this.LastName != null)
+                if (this.FirstName != null && this.LastName != null)
                 {
                     return this.FirstName + " " + this.LastName;
                 }
@@ -171,13 +171,13 @@ namespace BL
                     return this.LastName;
                 }
 
-                return this.Id;
+                return this.UniqueKey;
             }
         }
 
         public void LoadUser(AsyncCallback callback, object state)
         {
-            if (this.Id == null)
+            if (this.UniqueKey == null)
             {
                 throw new Exception("ID is not set.");
             }
@@ -203,7 +203,7 @@ namespace BL
             {
                 XmlHttpRequest xhr = new XmlHttpRequest();
                 this.userLoadedOperation.Tag = xhr;
-                String endpoint = UrlUtilities.EnsurePathEndsWithSlash(Context.Current.WebServiceBasePath) + "api/user/" + this.Id;
+                String endpoint = UrlUtilities.EnsurePathEndsWithSlash(Context.Current.WebServiceBasePath) + "api/user/" + this.UniqueKey;
 
                 xhr.Open("GET", endpoint);
                 xhr.SetRequestHeader("Accept", "application/json");

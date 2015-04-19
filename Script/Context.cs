@@ -21,9 +21,10 @@ namespace BL
         private String parsedUserAgent = null;
         private static Context current = new Context();
         private String versionHash;
-        private String userId;
+        private String userUniqueKey;
         private String feedbackUrl;
         private int expId;
+        private Nullable<long> userId;
         private long tokenId;
         private String scriptLibraryTemplate;
 
@@ -349,38 +350,56 @@ namespace BL
             }
         }
 
-        public String UserId
+        public String UserUniqueKey
         {
             get
             {
                 if (this.user != null)
                 {
-                    return this.user.Id;
+                    return this.user.UniqueKey;
                 }
 
-                return this.userId;
+                return this.userUniqueKey;
             }
 
             set
             {
-                if (this.userId == value)
+                if (this.userUniqueKey == value)
                 {
                     return;
                 }
 
-                this.userId = value;
+                this.userUniqueKey = value;
 
-                if ((this.user == null && this.userId != null) || (this.user != null && this.userId != this.user.Id))
+                if ((this.user == null && this.userUniqueKey != null) || (this.user != null && this.userUniqueKey != this.user.UniqueKey))
                 {
-                    if (this.userId == null)
+                    if (this.userUniqueKey == null)
                     {
                         this.User = null;
                     }
                     else
                     {
-                        this.EnsureUserById(this.userId);
+                        this.EnsureUserByUniqueKey(this.userUniqueKey);
                     }
                 }
+            }
+        }
+
+        public Nullable<long> UserId
+        {
+            get
+            {
+                return this.userId;
+            }
+
+            set
+            {
+                if (this.userId== value)
+                {
+                    return;
+                }
+
+                this.userId= value;
             }
         }
 
@@ -433,7 +452,7 @@ namespace BL
             if (xhr != null && xhr.ReadyState == ReadyState.Loaded)
             {
                 this.TokenId = -1;
-                this.userId = null;
+                this.userUniqueKey = null;
                 this.User = null;
 
                 this.userSignoutOperation.CompleteAsAsyncDone(this);
@@ -591,14 +610,14 @@ namespace BL
             return this.User;
         }
 
-        public User EnsureUserById(String userId)
+        public User EnsureUserByUniqueKey(String userId)
         {
             if (this.User == null)
             {
                 User user = new User();
 
-                user.Id = userId;
-                this.userId = userId;
+                user.UniqueKey = userId;
+                this.userUniqueKey = userId;
 
                 this.User = user;
             }
@@ -621,12 +640,13 @@ namespace BL
             // Script.Literal("requirejs.config({{paths:{{bl:{0} }} }});", resourceBasePath);
         }
 
-        public static void SetSession(int tokenId, int expId, String userId)
+        public static void SetSession(int tokenId, int expId, String userKey, Nullable<long> userId)
         {
             Context pc = Context.Current;
 
             pc.ExpId = expId;
             pc.TokenId = tokenId;
+            pc.UserUniqueKey = userKey;
             pc.UserId = userId;
         }
     }

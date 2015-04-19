@@ -222,6 +222,11 @@ namespace BL
 
         public bool IsEqualTo(SerializableObject compareTo)
         {
+            if (compareTo.SerializableType != this.SerializableType)
+            {
+                return false;
+            }
+
             object o = this.GetObject();
             String source = Json.Stringify(o);
 
