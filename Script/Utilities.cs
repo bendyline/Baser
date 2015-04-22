@@ -214,6 +214,16 @@ namespace BL
                 hoursStr = (hours - 12).ToString();
                 ampmStr = "pm";
             }
+            else if (hours == 12)
+            {
+                hoursStr = "12";
+                ampmStr = "pm";
+            }
+            else if (hours == 0)
+            {
+                hoursStr = "12";
+                ampmStr = "am";
+            }
             else
             {
                 hoursStr = (hours).ToString();
