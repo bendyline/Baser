@@ -88,6 +88,11 @@ namespace Bendyline.Base
 
         public static void Message(String message)
         {
+            MessageDocumentStatusTimeAndDetails(message, null, LogStatus.Normal, -1, null);
+        }
+
+        public static void VerboseMessage(String message)
+        {
             MessageDocumentStatusTimeAndDetails(message, null, LogStatus.Verbose, -1, null);
         }
 

@@ -12,7 +12,34 @@ namespace Bendyline.Base
     {
         private static CommandLineLogger current;
         private bool initialized = false;
+        private StringBuilder logRecords;
+        private bool hasErrors = false;
+        private StringBuilder logHtmlRecords;
 
+        public bool HasErrors
+        {
+            get
+            {
+                return this.hasErrors;
+            }
+        }
+
+        public String LogContent
+        {
+            get
+            {
+                return logRecords.ToString();
+            }
+        }
+
+        public String LogHtmlContent
+        {
+            get
+            {
+                return logHtmlRecords.ToString();
+            }
+        }
+        
         public static CommandLineLogger Current
         {
             get
@@ -28,6 +55,8 @@ namespace Bendyline.Base
 
         public CommandLineLogger()
         {
+            this.logRecords = new StringBuilder();
+            this.logHtmlRecords = new StringBuilder();
         }
 
         public void Initialize()
@@ -45,24 +74,41 @@ namespace Bendyline.Base
         private void Log_ItemAdded(object sender, LogItemEventArgs e)
         {
             bool setColor = false;
+            String prefix = String.Empty;
+
+            String htmlPrefix = "<div style=\"";
 
             if (e.Item.Status == LogStatus.UnexpectedError)
             {
+                prefix = "*** ERROR ***: ";
+                htmlPrefix += "color:red; backround-color:#303030;";
+                hasErrors = true;
                 Console.ForegroundColor = ConsoleColor.Red;
                 setColor = true;
             }
             else if (e.Item.Status == LogStatus.Critical)
             {
+                prefix = "*** CRITICAL ***: ";
+                htmlPrefix += "color:yellow; backround-color:#303030;";
+
+                hasErrors = true; 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 setColor = true;
             }
             else if (e.Item.Status == LogStatus.Verbose)
             {
+                htmlPrefix += "color:#606060;";
                 Console.ForegroundColor = ConsoleColor.Gray;
                 setColor = true;
             }
 
-            Console.WriteLine(e.Item.Message);
+            htmlPrefix += "\">";
+
+            logRecords.AppendLine(prefix + e.Item.Message);
+
+            logHtmlRecords.AppendLine(htmlPrefix + e.Item.Message + "</div>");
+
+            Console.WriteLine(prefix + e.Item.Message);
 
             if (setColor)
             {

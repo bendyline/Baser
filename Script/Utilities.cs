@@ -85,6 +85,7 @@ namespace BL
             Script.Literal("if (typeof MSApp  !== \"undefined\" && typeof MSApp.execUnsafeLocalFunction !== \"undefined\") {{ MSApp.execUnsafeLocalFunction({0}); }} else {{ {0}(); }}", a);
         }
 
+
         public static String GetDayName(int dayId)
         {
             switch (dayId)
@@ -270,7 +271,7 @@ namespace BL
             }
             else if (nowTime - compareTime > (long)(1 * 24 * 60 * 60))
             {
-                return GetDayName(compare.GetDay()) + " at " + GetHours(compare) + ":" + minutesStr;
+                return GetStaticDateTimeValue(compare);
             }
 
             if (compare.GetDate() == now.GetDate())
@@ -281,6 +282,24 @@ namespace BL
             {
                 return "yesterday at " + hoursStr + ":" + minutesStr + " " + ampmStr;
             }
+        }
+
+        public static String GetStaticDateTimeValue(Date date)
+        {
+            String minutesStr = date.GetMinutes().ToString();
+
+            while (minutesStr.Length < 2)
+            {
+                minutesStr = "0" + minutesStr;
+            }
+
+            
+            return GetStaticDateValue(date) + " at " + GetHours(date) + ":" + minutesStr;
+        }
+
+        public static String GetStaticDateValue(Date date)
+        {      
+            return GetDayName(date.GetDay()) + " " + (date.GetMonth() + 1) + "/" + date.GetDate();
         }
 
         public static Number GenerateSeededRandom(Number seed)
