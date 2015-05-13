@@ -209,7 +209,7 @@ namespace BL
         {
             get
             {
-                return (Window.InnerHeight > Window.InnerWidth);
+                return (Context.Current.BrowserInnerHeight >  Context.Current.BrowserInnerWidth);
             }
         }
 
@@ -295,6 +295,21 @@ namespace BL
             set
             {
                 this.webServiceBasePath = value;
+            }
+        }
+
+        public int BrowserInnerHeight
+        {
+            get
+            {       
+                return Math.Min(Window.Screen.Height, Window.InnerHeight);
+            }
+        }
+        public int BrowserInnerWidth
+        {
+            get
+            {
+                return Math.Min(Window.Screen.Width, Window.InnerWidth);
             }
         }
 

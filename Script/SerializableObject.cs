@@ -120,7 +120,7 @@ namespace BL
 {{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; coll.clear(); if (!(val === undefined) && val != null) {{for (var i=0; i<val.length; i++) {{ var item=val[i]; coll.add(item); }} }}  }} }}  }} else if (st==10)
 {{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var coll=fn.apply(this); if (coll != null) {{var val = {1}[sv]; coll.clear(); if (!(val === undefined) && val != null) {{for (var i=0; i<val.length; i++) {{ var item=val[i]; var newobj = coll.create(); newobj.applyObject(item); coll.add(newobj); }} }}  }} }}  }} else if (st == 7)
 {{var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = {1}[sv]; if (!(val === undefined)) {{ val = new Date(parseInt(val.replace('/Date(', '').replace(')/', ''))); val = new Date(Date.UTC(val.getFullYear(), val.getMonth(), val.getDate(), val.getHours(), val.getMinutes(), val.getSeconds(), val.getMilliseconds()));  }} if (!(val === undefined)) {{ fn.apply(this, [val]); }}}}}} else if (st == 5)
-{{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var obj=fn.apply(this); if (obj != null) {{ var val = {1}[sv]; if (!(val === undefined)) {{ obj.applyObject(val); }}}}}}}} else
+{{var fn=this['get_'+sd+'_'+sv];if (fn != null) {{ var obj=fn.apply(this); if (obj != null) {{ var val = {1}[sv]; if (val != null && !(val === undefined)) {{ obj.applyObject(val); }}}}}}}} else
 {{var fn=this['set_'+sd+'_'+sv];if (fn != null) {{ var val = {1}[sv]; if (!(val === undefined)) {{ fn.apply(this, [val]); }}}}}}", sp, o);
             }
         }
