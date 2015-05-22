@@ -16,6 +16,7 @@ namespace BL
         private String thumbnailImage;
         private String preferencesData;
         private Nullable<long> profileAppId;
+        private Operation ensureContentContainerOperation;
 
         private Operation userLoadedOperation;
         private bool isLoaded = false;
@@ -172,6 +173,75 @@ namespace BL
                 }
 
                 return this.UniqueKey;
+            }
+        }
+
+        public void EnsureContentContainer(AsyncCallback callback, object state)
+        {
+            if (!String.IsNullOrEmpty(this.ContentContainer))
+            {
+                if (callback != null)
+                {
+                    CallbackResult.NotifySynchronousSuccess(callback, state, this.ContentContainer);
+                }
+
+                return;
+            }
+
+            bool isNew = false;
+
+            if (this.ensureContentContainerOperation == null)
+            {
+                this.ensureContentContainerOperation = new Operation();
+                isNew = true;
+            }
+
+            this.ensureContentContainerOperation.CallbackStates.Add(CallbackState.Wrap(callback, state));
+
+            if (isNew)
+            {
+                XmlHttpRequest xhr = new XmlHttpRequest();
+
+                String endpoint = UrlUtilities.EnsurePathEndsWithSlash(Context.Current.WebServiceBasePath) + "api/ensurecontentcontainer";
+
+                if (this.UniqueKey != null)
+                {
+                    endpoint += "/user/" + this.UniqueKey;
+                }
+
+                xhr.Open("POST", endpoint);
+                xhr.SetRequestHeader("Accept", "application/json");
+                xhr.SetRequestHeader("Content-Type", "application/json");
+
+                this.ensureContentContainerOperation.Tag = xhr;
+                xhr.OnReadyStateChange = new Action(this.ContentContainerRetrieved);
+                xhr.Send("");
+            }
+        }
+
+        private void ContentContainerRetrieved()
+        {
+            XmlHttpRequest xhr = (XmlHttpRequest)this.ensureContentContainerOperation.Tag;
+
+            if (xhr != null && xhr.ReadyState == ReadyState.Loaded)
+            {
+                if (this.ensureContentContainerOperation != null)
+                {
+                    if (xhr.ResponseText.Length > 0)
+                    {
+                        EnsureContentContainerRequest ccc = new EnsureContentContainerRequest();
+
+                        ccc.LoadFromJson(xhr.ResponseText);
+
+                        if (!String.IsNullOrEmpty(ccc.ContentContainerId))
+                        {
+                            this.ContentContainer = ccc.ContentContainerId;
+                            
+                            this.ensureContentContainerOperation.CompleteAsAsyncDone(null);
+                            this.ensureContentContainerOperation = null;
+                        }
+                    }
+                }
             }
         }
 

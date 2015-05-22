@@ -238,12 +238,19 @@ namespace BL
 
         protected void NotifyPropertyChanged(String propertyName)
         {
+            this.OnPropertyChanged(propertyName);
+
             if (this.PropertyChanged != null)
             {
                 PropertyChangedEventArgs pcea = new PropertyChangedEventArgs(propertyName);
 
                 this.PropertyChanged(this, pcea);
             }
+        }
+
+        protected virtual void OnPropertyChanged(String propertyName)
+        {
+
         }
 
         protected void NotifyPropertyChangedWithValues(String propertyName, object previousValue, object newValue)

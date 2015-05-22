@@ -59,6 +59,7 @@
     <DocumentationFile>..\..\web\gs\baser\1.0\bl.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EnsureContentContainerRequest.cs" />
     <Compile Include="UserReferenceSet.cs" />
     <Compile Include="UserReferenceCollection.cs" />
     <Compile Include="Delegates.cs" />

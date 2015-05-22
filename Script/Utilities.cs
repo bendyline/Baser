@@ -13,6 +13,7 @@ namespace BL
         private static String versionHash;
         private static bool initialized;
 
+        private static RegularExpression EmailValidator;
         public static String GetString(object value)
         {
             return value.ToString();
@@ -23,6 +24,17 @@ namespace BL
             int indexOfAt = email.IndexOf("@");
 
             if (email.Length < 6 || indexOfAt <= 0)
+            {
+                return false;
+            }
+
+            if (EmailValidator == null)
+            {
+                Script.Literal(@"
+{0}=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{{|}}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{{0,61}}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{{0,61}}[a-zA-Z0-9])?)*$/", EmailValidator);                    
+            }
+
+            if (!EmailValidator.Test(email))
             {
                 return false;
             }
@@ -189,6 +201,15 @@ namespace BL
             }
 
             return hours.ToString();
+        }
+
+        public static int GetDayOfYear(Date compare)
+        {
+            Date firstDayOfYear = new Date(compare.GetFullYear(), 0, 1);
+
+            Int64 diff = compare.GetTime() - firstDayOfYear.GetTime();
+
+            return Math.Ceil(diff / (24 * 60 * 60 * 1000));
         }
 
         public static String GetFriendlyDateDescription(Date compare)
