@@ -508,7 +508,7 @@ namespace BL
 
             String userAgent = this.parsedUserAgent.ToLowerCase();
 
-            if (userAgent.IndexOf("iphone") >= 0)
+            if (userAgent.IndexOf("iphone") >= 0 || userAgent.IndexOf("ipad") >= 0)
             {
                 this.devicePlatform = DevicePlatform.iOS;
             }
@@ -533,7 +533,7 @@ namespace BL
                 this.isTablet = true;
                 this.isTouchOnly = true;
             }
-            else if (Window.InnerWidth < 600 || Window.InnerHeight < 400)
+            else if (Window.InnerWidth < 760 || Window.InnerHeight < 470)
             {
                 this.isSmallFormFactor = true;
             }
