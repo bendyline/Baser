@@ -14,19 +14,20 @@ namespace BL
         private const double EarthsRadius = 6371.009; // Earth's mean radius
         private const int MetersPerLatitudeDegree = 111133; // pi * 6,367,444 / 180
 
-        public static GeoBoundingBox BoundingBoxFromLatLong(double latitude, double longitude, double distance)
+        public static GeoBoundingBox BoundingBoxFromLatLong(double latitude, double longitude, double distanceInKm)
         {
             Geopoint point = new Geopoint();
+
             point.Latitude = latitude;
             point.Longitude = longitude;
 
-            return BoundingBoxFromPoint(point, distance);
+            return BoundingBoxFromPoint(point, distanceInKm);
         }
 
-        public static GeoBoundingBox BoundingBoxFromPoint(Geopoint point, double distance)
+        public static GeoBoundingBox BoundingBoxFromPoint(Geopoint point, double distanceInKm)
         {
-            Geopoint northwestPoint = GeoUtilities.GetDestination(point.Latitude, point.Longitude, distance, 315);
-            Geopoint southeastPoint = GeoUtilities.GetDestination(point.Latitude, point.Longitude, distance, 135);
+            Geopoint northwestPoint = GeoUtilities.GetDestination(point.Latitude, point.Longitude, distanceInKm, 315);
+            Geopoint southeastPoint = GeoUtilities.GetDestination(point.Latitude, point.Longitude, distanceInKm, 135);
 
             GeoBoundingBox gbb = new GeoBoundingBox();
 
@@ -108,13 +109,13 @@ namespace BL
             return EarthsRadius * c;
         }
 
-        public static Geopoint GetDestination(double latitude1, double longitude1, double distance, double bearing)
+        public static Geopoint GetDestination(double latitude1, double longitude1, double distanceInKm, double bearing)
         {
             double bearingRad = ConvertToRadians(bearing);
 
             Geopoint newLocation = new Geopoint();
 
-            double angularDistance = distance / EarthsRadius;
+            double angularDistance = distanceInKm / EarthsRadius;
 
             latitude1 = ConvertToRadians(latitude1);
             longitude1 = ConvertToRadians(longitude1);

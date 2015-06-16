@@ -32,6 +32,18 @@ namespace BL
             return lastPart;
         }
 
+        public static bool IsPathAbsolute(String url)
+        {
+            String firstThree = url.Substring(0, 2);
+
+            if (firstThree == "//" || firstThree == "ht")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
 
         public static String GetCanonicalBaseUrl(String url)
         {

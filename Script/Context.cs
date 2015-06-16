@@ -28,6 +28,9 @@ namespace BL
         private long tokenId;
         private String scriptLibraryTemplate;
 
+        private String mapKey = "pk.eyJ1IjoiYmVuZHltaWtlIiwiYSI6ImVkNmNlMzAyNjJiMzE2NzFiZTA1ODY5ZTQzYWJiOTgwIn0.9BmBOyDQplc6-XsttHIzgA";
+        private String mapId = "bendymike.a26dbfd9";
+
         private DevicePlatform devicePlatform;
 
         private bool isSmallFormFactor = false;
@@ -50,6 +53,31 @@ namespace BL
 
         private PropertyChangedEventHandler userPropertyChanged; 
 
+        public String MapKey
+        {
+            get
+            {
+                return this.mapKey;
+            }
+
+            set
+            {
+                this.mapKey = value;
+            }
+        }
+
+        public String MapId
+        {
+            get
+            {
+                return this.mapId;
+            }
+
+            set
+            {
+                this.mapId = value;
+            }
+        }
 
         public DevicePlatform DevicePlatform
         {
