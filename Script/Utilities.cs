@@ -203,6 +203,24 @@ namespace BL
             return hours.ToString();
         }
 
+        public static String LongToShortString(long number)
+        {
+            String result = null;
+            Script.Literal("{0}=IntToStr.fromInt({1})", result, number);
+
+            Debug.Assert(ShortStringToLong(result) == number);
+
+            return result;
+        }
+
+        public static long ShortStringToLong(String shortStringAsNumber)
+        {
+            long result = 0;
+            Script.Literal("{0}=IntToStr.toInt({1})", result, shortStringAsNumber);
+            return result;
+        }
+
+
         public static int GetDayOfYear(Date compare)
         {
             Date firstDayOfYear = new Date(compare.GetFullYear(), 0, 1);
