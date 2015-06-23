@@ -116,6 +116,23 @@ namespace BL
             }
         }
 
+        public static void NotifyAsynchronousSuccess(AsyncCallback doneCallback, object stateObject, object resultObject)
+        {
+            if (doneCallback == null)
+            {
+                return;
+            }
+
+            CallbackResult cr = new CallbackResult();
+
+            cr.AsyncState = stateObject;
+            cr.Data = resultObject;
+            cr.CompletedSynchronously = false;
+            cr.IsCompleted = true;
+
+            doneCallback(cr);
+        }
+
         public static void NotifySynchronousSuccess(AsyncCallback doneCallback, object stateObject, object resultObject)
         {
             if (doneCallback == null)
