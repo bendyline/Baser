@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="GeopointEvent.cs" />
     <Compile Include="EnsureContentContainerRequest.cs" />
+    <Compile Include="INotifyPropertyChanged.cs" />
     <Compile Include="Int64Event.cs" />
     <Compile Include="UserReferenceSet.cs" />
     <Compile Include="UserReferenceCollection.cs" />

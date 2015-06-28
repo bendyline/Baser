@@ -21,7 +21,7 @@ namespace BL
        s = string
        u = url (string)
      */
-    public partial class SerializableObject
+    public partial class SerializableObject : INotifyPropertyChanged
     {
         private SerializableType serializableType;
         protected bool isInitializedForSerialization;
