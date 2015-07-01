@@ -68,6 +68,18 @@ namespace BL
 
         }
 
+        public void NotifyComplete(object data, bool completedSynchronously)
+        {
+            CallbackResult cr = new CallbackResult();
+
+            cr.Data = data;
+            cr.IsCompleted = true;
+            cr.CompletedSynchronously = completedSynchronously;
+            cr.AsyncState = this.State;
+
+            this.Callback(cr);
+        }
+
         /// <summary>
         /// Helper function to construct a new callback state.
         /// </summary>
@@ -143,6 +155,7 @@ namespace BL
                 if (cs.Callback != null)
                 {
                     CallbackResult cr = new CallbackResult();
+
                     cr.CompletedSynchronously = result.CompletedSynchronously;
                     cr.IsCompleted = false;
                     cr.ErrorMessage = errorMessage;
