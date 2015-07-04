@@ -138,7 +138,7 @@ namespace BL
 
                 if (this.ThumbnailImage.StartsWith("[ir]"))
                 {
-                    return Context.Current.ResourceBasePath + "qla/images/" + this.ThumbnailImage.Substring(4, this.ThumbnailImage.Length);
+                    return Context.Current.ResourceBasePath + Context.Current.ImageResourceSubPath + this.ThumbnailImage.Substring(4, this.ThumbnailImage.Length);
                 }
                 else
                 {

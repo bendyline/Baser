@@ -40,6 +40,7 @@ namespace BL
         private Nullable<bool> isFullScreenWebApp;
 
         private String resourceBasePath = null;
+        private String imageResourceSubPath = null;
         private String webServiceBasePath = null;
         private String userContentBasePath = null;
         private User user;
@@ -272,6 +273,25 @@ namespace BL
                 this.resourceBasePath = value;
             }
         }
+
+        public String ImageResourceSubPath
+        {
+            get
+            {
+                if (this.imageResourceSubPath == null)
+                {
+                    this.imageResourceSubPath = String.Empty;
+                }
+
+                return this.imageResourceSubPath;
+            }
+
+            set
+            {
+                this.imageResourceSubPath = value;
+            }
+        }
+
         public String VersionToken
         {
             get
