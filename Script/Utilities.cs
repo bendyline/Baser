@@ -350,12 +350,16 @@ namespace BL
             return n;
         }
 
-
         public static String CreateRandomId()
+        {
+            return CreateRandomIdToLength(6);
+        }
+
+        public static String CreateRandomIdToLength(int length)
         {
             String id = String.Empty;
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < length; i++)
             {
                 int typeSwitch = Math.Random() % 8;
 
@@ -385,37 +389,6 @@ namespace BL
             }
 
             return str;
-        }
-
-        public static String GetRandomId()
-        {
-            String id = "";
-
-            for (int i = 0; i < 6; i++ )
-            {
-                Number choice = Math.Random() * 3;
-
-                if (choice < 1)
-                {
-                    int index = (int)(Math.Floor(Math.Random() * 26));
-
-                    id += String.FromCharCode(index + 65);
-                }
-                else if (choice < 2)
-                {
-                    int index = (int)(Math.Floor(Math.Random() * 26));
-
-                    id += String.FromCharCode(index + 97);
-                }
-                else 
-                {
-                    int index = (int)(Math.Floor(Math.Random() * 10));
-
-                    id += String.FromCharCode(index + 48);
-                }
-            }
-
-            return id;
         }
 
         public static String GetHMSMFromDateTime(Date dt)
