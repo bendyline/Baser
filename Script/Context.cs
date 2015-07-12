@@ -49,6 +49,8 @@ namespace BL
         private String activeHash = null;
         private Operation userSignoutOperation = null;
 
+        private int lastNavigateTime = -1;
+        private bool isAtRoot = true;
         public event PropertyChangedEventHandler UserChanged;
         public event StringEventHandler InternalNavigationChanged;
 
@@ -525,13 +527,24 @@ namespace BL
 
         public void NavigateToHome()
         {
-            if (Context.Current.UsingBrowserStackNavigation)
+            int now = Date.Now.GetTime();
+
+            if (now > this.lastNavigateTime + 400)
             {
-                Window.History.Go(-1);
-            }
-            else
-            {
-                this.NavigateInternal(null);
+                if (Context.Current.UsingBrowserStackNavigation)
+                {
+                    if (!this.isAtRoot)
+                    {
+                        this.isAtRoot = true;
+                        Window.History.Go(-1);
+                    }
+                }
+                else
+                {
+                    this.NavigateInternal(null);
+                }
+
+                this.lastNavigateTime = now;
             }
         }
 
@@ -544,7 +557,14 @@ namespace BL
         {
             if (this.InternalNavigationChanged != null)
             {
-                StringEventArgs sea = new StringEventArgs(this.GetInternalDestination());
+                String internalDestnation = this.GetInternalDestination();
+
+                if (internalDestnation != null && internalDestnation.Length > 2)
+                {
+                    this.isAtRoot = false;
+                }
+
+                StringEventArgs sea = new StringEventArgs(internalDestnation);
 
                 this.InternalNavigationChanged(this, sea);
             }
@@ -601,27 +621,35 @@ namespace BL
 
         public void NavigateInternal(String internalDestination)
         {
-            String hash = internalDestination;
+            int now = Date.Now.GetTime();
 
-            if (hash != null && initialHash.ToLowerCase() == hash.ToLowerCase())
+            if (now > this.lastNavigateTime + 400)
             {
-                hash += ".1";
-            }
+                this.lastNavigateTime = now;
 
-            if (!Context.Current.UsingBrowserStackNavigation)
-            {
-                activeHash = hash;
+                String hash = internalDestination;
 
-                this.FireInternalNavigationEvent();
-            }
-            else
-            {
-                activeHash = null;
+                if (hash != null && initialHash.ToLowerCase() == hash.ToLowerCase())
+                {
+                    hash += ".1";
+                }
 
-                // this should implicitly fire the hash change event, and therefore the internal navigation event.
-                Window.Location.Hash = hash;
+                if (!Context.Current.UsingBrowserStackNavigation)
+                {
+                    activeHash = hash;
+
+                    this.FireInternalNavigationEvent();
+                }
+                else
+                {
+                    activeHash = null;
+
+                    // this should implicitly fire the hash change event, and therefore the internal navigation event.
+                    Window.Location.Hash = hash;
+                }
             }
         }
+
         public String GetActiveInternalDestination()
         {
             String hashCanon = null;

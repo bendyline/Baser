@@ -48,7 +48,7 @@ namespace Bendyline.Base
         [Conditional("DEBUG")]
         public static void EnterScopeMessage(String id, String message)
         {
-            scopeStarts[id] = DateTime.Now.ToUniversalTime();
+            scopeStarts[id] = DateTime.UtcNow;
 
             if (message != null)
             {

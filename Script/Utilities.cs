@@ -234,6 +234,11 @@ namespace BL
         {
             Date now = Date.Now;
 
+            if (compare.GetTimezoneOffset() != now.GetTimezoneOffset())
+            {
+                compare.SetTime(compare.GetTime() + ((now.GetTimezoneOffset() - compare.GetTimezoneOffset()) * 60 * 1000));
+            }
+
             long nowTime = (long)now.GetTime() / 1000;
             long compareTime = (long)compare.GetTime() / 1000;
 

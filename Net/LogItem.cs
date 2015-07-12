@@ -103,7 +103,7 @@ namespace Bendyline.Base
 
         public LogItem(String message, RichContentDocument document, LogStatus status, double timeTaken, object details)
         {
-            this.created = DateTime.Now.ToUniversalTime();
+            this.created = DateTime.UtcNow;
             this.message = message;
             this.document = document;
             this.status = status;
