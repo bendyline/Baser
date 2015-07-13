@@ -331,14 +331,25 @@ namespace BL
         public static String GetStaticDateTimeValue(Date date)
         {
             String minutesStr = date.GetMinutes().ToString();
+            int hours = date.GetHours();
 
             while (minutesStr.Length < 2)
             {
                 minutesStr = "0" + minutesStr;
             }
 
-            
-            return GetStaticDateValue(date) + " at " + GetHours(date) + ":" + minutesStr;
+            String ampmStr = null;
+
+            if (hours >= 12)
+            {
+                ampmStr = "pm";
+            }
+            else
+            {
+                ampmStr = "am";
+            }
+           
+            return GetStaticDateValue(date) + " at " + GetHours(date) + ":" + minutesStr + " " + ampmStr;
         }
 
         public static String GetStaticDateValue(Date date)
