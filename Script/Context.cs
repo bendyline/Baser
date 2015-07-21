@@ -183,6 +183,11 @@ namespace BL
             {
                 if (this.isFullScreenWebApp == null)
                 {
+                    if (Context.Current.IsHostedInApp)
+                    {
+                        this.isFullScreenWebApp = true;
+                    }
+
                     Script.Literal("{0}=((\"standalone\" in window.navigator) && window.navigator.standalone)", this.isFullScreenWebApp);
                 }
 
@@ -477,6 +482,11 @@ namespace BL
                 this.initialHash = Window.Location.Hash.Substring(1, Window.Location.Hash.Length).ToLowerCase();
             }
 
+            if (!String.IsNullOrEmpty(Window.Location.Hash))
+            {
+                this.isAtRoot = false;
+            }
+
             this.userPropertyChanged = new PropertyChangedEventHandler(this.HandleUserPropertyChanged);
 
             this.ParseUserAgent();
@@ -557,14 +567,14 @@ namespace BL
         {
             if (this.InternalNavigationChanged != null)
             {
-                String internalDestnation = this.GetInternalDestination();
+                String internalDestination = this.GetInternalDestination();
 
-                if (internalDestnation != null && internalDestnation.Length > 2)
+                if (internalDestination != null && internalDestination.Length > 2)
                 {
                     this.isAtRoot = false;
                 }
 
-                StringEventArgs sea = new StringEventArgs(internalDestnation);
+                StringEventArgs sea = new StringEventArgs(internalDestination);
 
                 this.InternalNavigationChanged(this, sea);
             }
@@ -629,6 +639,11 @@ namespace BL
 
                 String hash = internalDestination;
 
+                if (hash != null)
+                {
+                    hash = "!" + hash;
+                }
+
                 if (hash != null && initialHash.ToLowerCase() == hash.ToLowerCase())
                 {
                     hash += ".1";
@@ -665,6 +680,10 @@ namespace BL
                 hashCanon = hashCanon.Substring(1, hashCanon.Length);
             }
 
+            if (hashCanon.CharAt(0) == '!')
+            {
+                hashCanon = hashCanon.Substring(1, hashCanon.Length);
+            }
             return hashCanon;
         }
 
