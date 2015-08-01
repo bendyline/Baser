@@ -27,7 +27,13 @@ namespace BL
         /// </summary>
         bool IsCompleted { get; set; }
 
-       /// <summary>
+        bool IsError { get; }
+
+        String ErrorCode { get; set; }
+
+        String ErrorMessage { get; set; }
+
+        /// <summary>
        /// Indicates whether the call was completed immediately or not.
        /// </summary>
         bool CompletedSynchronously { get; set; }

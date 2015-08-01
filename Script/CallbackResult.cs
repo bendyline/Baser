@@ -16,7 +16,29 @@ namespace BL
         private bool isCompleted;
         private object tag;
         private object data;
+        private String errorCode = null;
         private String errorMessage;
+
+        public bool IsError
+        {
+            get
+            {
+                return this.errorCode != null;
+            }
+        }
+
+        public String ErrorCode
+        {
+            get
+            {
+                return this.errorCode;
+            }
+
+            set
+            {
+                this.errorCode = value;
+            }
+        }
 
         /// <summary>
         /// Returns a human-readable error message that came from this operation.

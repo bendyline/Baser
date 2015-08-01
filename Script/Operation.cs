@@ -49,6 +49,19 @@ namespace BL
             }
         }
 
+        public void CompleteAsAsyncError(object data, String errorCode, String errorMessage)
+        {
+            CallbackResult cr = new CallbackResult();
+
+            cr.IsCompleted = true;
+            cr.CompletedSynchronously = true;
+            cr.Data = data;
+            cr.ErrorCode = errorCode;
+            cr.ErrorMessage = errorMessage;
+
+            this.Complete(cr);
+        }
+
         public void CompleteAsAsyncDone(object data)
         {
             CallbackResult cr = new CallbackResult();

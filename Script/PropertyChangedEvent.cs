@@ -39,6 +39,14 @@ namespace BL
             }
         }
 
+        public bool AllProperties
+        {
+            get
+            {
+                return this.PropertyName == "*";
+            }
+        }
+
         public String PropertyName
         {
             get { return this.propertyName; }
@@ -49,6 +57,7 @@ namespace BL
         {
             this.propertyName = propertyName;
         }       
+
 
         public static PropertyChangedEventArgs All
         {

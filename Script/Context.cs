@@ -23,6 +23,7 @@ namespace BL
         private String versionHash;
         private String userUniqueKey;
         private String feedbackUrl;
+        private String secondaryFeedbackUrl;
         private int expId;
         private Nullable<long> userId;
         private long tokenId;
@@ -332,6 +333,24 @@ namespace BL
             set
             {
                 this.feedbackUrl = value;
+            }
+        }
+
+        public String SecondaryFeedbackUrl
+        {
+            get
+            {
+                if (this.secondaryFeedbackUrl == null)
+                {
+                    this.secondaryFeedbackUrl = String.Empty;
+                }
+
+                return this.secondaryFeedbackUrl;
+            }
+
+            set
+            {
+                this.secondaryFeedbackUrl = value;
             }
         }
 
@@ -736,7 +755,7 @@ namespace BL
         }
 
 
-        public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash, String feedbackUrl, String scriptLibraryTemplate)
+        public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash, String feedbackUrl, String secondaryFeedbackUrl, String scriptLibraryTemplate)
         {
             Context pc = Context.Current;
 
@@ -745,6 +764,7 @@ namespace BL
             pc.UserContentBasePath = userContentBasePath;
             pc.VersionToken = versionHash;
             pc.FeedbackUrl = feedbackUrl;
+            pc.SecondaryFeedbackUrl = secondaryFeedbackUrl;
             pc.ScriptLibraryTemplate = scriptLibraryTemplate;
 
             // Script.Literal("requirejs.config({{paths:{{bl:{0} }} }});", resourceBasePath);

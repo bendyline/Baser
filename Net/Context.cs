@@ -10,6 +10,7 @@ namespace Bendyline.Base
     public class Context
     {
         private String feedbackUrl;
+        private String secondaryFeedbackUrl;
         private String contentBasePath;
         private String resourceBasePath;
         private String webServiceBasePath;
@@ -110,6 +111,13 @@ namespace Bendyline.Base
                 return feedbackUrl;
             }
         }
+        public String SecondaryFeedbackUrl
+        {
+            get
+            {
+                return secondaryFeedbackUrl;
+            }
+        }
 
         public Context()
         {
@@ -138,6 +146,11 @@ namespace Bendyline.Base
             if (ConfigurationManager.AppSettings["feedbackUrl"] != null)
             {
                 feedbackUrl = ConfigurationManager.AppSettings["feedbackUrl"];
+            }
+
+            if (ConfigurationManager.AppSettings["secondaryFeedbackUrl"] != null)
+            {
+                secondaryFeedbackUrl = ConfigurationManager.AppSettings["secondaryFeedbackUrl"];
             }
 
             if (ConfigurationManager.AppSettings["webServiceBasePath"] != null)
