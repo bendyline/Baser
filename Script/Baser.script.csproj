@@ -56,9 +56,9 @@
     <LangVersion>ISO-2</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>Properties\FxCop.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\..\web\gs\baser\1.0\bl.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="WebRequest.cs" />
     <Compile Include="GeopointEvent.cs" />
     <Compile Include="EnsureContentContainerRequest.cs" />
     <Compile Include="INotifyPropertyChanged.cs" />
@@ -121,6 +121,10 @@
   <ItemGroup>
     <Reference Include="Script.Web">
       <HintPath>..\..\packages\ScriptSharp.Lib.HTML.0.7.5.0\lib\Script.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Script.jQuery">
+      <HintPath>..\..\packages\ScriptSharp.Lib.jQuery.0.7.5.0\lib\Script.jQuery.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

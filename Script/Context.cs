@@ -527,6 +527,9 @@ namespace BL
             if (isNew)
             {
                 XmlHttpRequest xhr = new XmlHttpRequest();
+
+                WebRequest.SendWithCredentials(xhr);
+
                 this.userSignoutOperation.Tag = xhr;
                 String endpoint = UrlUtilities.EnsurePathEndsWithSlash(Context.Current.WebServiceBasePath) + "api/signout/";
 
@@ -617,10 +620,6 @@ namespace BL
                 {
                     this.isTablet = true;
                 }
-                else
-                {
-                    this.isSmallFormFactor = true;
-                }
 
                 this.isTouchOnly = true;
             }
@@ -630,7 +629,8 @@ namespace BL
                 this.isTablet = true;
                 this.isTouchOnly = true;
             }
-            else if (Window.InnerWidth < 760 || Window.InnerHeight < 470)
+
+            if (Window.InnerWidth < 760 || Window.InnerHeight < 470)
             {
                 this.isSmallFormFactor = true;
             }
