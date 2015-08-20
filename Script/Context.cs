@@ -51,11 +51,33 @@ namespace BL
         private Operation userSignoutOperation = null;
 
         private int lastNavigateTime = -1;
+        private int onScreenKeyboardHeight = 0;
         private bool isAtRoot = true;
         public event PropertyChangedEventHandler UserChanged;
         public event StringEventHandler InternalNavigationChanged;
 
         private PropertyChangedEventHandler userPropertyChanged; 
+
+        public int OnScreenKeyboardHeight
+        {
+            get
+            {
+                return this.onScreenKeyboardHeight;
+            }
+
+            set
+            {
+                this.onScreenKeyboardHeight = value;
+            }
+        }
+
+        public bool IsOnscreenKeyboardDevice
+        {
+            get
+            {
+                return this.IsTouchOnly;
+            }
+        }
 
         public String MapKey
         {
@@ -621,12 +643,17 @@ namespace BL
                     this.isTablet = true;
                 }
 
+                this.onScreenKeyboardHeight = Window.InnerHeight / 2;
+
                 this.isTouchOnly = true;
             }
             // identify android tablets via user agent containing android but NOT mobile. 
             else if ((userAgent.IndexOf("android") >= 0 || userAgent.IndexOf("silk") >= 0) && userAgent.IndexOf("mobi") < 0)
             {
                 this.isTablet = true;
+
+                this.onScreenKeyboardHeight = Window.InnerHeight / 3;
+
                 this.isTouchOnly = true;
             }
 
