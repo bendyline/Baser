@@ -14,6 +14,7 @@ namespace BL
     /// </summary>
     public class UserReference : SerializableObject
     {
+        private Nullable<long> id;
         private String uniqueKey;
         private String nickName;
         private UserReferenceType type;
@@ -30,12 +31,27 @@ namespace BL
                 this.type = value;
             }
         }
+      
+        public Nullable<long> Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                if (this.id == value)
+                {
+                    return;
+                }
 
-        /// <summary>
-        /// NOTE NOTE: On the server, Id is a long.  But on the client, it's a string comprised of UniqueKey.
-        /// The client should never see longs.
-        /// </summary>
-        [ScriptName("s_id")]
+                this.id = value;
+
+                this.NotifyPropertyChanged("Id");
+            }
+        }
+
+        [ScriptName("s_uniqueKey")]
         public String UniqueKey
         {
             get
@@ -51,7 +67,7 @@ namespace BL
 
                 this.uniqueKey = value;
 
-                this.NotifyPropertyChanged("Id");
+                this.NotifyPropertyChanged("UniqueKey");
             }
         }
 

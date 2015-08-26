@@ -7,7 +7,8 @@ namespace BL
     public class UserManager 
     {
         private static UserManager current;
-        private Dictionary<String, User> users;
+        private Dictionary<String, User> usersByUniqueKey;
+        private Dictionary<long, User> usersById;
 
         public static UserManager Current
         {
@@ -24,24 +25,49 @@ namespace BL
 
         public UserManager()
         {
-            this.users = new Dictionary<string, User>();
+            this.usersByUniqueKey = new Dictionary<string, User>();
+            this.usersById = new Dictionary<long, User>();
         }
 
         public void AddUser(User user)
         {
-            this.users[user.UniqueKey] = user;
+            if (user.UniqueKey != null)
+            {
+                this.usersByUniqueKey[user.UniqueKey] = user;
+            }
+
+            if (user.Id != null)
+            {
+                this.usersById[(long)user.Id] = user;
+            }
         }
 
-        public User EnsureUser(String id)
+        public User EnsureUserById(long id)
         {
-            if (this.users.ContainsKey(id))
+            if (this.usersById.ContainsKey(id))
             {
-                return this.users[id];
+                return this.usersById[id];
             }
 
             User user = new User();
 
-            user.UniqueKey = id;
+            user.Id = id;
+
+            this.AddUser(user);
+
+            return user;
+        }
+
+        public User EnsureUserByUniqueKey(String uniqueKey)
+        {
+            if (this.usersByUniqueKey.ContainsKey(uniqueKey))
+            {
+                return this.usersByUniqueKey[uniqueKey];
+            }
+
+            User user = new User();
+
+            user.UniqueKey = uniqueKey;
 
             this.AddUser(user);
 

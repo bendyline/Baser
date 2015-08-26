@@ -138,7 +138,7 @@ namespace BL
 
                 if (this.ThumbnailImage.StartsWith("[ir]"))
                 {
-                    return Context.Current.ResourceBasePath + Context.Current.ImageResourceSubPath + this.ThumbnailImage.Substring(4, this.ThumbnailImage.Length);
+                    return Context.Current.EffectiveSecondaryResourceBasePath + Context.Current.ImageResourceSubPath + this.ThumbnailImage.Substring(4, this.ThumbnailImage.Length);
                 }
                 else
                 {
@@ -251,7 +251,7 @@ namespace BL
         {
             if (this.UniqueKey == null)
             {
-                throw new Exception("ID is not set.");
+                throw new Exception("Unique Key is not set.");
             }
 
             bool isNew = false;

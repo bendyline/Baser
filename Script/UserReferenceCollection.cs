@@ -11,7 +11,7 @@ namespace BL
     public class UserReferenceCollection : ISerializableCollection, IEnumerable, INotifyCollectionAndStateChanged
     {
         private ArrayList userReferences;
-        private Dictionary<String, UserReference> userReferencesById;
+        private Dictionary<String, UserReference> userReferencesByUniqueKey;
         
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
@@ -39,12 +39,12 @@ namespace BL
         public UserReferenceCollection()
         {
             this.userReferences = new ArrayList();
-            this.userReferencesById = new Dictionary<String, UserReference>();
+            this.userReferencesByUniqueKey = new Dictionary<String, UserReference>();
         }
 
         public void RemoveById(String id)
         {
-            UserReference uref = this.userReferencesById[id];
+            UserReference uref = this.userReferencesByUniqueKey[id];
 
             this.Remove(uref);
         }
@@ -53,13 +53,13 @@ namespace BL
         {
             if (userReference != null)
             {
-                this.userReferencesById[userReference.UniqueKey] = null;
+                this.userReferencesByUniqueKey[userReference.UniqueKey] = null;
 
                 for (int i=0; i<this.userReferences.Count; i++)
                 {
                     UserReference ur = (UserReference)this.userReferences[i];
 
-                    if (ur.UniqueKey == userReference.UniqueKey)
+                    if (ur.Id == userReference.Id || ur.UniqueKey == userReference.UniqueKey)
                     {
                         this.userReferences.Remove(ur);
                     }
@@ -74,13 +74,13 @@ namespace BL
 
         public UserReference GetById(String id)
         {
-            return this.userReferencesById[id];
+            return this.userReferencesByUniqueKey[id];
         }
 
         public void Clear()
         {
             this.userReferences.Clear();
-            this.userReferencesById.Clear();
+            this.userReferencesByUniqueKey.Clear();
         }
 
         public SerializableObject Create()
@@ -94,7 +94,7 @@ namespace BL
         {
             this.userReferences.Add(userReference);
 
-            this.userReferencesById[((UserReference)userReference).UniqueKey] = (UserReference)userReference;
+            this.userReferencesByUniqueKey[((UserReference)userReference).UniqueKey] = (UserReference)userReference;
 
             if (this.CollectionChanged != null)
             {

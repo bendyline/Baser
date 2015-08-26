@@ -2,6 +2,7 @@
     You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. */
 
 using System;
+using System.Collections.Generic;
 using System.Html;
 using System.Net;
 
@@ -10,7 +11,10 @@ namespace BL
     public enum DevicePlatform
     {
         Unknown = 0,
-        iOS = 1
+        iOS = 1,
+        Chrome = 2,
+        Firefox = 3,
+        Microsoft = 4
     }
 
     /// <summary>
@@ -18,6 +22,9 @@ namespace BL
     /// </summary>
     public class Context 
     {
+        private Dictionary<String, User> usersByUniqueKey;
+        private Dictionary<long, User> usersById;
+
         private String parsedUserAgent = null;
         private static Context current = new Context();
         private String versionHash;
@@ -34,13 +41,13 @@ namespace BL
 
         private DevicePlatform devicePlatform;
 
-        private bool isSmallFormFactor = false;
         private bool isHostedInApp = false;
         private bool isTouchOnly = false;
         private bool isTablet = false;
         private Nullable<bool> isFullScreenWebApp;
 
         private String resourceBasePath = null;
+        private String secondaryResourceBasePath = null;
         private String imageResourceSubPath = null;
         private String webServiceBasePath = null;
         private String userContentBasePath = null;
@@ -276,13 +283,38 @@ namespace BL
         {
             get
             {
-                return this.isSmallFormFactor;
+                return (Window.InnerWidth <= 767 || Window.InnerHeight <= 479);
+            }
+        }
+
+        public String EffectiveSecondaryResourceBasePath
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(this.secondaryResourceBasePath))
+                {
+                    return this.resourceBasePath;
+                }
+
+                return this.secondaryResourceBasePath;
+            }
+        }
+
+        public String SecondaryResourceBasePath
+        {
+            get
+            {
+                if (this.secondaryResourceBasePath == null)
+                {
+                    this.secondaryResourceBasePath = String.Empty;
+                }
+
+                return this.secondaryResourceBasePath;
             }
 
-            // note: this is set in JS in the app.
             set
             {
-                this.isSmallFormFactor = value;
+                this.secondaryResourceBasePath = value;
             }
         }
 
@@ -490,7 +522,7 @@ namespace BL
                     }
                     else
                     {
-                        this.EnsureUserByUniqueKey(this.userUniqueKey);
+                        this.User = this.EnsureUserByUniqueKey(this.userUniqueKey);
                     }
                 }
             }
@@ -500,6 +532,11 @@ namespace BL
         {
             get
             {
+                if (this.user != null)
+                {
+                    return this.user.Id;
+                }
+
                 return this.userId;
             }
 
@@ -511,12 +548,27 @@ namespace BL
                 }
 
                 this.userId= value;
+
+                if ((this.user == null && this.userId != null) || (this.user != null && this.userId != this.user.Id))
+                {
+                    if (this.userId == null)
+                    {
+                        this.User = null;
+                    }
+                    else
+                    {
+                        this.User = this.EnsureUserById((long)this.userId);
+                    }
+                }
             }
         }
 
         public Context()
         {
             Window.AddEventListener("hashchange", this.HandleHashChange);
+
+            this.usersByUniqueKey = new Dictionary<string, User>();
+            this.usersById = new Dictionary<long, User>();
 
             if (this.initialHash == null)
             {
@@ -533,6 +585,24 @@ namespace BL
             this.ParseUserAgent();
         }
 
+        public void SetUserUniqueKeyAndId(String uniqueKey, Nullable<long> id)
+        {
+            this.userUniqueKey = uniqueKey;
+            this.userId = id;
+
+            User u  = this.EnsureUserByUniqueKey(this.userUniqueKey);
+            u.Id = id;
+
+            if (id != null)
+            {
+                if (this.usersById[(long)id] == null)
+                {
+                    this.usersById[(long)id] = this.User;
+                }
+            }
+
+            this.User = u;
+        }
 
         public void SignoutUser(AsyncCallback callback, object state)
         {
@@ -634,6 +704,15 @@ namespace BL
             {
                 this.devicePlatform = DevicePlatform.iOS;
             }
+            else if (userAgent.IndexOf("edge/") >= 0 || userAgent.IndexOf("trident") >= 0)
+            {
+                this.devicePlatform = DevicePlatform.Microsoft;
+            }
+            else if (userAgent.IndexOf("chrome/") >= 0)
+            {
+                this.devicePlatform = DevicePlatform.Chrome;
+            }
+
 
             // per comment at https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
             if (userAgent.IndexOf("mobi") >= 0)
@@ -655,11 +734,6 @@ namespace BL
                 this.onScreenKeyboardHeight = Window.InnerHeight / 3;
 
                 this.isTouchOnly = true;
-            }
-
-            if (Window.InnerWidth < 760 || Window.InnerHeight < 470)
-            {
-                this.isSmallFormFactor = true;
             }
         }
 
@@ -766,19 +840,36 @@ namespace BL
             return this.User;
         }
 
-        public User EnsureUserByUniqueKey(String userId)
+        public User EnsureUserByUniqueKey(String userUniqueKey)
         {
-            if (this.User == null)
+            if (this.usersByUniqueKey[userUniqueKey] == null)
             {
                 User user = new User();
 
-                user.UniqueKey = userId;
-                this.userUniqueKey = userId;
+                user.UniqueKey = userUniqueKey;
 
-                this.User = user;
+                this.usersByUniqueKey[userUniqueKey] = user;
+
+                return user;
             }
 
-            return this.User;
+            return this.usersByUniqueKey[userUniqueKey];
+        }
+
+        public User EnsureUserById(long userId)
+        {
+            if (this.usersById[userId] == null)
+            {
+                User user = new User();
+
+                user.Id = userId;
+
+                this.usersById[userId] = user;
+
+                return user;
+            }
+
+            return this.usersById[userId];
         }
 
 
@@ -803,8 +894,8 @@ namespace BL
 
             pc.ExpId = expId;
             pc.TokenId = tokenId;
-            pc.UserUniqueKey = userKey;
-            pc.UserId = userId;
+
+            pc.SetUserUniqueKeyAndId(userKey, userId);
         }
     }
 }
