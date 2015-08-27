@@ -267,7 +267,7 @@ namespace BL
             {
                 // using browser-based navigation on iOS causes left-page-swipe and right-page-swipe behaviors to 
                 // show up so we don't want to use it there.
-                return Context.Current.DevicePlatform != DevicePlatform.iOS;
+                return Context.Current.DevicePlatform != DevicePlatform.iOS && !this.IsHostedInApp;
             }
         }
 
