@@ -14,7 +14,8 @@ namespace BL
         iOS = 1,
         Chrome = 2,
         Firefox = 3,
-        Microsoft = 4
+        Microsoft = 4,
+        MacSafari = 5
     }
 
     /// <summary>
@@ -711,6 +712,10 @@ namespace BL
             else if (userAgent.IndexOf("chrome/") >= 0)
             {
                 this.devicePlatform = DevicePlatform.Chrome;
+            }
+            else if (userAgent.IndexOf("safari/") >= 0)
+            {
+                this.devicePlatform = DevicePlatform.MacSafari;
             }
 
 
