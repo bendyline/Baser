@@ -431,7 +431,7 @@ namespace BL
         {
             get
             {       
-                return Math.Min(Window.Screen.Height, Window.InnerHeight);
+                return Math.Min(Window.Screen.AvailHeight, Window.InnerHeight);
             }
         }
         public int BrowserInnerWidth
