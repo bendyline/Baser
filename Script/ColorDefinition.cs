@@ -11,6 +11,20 @@ namespace BL
         private int red = 0;
         private int green = 0;
         private int blue = 0;
+        private Nullable<double> alpha = null;
+
+        public Nullable<double> Alpha
+        {
+            get
+            {
+                return this.alpha;
+            }
+
+            set
+            {
+                this.alpha = value;
+            }
+        }
 
         /// <summary>
         /// Red value of the color.
@@ -189,6 +203,22 @@ namespace BL
             cd.Blue = this.Blue + (int)(this.Blue * percentageDifference);
             
             return cd;
+        }
+
+        public String ToRGBAString()
+        {
+            String result = "rgba(";
+
+            result += this.Red + "," + this.Green + "," + this.Blue;
+
+            if (this.alpha != null)
+            {
+                result += "," + this.alpha;
+            }
+
+            result += ")";
+
+            return result;
         }
 
         public override string ToString()
