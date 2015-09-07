@@ -214,12 +214,14 @@ namespace BL
             {
                 if (this.isFullScreenWebApp == null)
                 {
-                    if (Context.Current.IsHostedInApp)
+                    if (Context.Current.IsHostedInApp && Context.Current.DevicePlatform == DevicePlatform.iOS)
                     {
                         this.isFullScreenWebApp = true;
                     }
-
-                    Script.Literal("{0}=((\"standalone\" in window.navigator) && window.navigator.standalone)", this.isFullScreenWebApp);
+                    else
+                    {
+                        Script.Literal("{0}=((\"standalone\" in window.navigator) && window.navigator.standalone)", this.isFullScreenWebApp);
+                    }
                 }
 
                 return (bool)isFullScreenWebApp;
