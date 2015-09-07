@@ -591,18 +591,25 @@ namespace BL
             this.userUniqueKey = uniqueKey;
             this.userId = id;
 
-            User u  = this.EnsureUserByUniqueKey(this.userUniqueKey);
-            u.Id = id;
-
-            if (id != null)
+            if (id != null || uniqueKey != null)
             {
-                if (this.usersById[(long)id] == null)
-                {
-                    this.usersById[(long)id] = this.User;
-                }
-            }
+                User u = this.EnsureUserByUniqueKey(this.userUniqueKey);
+                u.Id = id;
 
-            this.User = u;
+                if (id != null)
+                {
+                    if (this.usersById[(long)id] == null)
+                    {
+                        this.usersById[(long)id] = this.User;
+                    }
+                }
+
+                this.User = u;
+            }
+            else
+            {
+                this.User = null;
+            }
         }
 
         public void SignoutUser(AsyncCallback callback, object state)
