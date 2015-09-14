@@ -63,8 +63,36 @@ namespace BL
         private bool isAtRoot = true;
         public event PropertyChangedEventHandler UserChanged;
         public event StringEventHandler InternalNavigationChanged;
+        public event BooleanEventHandler AuthenticatedChanged;
 
-        private PropertyChangedEventHandler userPropertyChanged; 
+        private PropertyChangedEventHandler userPropertyChanged;
+
+        private bool isAuthenticated = false;
+
+        public bool IsAuthenticated
+        {
+            get
+            {
+                return this.isAuthenticated;
+            }
+
+            set
+            {
+                if (this.isAuthenticated == value)
+                {
+                    return;
+                }
+
+                this.isAuthenticated = value;
+
+                if (this.AuthenticatedChanged != null)
+                {
+                    BooleanEventArgs bea = new BooleanEventArgs(value);
+
+                    this.AuthenticatedChanged(this, bea);
+                }
+            }
+        }
 
         public int OnScreenKeyboardHeight
         {
