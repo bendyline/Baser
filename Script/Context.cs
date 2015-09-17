@@ -229,7 +229,7 @@ namespace BL
             {
                 if (this.IsFullScreenWebApp)
                 {
-                    return 18;
+                    return 20; // hardcoded to the iOS value of Window.ScreenHeight-Window.InnerHeight;
                 }
 
                 return 0;
@@ -460,7 +460,12 @@ namespace BL
         public int BrowserInnerHeight
         {
             get
-            {       
+            {
+                if (this.IsFullScreenWebApp)
+                {
+                    return Window.Screen.Height;
+                }       
+
                 return Math.Min(Window.Screen.AvailHeight, Window.InnerHeight);
             }
         }
@@ -764,7 +769,7 @@ namespace BL
                     this.isTablet = true;
                 }
 
-                this.onScreenKeyboardHeight = Window.InnerHeight / 2;
+                this.onScreenKeyboardHeight = Window.InnerHeight / 3;
 
                 this.isTouchOnly = true;
             }
