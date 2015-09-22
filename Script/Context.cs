@@ -769,7 +769,7 @@ namespace BL
                     this.isTablet = true;
                 }
 
-                this.onScreenKeyboardHeight = Window.InnerHeight / 3;
+                this.onScreenKeyboardHeight = Window.InnerHeight / 2;
 
                 this.isTouchOnly = true;
             }
