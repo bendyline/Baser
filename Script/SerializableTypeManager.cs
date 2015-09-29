@@ -64,7 +64,7 @@ namespace BL
                 this.serializableTypes[typeName] = st;
             }
 
-            Debug.Assert(st != null);
+            Debug.Assert(st != null, "Could not find type " + typeName);
 
             return st;
         }
@@ -88,7 +88,7 @@ namespace BL
                 this.serializableTypes[typeName] = st;
             }
 
-            Debug.Assert(st != null);
+            Debug.Assert(st != null, "Could not find type " + typeName);
 
             return st;
         }

@@ -248,7 +248,11 @@ namespace BL
                     }
                     else
                     {
-                        Script.Literal("{0}=((\"standalone\" in window.navigator) && window.navigator.standalone)", this.isFullScreenWebApp);
+                        // in iOS 9 full screen web apps are no longer full screen in the sense that they take up the entire screen including the 
+                        // top area where cell phone strength typically is.  So disable this check (for now?)
+
+                        this.isFullScreenWebApp = false;                       
+                      //  Script.Literal("{0}=((\"standalone\" in window.navigator) && window.navigator.standalone)", this.isFullScreenWebApp);
                     }
                 }
 

@@ -130,7 +130,7 @@ namespace BL
         {
             SerializableProperty sp = this.SerializableType.GetProperty(propertyName);
 
-            Debug.Assert(sp != null);
+            Debug.Assert(sp != null, "Could not find property " + propertyName +" on type " + this.SerializableType.TagName);
 
             if (sp == null)
             {
