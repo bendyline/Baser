@@ -53,6 +53,18 @@ namespace Bendyline.Base
             return true;
         }
 
+        public static String PrePadZeroes(int number, int length)
+        {
+            String result = number.ToString();
+
+            while (result.Length < length)
+            {
+                result = "0" + result;
+            }
+
+            return result;
+        }
+
         public static bool IsBasicLetterDigitOrSimplePunctuation(String path)
         {
             foreach (char c in path)
