@@ -155,6 +155,23 @@ namespace BL
             doneCallback(cr);
         }
 
+        public static void NotifySynchronousFailure(AsyncCallback doneCallback, object stateObject, String errorCode)
+        {
+            if (doneCallback == null)
+            {
+                return;
+            }
+
+            CallbackResult cr = new CallbackResult();
+
+            cr.AsyncState = stateObject;
+            cr.CompletedSynchronously = true;
+            cr.IsCompleted = false;
+            cr.ErrorCode = errorCode;
+
+            doneCallback(cr);
+        }
+
         public static void NotifySynchronousSuccess(AsyncCallback doneCallback, object stateObject, object resultObject)
         {
             if (doneCallback == null)
