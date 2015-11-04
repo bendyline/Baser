@@ -201,6 +201,8 @@ namespace BL
             cd.Red = this.Red + (int)(this.Red * percentageDifference);            
             cd.Green = this.Green + (int)(this.Green * percentageDifference);
             cd.Blue = this.Blue + (int)(this.Blue * percentageDifference);
+
+            cd.Alpha = this.alpha;
             
             return cd;
         }
