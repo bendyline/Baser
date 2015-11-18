@@ -19,7 +19,7 @@ namespace Bendyline.Base
 
         void OutputHelp();
         bool Validate();
-        void Execute();
+        CommandResult Execute();
         void Dispose();
     }
 }

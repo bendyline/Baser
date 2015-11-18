@@ -106,7 +106,9 @@ namespace Bendyline.Base
 
             logRecords.AppendLine(prefix + e.Item.Message);
 
-            logHtmlRecords.AppendLine(htmlPrefix + e.Item.Message + "</div>");
+            String htmlContent = e.Item.Message.Replace("\r\n", "<br/>");
+
+            logHtmlRecords.AppendLine(htmlPrefix + htmlContent + "</div>");
 
             Console.WriteLine(prefix + e.Item.Message);
 

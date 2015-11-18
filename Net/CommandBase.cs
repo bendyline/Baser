@@ -11,7 +11,7 @@ namespace Bendyline.Base
     public abstract class CommandBase : ICommand
     {
         public abstract bool Validate();
-        public abstract void Execute();
+        public abstract CommandResult Execute();
         public abstract void LoadFromSettings(Dictionary<String, String> settings);
         
         public abstract String Id

@@ -54,6 +54,7 @@
     <Compile Include="CallbackResult.cs" />
     <Compile Include="CallbackState.cs" />
     <Compile Include="ColorDefinition.cs" />
+    <Compile Include="CommandResult.cs" />
     <Compile Include="CommandBase.cs" />
     <Compile Include="CommandLineLogger.cs" />
     <Compile Include="Context.cs" />
