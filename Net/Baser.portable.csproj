@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AE2B5E9E-F1F5-41F8-8B6F-FEF994AB4353}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bendyline.Base</RootNamespace>
+    <AssemblyName>Bendyline.Base.portable</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\out\portablebin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BooleanEvent.cs" />
+    <Compile Include="ErrorAction.cs" />
+    <Compile Include="GeoBoundingBox.cs" />
+    <Compile Include="Geopoint.cs" />
+    <Compile Include="GeopointEvent.cs" />
+    <Compile Include="GeoUtilities.cs" />
+    <Compile Include="HttpRequest.cs" />
+    <Compile Include="INotifyCollectionAndStateChanged.cs" />
+    <Compile Include="INotifyCollectionChanged.cs" />
+    <Compile Include="JsonUtilities.cs" />
+    <Compile Include="NotifyCollectionChangedAction.cs" />
+    <Compile Include="NotifyCollectionChangedEvent.cs" />
+    <Compile Include="ScriptCompatibility\ArrayList.cs" />
+    <Compile Include="AuthenticationResult.cs" />
+    <Compile Include="AuthenticatorStatus.cs" />
+    <Compile Include="CallbackResult.cs" />
+    <Compile Include="CallbackState.cs" />
+    <Compile Include="ColorDefinition.cs" />
+    <Compile Include="Context.cs" />
+    <Compile Include="Context.portable.cs" />
+    <Compile Include="ErrorHandler.portable.cs" />
+    <Compile Include="IAuthenticator.cs" />
+    <Compile Include="IProtocolRequest.cs" />
+    <Compile Include="ISerializableCollection.cs" />
+    <Compile Include="ISerializableObject.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="LoginData.cs" />
+    <Compile Include="LoginEvent.cs" />
+    <Compile Include="LogItem.cs" />
+    <Compile Include="LogItemEvent.cs" />
+    <Compile Include="ObservableDictionary.cs" />
+    <Compile Include="Operation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RichContentContainer.cs" />
+    <Compile Include="RichContentDocument.cs" />
+    <Compile Include="RichContentElement.cs" />
+    <Compile Include="RichContentRun.cs" />
+    <Compile Include="RichContentSection.cs" />
+    <Compile Include="ScriptCompatibility\Date.cs" />
+    <Compile Include="ScriptCompatibility\Extensions.cs" />
+    <Compile Include="ScriptCompatibility\Json.cs" />
+    <Compile Include="ScriptCompatibility\Number.cs" />
+    <Compile Include="ScriptCompatibility\JsonUtilities.scriptcompatibility.cs" />
+    <Compile Include="ScriptCompatibility\Utilities.scriptcompatibility.cs" />
+    <Compile Include="SerializableObject.cs" />
+    <Compile Include="SerializableObject.script.cs" />
+    <Compile Include="SerializableProperty.cs" />
+    <Compile Include="SerializableProperty.script.cs" />
+    <Compile Include="ScriptNameAttribute.cs" />
+    <Compile Include="SerializablePropertyAttribute.cs" />
+    <Compile Include="SerializablePropertyType.cs" />
+    <Compile Include="SerializableType.cs" />
+    <Compile Include="SerializableType.script.cs" />
+    <Compile Include="SerializableTypeAttribute.cs" />
+    <Compile Include="SerializableTypeManager.cs" />
+    <Compile Include="UrlUtilities.cs" />
+    <Compile Include="UserInfo.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="_gen\verassemblyinfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\QuallaSDK\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="AuthenticationResult.cs" />
     <Compile Include="AuthenticatorStatus.cs" />
-    <Compile Include="BaseLists.cs" />
+    <Compile Include="BooleanEvent.cs" />
     <Compile Include="CallbackResult.cs" />
     <Compile Include="CallbackState.cs" />
     <Compile Include="ColorDefinition.cs" />
@@ -58,25 +58,9 @@
     <Compile Include="CommandBase.cs" />
     <Compile Include="CommandLineLogger.cs" />
     <Compile Include="Context.cs" />
-    <Compile Include="DataStoreClause.cs" />
-    <Compile Include="DataStoreClauseGroup.cs" />
-    <Compile Include="DataStoreComparisonClause.cs" />
-    <Compile Include="DataStoreEqualsClause.cs" />
-    <Compile Include="DataStoreItemEvent.cs" />
-    <Compile Include="DataStoreItemSet.cs" />
-    <Compile Include="DataStoreItemSetEvent.cs" />
-    <Compile Include="DataStoreQuery.cs" />
+    <Compile Include="Context.net.cs" />
     <Compile Include="ErrorHandler.clr.cs" />
-    <Compile Include="DataSourceItemStatus.cs" />
-    <Compile Include="DataStore.cs" />
-    <Compile Include="DataStoreFieldType.cs" />
-    <Compile Include="DataStoreItemBase.cs" />
     <Compile Include="IAuthenticator.cs" />
-    <Compile Include="IDataStore.cs" />
-    <Compile Include="IDataStoreField.cs" />
-    <Compile Include="IDataStoreItem.cs" />
-    <Compile Include="IDataStoreItemSet.cs" />
-    <Compile Include="IDataStoreList.cs" />
     <Compile Include="IdEvent.cs" />
     <Compile Include="IProtocolRequest.cs" />
     <Compile Include="LoginData.cs" />
@@ -87,6 +71,8 @@
     <Compile Include="RichContentElement.cs" />
     <Compile Include="RichContentRun.cs" />
     <Compile Include="RichContentSection.cs" />
+    <Compile Include="ScriptCompatibility\Date.cs" />
+    <Compile Include="ScriptCompatibility\Extensions.cs" />
     <Compile Include="StorageFile.clr.cs" />
     <Compile Include="StorageGroup.clr.cs" />
     <Compile Include="StorageManager.clr.cs" />
@@ -115,7 +101,6 @@
     <Compile Include="UserInfo.cs" />
     <Compile Include="Utilities.clr.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="Utilities.scriptparity.cs" />
     <Compile Include="XmlUtilities.cs" />
     <Compile Include="_gen\verassemblyinfo.cs" />
   </ItemGroup>

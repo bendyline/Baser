@@ -59,7 +59,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ErrorAction.cs" />
-    <Compile Include="WebRequest.cs" />
+    <Compile Include="HttpRequest.cs" />
     <Compile Include="GeopointEvent.cs" />
     <Compile Include="EnsureContentContainerRequest.cs" />
     <Compile Include="INotifyPropertyChanged.cs" />

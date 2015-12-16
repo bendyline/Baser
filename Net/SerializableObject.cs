@@ -57,8 +57,49 @@ namespace Bendyline.Base
             }
         }
 
+
+        protected void NotifyPropertyChangedWithValues(String propertyName, object previousValue, object newValue)
+        {
+            if (this.PropertyChanged != null)
+            {
+                PropertyChangedEventArgs pcea = new PropertyChangedEventArgs(propertyName);
+          //      pcea.PreviousValue = previousValue;
+            //    pcea.NewValue = newValue;
+                this.PropertyChanged(this, pcea);
+            }
+        }
+
+        protected virtual void OnPropertyChanged(String propertyName)
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public void ApplyString(String stringSerialization)
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public String ToJson()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ApplyObject(object objectToCopy)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyFromObject(object objectToCopy)
+        {
+            throw new NotImplementedException();
+        }
+
         protected void NotifyPropertyChanged(String propertyName)
         {
+            this.OnPropertyChanged(propertyName);
+
             if (this.PropertyChanged != null)
             {
                 PropertyChangedEventArgs pcea = new PropertyChangedEventArgs(propertyName);

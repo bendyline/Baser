@@ -12,8 +12,23 @@ namespace Bendyline.Base
         private WaitHandle waitHandle;
         private bool completedSynchronously;
         private bool isCompleted;
+        private object data;
         private object tag;
         private String errorMessage;
+        private String errorCode;
+
+        public String ErrorCode
+        {
+            get
+            {
+                return this.errorCode;
+            }
+
+            set
+            {
+                this.errorCode = value;
+            }
+        }
 
         public String ErrorMessage
         {
@@ -104,6 +119,18 @@ namespace Bendyline.Base
             }
         }
 
+        public object Data
+        {
+            get
+            {
+                return this.data;
+            }
+
+            set
+            {
+                this.data = value;
+            }
+        }
 
         public object Tag
         {
@@ -118,5 +145,55 @@ namespace Bendyline.Base
             }
         }
 
+        public static void NotifyAsynchronousSuccess(AsyncCallback doneCallback, object stateObject, object resultObject)
+        {
+            if (doneCallback == null)
+            {
+                return;
+            }
+
+            CallbackResult cr = new CallbackResult();
+
+            cr.AsyncState = stateObject;
+            cr.Data = resultObject;
+            cr.CompletedSynchronously = false;
+            cr.IsCompleted = true;
+
+            doneCallback(cr);
+        }
+
+        public static void NotifySynchronousFailure(AsyncCallback doneCallback, object stateObject, String errorCode)
+        {
+            if (doneCallback == null)
+            {
+                return;
+            }
+
+            CallbackResult cr = new CallbackResult();
+
+            cr.AsyncState = stateObject;
+            cr.CompletedSynchronously = true;
+            cr.IsCompleted = false;
+            cr.ErrorCode = errorCode;
+
+            doneCallback(cr);
+        }
+
+        public static void NotifySynchronousSuccess(AsyncCallback doneCallback, object stateObject, object resultObject)
+        {
+            if (doneCallback == null)
+            {
+                return;
+            }
+
+            CallbackResult cr = new CallbackResult();
+
+            cr.AsyncState = stateObject;
+            cr.Data = resultObject;
+            cr.CompletedSynchronously = true;
+            cr.IsCompleted = true;
+
+            doneCallback(cr);
+        }
     }
 }

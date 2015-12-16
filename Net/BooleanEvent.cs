@@ -5,28 +5,27 @@ using System;
 
 namespace Bendyline.Base
 {
-    public delegate void DataStoreItemEventHandler(object sender, DataStoreItemEventArgs e);
+    public delegate void BooleanEventHandler(object sender, BooleanEventArgs e);
 
-    public class DataStoreItemEventArgs : EventArgs
+    public class BooleanEventArgs : EventArgs
     {
-        private IDataStoreItem item;
+        private bool boolValue;
 
-        public IDataStoreItem Item
+        public bool Value
         {
             get
             {
-                return this.item;
+                return this.boolValue;
             }
-
             set
             {
-                this.item = value;
+                this.boolValue = value;
             }
         }
 
-        public DataStoreItemEventArgs(IDataStoreItem item)
+        public BooleanEventArgs(bool boolValue)
         {
-            this.item = item;
+            this.boolValue = boolValue;
         }
     }
 }

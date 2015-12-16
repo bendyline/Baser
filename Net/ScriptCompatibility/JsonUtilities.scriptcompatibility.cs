@@ -1,18 +1,19 @@
 ﻿/* Copyright (c) Bendyline LLC. All rights reserved. Licensed under the Apache License, Version 2.0.
     You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. */
 
+using Bendyline.Base.ScriptCompatibility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 
 namespace Bendyline.Base
 {
-    public class DataStoreEqualsClause : DataStoreComparisonClause
+    public static partial class JsonUtilities
     {
-
-        public override string ToString()
+        public static String EncodeDate(Date val)
         {
-            return "{" + this.FieldName + "=" + this.GetStringValue() + "}";
+            throw new NotImplementedException();
+
+            return val.ToString();
         }
     }
 }

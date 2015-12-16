@@ -1,22 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace Bendyline.Base
 {
-    public class Context
+    public partial class Context
     {
         private String feedbackUrl;
         private String secondaryFeedbackUrl;
         private String contentBasePath;
         private String resourceBasePath;
+        private String secondaryResourceBasePath;
         private String webServiceBasePath;
         private String userContentBasePath;
-
+        private long tokenId;
+        private long userId;
+        private bool isAuthenticated = false;
+        private String versionToken;
         private static Context current;
+
+        public long TokenId
+        {
+            get
+            {
+                return this.tokenId;
+            }
+
+            set
+            {
+                this.tokenId = value;
+            }
+        }
+
+        public long UserId
+        {
+            get
+            {
+                return this.userId;
+            }
+
+            set
+            {
+                this.userId = value;
+            }
+        }
+
+        public String VersionToken
+        {
+            get
+            {
+                return this.versionToken;
+            }
+        }
 
         public static Context Current
         {
@@ -25,6 +59,34 @@ namespace Bendyline.Base
                 return current;
             }
         }
+
+        public event BooleanEventHandler AuthenticatedChanged;
+
+        public bool IsAuthenticated
+        {
+            get
+            {
+                return this.isAuthenticated;
+            }
+
+            set
+            {
+                if (this.isAuthenticated == value)
+                {
+                    return;
+                }
+
+                this.isAuthenticated = value;
+
+                if (this.AuthenticatedChanged != null)
+                {
+                    BooleanEventArgs bea = new BooleanEventArgs(value);
+
+                    this.AuthenticatedChanged(this, bea);
+                }
+            }
+        }
+
 
         public String ResourceBasePath
         {
@@ -52,6 +114,48 @@ namespace Bendyline.Base
             set
             {
                 this.resourceBasePath = value;
+            }
+        }
+
+        public String SecondaryResourceBasePath
+        {
+            get
+            {
+                String path = this.secondaryResourceBasePath;
+
+                if (path == null)
+                {
+                    return null;
+                }
+
+                String version = AssemblyInfo.BuildNumber.ToString();
+
+                while (version.Length < 4)
+                {
+                    version = "0" + version;
+                }
+
+                path = path.Replace("%SCRIPTBUILD%", "b" + version);
+
+                return path;
+            }
+
+            set
+            {
+                this.secondaryResourceBasePath = value;
+            }
+        }
+
+        public String EffectiveSecondaryResourceBasePath
+        {
+            get
+            {
+                if (this.secondaryResourceBasePath == null)
+                {
+                    return this.ResourceBasePath;
+                }
+
+                return this.SecondaryResourceBasePath;
             }
         }
 
@@ -140,45 +244,6 @@ namespace Bendyline.Base
                 contentBasePath = String.Empty;
             }
         }
-
-        private void LoadFromConfiguration()
-        {
-            if (ConfigurationManager.AppSettings["feedbackUrl"] != null)
-            {
-                feedbackUrl = ConfigurationManager.AppSettings["feedbackUrl"];
-            }
-
-            if (ConfigurationManager.AppSettings["secondaryFeedbackUrl"] != null)
-            {
-                secondaryFeedbackUrl = ConfigurationManager.AppSettings["secondaryFeedbackUrl"];
-            }
-
-            if (ConfigurationManager.AppSettings["webServiceBasePath"] != null)
-            {
-                webServiceBasePath = ConfigurationManager.AppSettings["webServiceBasePath"];
-            }
-
-            if (ConfigurationManager.AppSettings["userContentBasePath"] != null)
-            {
-                userContentBasePath = ConfigurationManager.AppSettings["userContentBasePath"];
-            }
-
-            if (ConfigurationManager.AppSettings["contentBasePath"] != null)
-            {
-                contentBasePath = ConfigurationManager.AppSettings["contentBasePath"];
-            }
-
-            if (ConfigurationManager.AppSettings["resourceBasePath"] != null)
-            {
-                resourceBasePath = ConfigurationManager.AppSettings["resourceBasePath"];
-            }
-
-            if (ConfigurationManager.AppSettings["assetsBaseUrl"] != null)
-            {
-                resourceBasePath = ConfigurationManager.AppSettings["assetsBaseUrl"];
-            }
-        }
-
 
         [Conditional("DEBUG")]
         private void InitializeDebug()

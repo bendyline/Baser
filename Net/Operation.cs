@@ -9,6 +9,7 @@ namespace Bendyline.Base
     public class Operation
     {
         private List<CallbackState> callbackStates;
+        private object tag;
 
         public List<CallbackState> CallbackStates
         {
@@ -18,9 +19,59 @@ namespace Bendyline.Base
             }
         }
 
+        public object Tag
+        {
+            get
+            {
+                return this.tag;
+            }
+
+            set
+            {
+                this.tag = value;
+            }
+        }
+
         public Operation()
         {
             this.callbackStates = new List<CallbackState>();
+        }
+
+
+        public void AddCallback(AsyncCallback c, object state)
+        {
+            if (c != null)
+            {
+                CallbackState cs = new CallbackState();
+                cs.Callback = c;
+                cs.State = state;
+
+                this.callbackStates.Add(cs);
+            }
+        }
+
+        public void CompleteAsAsyncError(object data, String errorCode, String errorMessage)
+        {
+            CallbackResult cr = new CallbackResult();
+
+            cr.IsCompleted = true;
+            cr.CompletedSynchronously = true;
+            cr.Data = data;
+            cr.ErrorCode = errorCode;
+            cr.ErrorMessage = errorMessage;
+
+            this.Complete(cr);
+        }
+
+        public void CompleteAsAsyncDone(object data)
+        {
+            CallbackResult cr = new CallbackResult();
+
+            cr.IsCompleted = true;
+            cr.CompletedSynchronously = true;
+            cr.Data = data;
+
+            this.Complete(cr);
         }
 
         public void Complete(IAsyncResult template)

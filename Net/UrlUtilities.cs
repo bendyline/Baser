@@ -20,6 +20,18 @@ namespace Bendyline.Base
             return path;
         }
 
+        public static bool IsPathAbsolute(String url)
+        {
+            String firstThree = url.Substring(0, 2).ToLower();
+
+            if (firstThree == "//" || firstThree == "ht")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static String GetCanonicalBaseUrl(String url)
         {
             int nextSlash = url.IndexOf("/", 8);

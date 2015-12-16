@@ -69,7 +69,7 @@ namespace Bendyline.Base
                 return;
             }
 
-            IDataStoreList exceptionsList = BaseLists.ExceptionsList;
+            /*IDataStoreList exceptionsList = BaseLists.ExceptionsList;
 
             IDataStoreItem item = exceptionsList.CreateItem();
             
@@ -94,7 +94,7 @@ namespace Bendyline.Base
 
             exceptionsList.BeginUpdate(this.UpdateComplete, null);
 
-            this.exceptionToHandle = null;
+            this.exceptionToHandle = null;*/
         }
 
 

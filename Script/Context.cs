@@ -667,7 +667,7 @@ namespace BL
             {
                 XmlHttpRequest xhr = new XmlHttpRequest();
 
-                WebRequest.SendWithCredentials(xhr);
+                HttpRequest.SendWithCredentials(xhr);
 
                 this.userSignoutOperation.Tag = xhr;
                 String endpoint = UrlUtilities.EnsurePathEndsWithSlash(Context.Current.WebServiceBasePath) + "api/signout/";

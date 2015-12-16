@@ -151,6 +151,18 @@ namespace Bendyline.Base
             }
         }
 
+        public void NotifyComplete(object data, bool completedSynchronously)
+        {
+            CallbackResult cr = new CallbackResult();
+
+            cr.Data = data;
+            cr.IsCompleted = true;
+            cr.CompletedSynchronously = completedSynchronously;
+            cr.AsyncState = this.State;
+
+            this.Callback(cr);
+        }
+
         public static void UnwrapAndExecuteCallbacks(IAsyncResult result)
         {
             if (result.AsyncState is CallbackState)

@@ -10,13 +10,14 @@ using System.Xml;
 
 namespace BL
 {
-    public enum WebRequestType
+    public enum HttpRequestType
     {
         General = 0,
-        JsonRead = 1
+        JsonRead = 1,
+        JsonWrite = 2
     }
 
-    public class WebRequest
+    public class HttpRequest
     {
         private XmlHttpRequest request;
         private String originalUrl;
@@ -27,7 +28,7 @@ namespace BL
         private ErrorAction onError;
         private object completionData = null;
 
-        private WebRequestType webRequestType = WebRequestType.General;
+        private HttpRequestType webRequestType = HttpRequestType.General;
         private bool authenticationRequired;
         private bool requestSent = false;
         private Operation operation;
@@ -164,7 +165,7 @@ namespace BL
             }
         }
 
-        public WebRequest()
+        public HttpRequest()
         {
         }
 
@@ -172,10 +173,15 @@ namespace BL
         {
             this.originalUrl = url;
 
-            this.webRequestType = WebRequestType.JsonRead;
+            this.webRequestType = HttpRequestType.JsonRead;
         }
 
-        private void InitializeAsJsonRequest()
+        public void Initialize(HttpRequestType requestType)
+        {
+            this.webRequestType = requestType;
+        }
+
+        private void InternalInitializeAsJsonRequest()
         {
             this.request.SetRequestHeader("Accept", "application/json;odata=minimalmetadata");
             this.request.SetRequestHeader("Content-Type", "application/json");
@@ -194,7 +200,7 @@ namespace BL
                 {
                     if (this.Status == 200)
                     {
-                        if (this.webRequestType == WebRequestType.JsonRead)
+                        if (this.webRequestType == HttpRequestType.JsonRead || this.webRequestType == HttpRequestType.JsonWrite)
                         {
                             try
                             {
@@ -289,10 +295,9 @@ namespace BL
 
             urlToRequest = urlToRequest.Replace(" ", "%20");
 
-            if (this.webRequestType == WebRequestType.JsonRead)
+            if (this.webRequestType == HttpRequestType.JsonRead)
             {
                 this.request.Open(HttpVerb.Get, urlToRequest);
-                this.InitializeAsJsonRequest();
             }
             else if (!String.IsNullOrEmpty(this.originalVerb))
             {
@@ -303,9 +308,15 @@ namespace BL
                 this.request.Open(HttpVerb.Get, urlToRequest);
             }
 
+            if (this.webRequestType == HttpRequestType.JsonWrite || this.webRequestType == HttpRequestType.JsonRead)
+            {
+                this.InternalInitializeAsJsonRequest();
+            }
+
+
             if (this.authenticationRequired)
             {
-                WebRequest.SendWithCredentials(this.request);
+                HttpRequest.SendWithCredentials(this.request);
             }
 
             if (this.originalBody != null)

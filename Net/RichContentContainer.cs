@@ -122,7 +122,7 @@ namespace Bendyline.Base
 
             return rcr;
         }
-
+        /*
         protected override void ReadInnerXml(System.Xml.XmlReader reader, int initialDepth)
         {
             this.elements.Clear();
@@ -169,5 +169,6 @@ namespace Bendyline.Base
                 }
             }
         }
+            */
     }
 }

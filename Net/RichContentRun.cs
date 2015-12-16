@@ -91,7 +91,7 @@ namespace Bendyline.Base
         {
         }
 
-
+        /*
         protected override void ReadInnerXml(System.Xml.XmlReader reader, int initialDepth)
         {
             this.text = String.Empty;
@@ -105,7 +105,7 @@ namespace Bendyline.Base
 
                 reader.Read();
             }
-        }
+        }*/
 
     }
 }

@@ -34,7 +34,7 @@ namespace BL
 
         public static bool IsPathAbsolute(String url)
         {
-            String firstThree = url.Substring(0, 2);
+            String firstThree = url.Substring(0, 2).ToLowerCase();
 
             if (firstThree == "//" || firstThree == "ht")
             {
@@ -43,7 +43,6 @@ namespace BL
 
             return false;
         }
-
 
         public static String GetCanonicalBaseUrl(String url)
         {
