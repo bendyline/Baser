@@ -26,6 +26,11 @@ namespace Bendyline.Base.ScriptCompatibility
             this.dateTime = DateTime.Now;
         }
 
+        public Date(Int32 year, Int32 month, Int32 day)
+        {
+            this.dateTime = new DateTime(year, month + 1, day);
+        }
+
         public Date(Int32 millisecondsSince1970)
         {
             this.dateTime = new DateTime(1970, 1, 1).AddMilliseconds(millisecondsSince1970);
@@ -34,6 +39,11 @@ namespace Bendyline.Base.ScriptCompatibility
         public Date(DateTime dateTime)
         {
 
+        }
+
+        public int GetFullYear()
+        {
+            return this.dateTime.Year;
         }
 
         public int GetHours()

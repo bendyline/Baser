@@ -96,6 +96,17 @@ namespace Bendyline.Base
             throw new NotImplementedException();
         }
 
+
+        public bool IsEqualTo(SerializableObject compareTo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LoadFromJson(String jsonContent)
+        {
+            throw new NotImplementedException();
+        }
+
         protected void NotifyPropertyChanged(String propertyName)
         {
             this.OnPropertyChanged(propertyName);

@@ -4,6 +4,7 @@
 using Bendyline.Base.ScriptCompatibility;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Bendyline.Base
@@ -113,6 +114,16 @@ namespace Bendyline.Base
             return Utilities.CreateRandomIdToLength(8);
         }
 
+        public static int GetDayOfYear(Date compare)
+        {
+            Date firstDayOfYear = new Date(compare.GetFullYear(), 0, 1);
+
+            Int64 diff = compare.GetTime() - firstDayOfYear.GetTime();
+
+            return Convert.ToInt32(Math.Ceiling((double)(diff / (24 * 60 * 60 * 1000))));
+        }    
+
+
         public static String GetDayName(int dayId)
         {
             switch (dayId)
@@ -183,6 +194,25 @@ namespace Bendyline.Base
             hms += PrePad(dt.GetMilliseconds().ToString(), '0', 3);
 
             return hms;
+        }
+
+        public static PropertyChangedEventArgs AllProperties
+        {
+            get
+            {
+                return new PropertyChangedEventArgs("*");
+            }
+        }
+
+
+        public static String LongToShortString(long number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static long ShortStringToLong(String shortStringAsNumber)
+        {
+            throw new NotImplementedException();
         }
 
         public static byte ByteSubtract(byte start, byte valueToSubtract)

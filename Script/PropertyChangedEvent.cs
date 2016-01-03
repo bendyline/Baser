@@ -57,14 +57,5 @@ namespace BL
         {
             this.propertyName = propertyName;
         }       
-
-
-        public static PropertyChangedEventArgs All
-        {
-            get
-            {
-                return new PropertyChangedEventArgs("*");
-            }
-        }
     }
 }

@@ -11,7 +11,7 @@ namespace Bendyline.Base
     {
         AuthenticatorStatus GetStatusByUrl(String url);
 
-        UserInfo ActiveUser
+        User ActiveUser
         {
             get;
         }

@@ -60,6 +60,7 @@
     <Compile Include="Context.cs" />
     <Compile Include="Context.net.cs" />
     <Compile Include="ErrorHandler.clr.cs" />
+    <Compile Include="IAppObjectProvider.cs" />
     <Compile Include="IAuthenticator.cs" />
     <Compile Include="IdEvent.cs" />
     <Compile Include="IProtocolRequest.cs" />
@@ -98,7 +99,8 @@
     <Compile Include="TextUtilities.cs" />
     <Compile Include="Timer.Windows.cs" />
     <Compile Include="UrlUtilities.cs" />
-    <Compile Include="UserInfo.cs" />
+    <Compile Include="User.net.cs" />
+    <Compile Include="UserManager.net.cs" />
     <Compile Include="Utilities.clr.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="XmlUtilities.cs" />

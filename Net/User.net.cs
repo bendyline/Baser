@@ -5,13 +5,54 @@ using System;
 
 namespace Bendyline.Base
 {
-    public class UserInfo
+    public class User : SerializableObject
     {
         private String loginName;
         private String name;
-        private int id;
+        private String uniqueKey;
+        private String nickName;
+        private long? id;
 
-        public int Id
+        public String NickName
+        {
+            get
+            {
+                return this.nickName;
+            }
+
+            set
+            {
+                this.nickName = value;
+            }
+        }
+
+        public bool IsLoaded
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public String UniqueKey
+        {
+            get
+            {
+                return this.uniqueKey;
+            }
+
+            set
+            {
+                this.uniqueKey = value;
+            }
+        }
+
+        public long? Id
         {
             get
             {

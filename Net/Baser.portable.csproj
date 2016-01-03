@@ -35,12 +35,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BooleanEvent.cs" />
+    <Compile Include="EnsureContentContainerRequest.cs" />
     <Compile Include="ErrorAction.cs" />
     <Compile Include="GeoBoundingBox.cs" />
     <Compile Include="Geopoint.cs" />
     <Compile Include="GeopointEvent.cs" />
     <Compile Include="GeoUtilities.cs" />
     <Compile Include="HttpRequest.cs" />
+    <Compile Include="IAppObjectProvider.cs" />
     <Compile Include="INotifyCollectionAndStateChanged.cs" />
     <Compile Include="INotifyCollectionChanged.cs" />
     <Compile Include="JsonUtilities.cs" />
@@ -90,7 +92,11 @@
     <Compile Include="SerializableTypeAttribute.cs" />
     <Compile Include="SerializableTypeManager.cs" />
     <Compile Include="UrlUtilities.cs" />
-    <Compile Include="UserInfo.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserManager.cs" />
+    <Compile Include="UserReference.cs" />
+    <Compile Include="UserReferenceCollection.cs" />
+    <Compile Include="UserReferenceSet.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="_gen\verassemblyinfo.cs" />
   </ItemGroup>

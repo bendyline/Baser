@@ -197,7 +197,7 @@ namespace BL
 
                 if (this.UserChanged != null)
                 {
-                    this.UserChanged(this, PropertyChangedEventArgs.All);
+                    this.UserChanged(this, Utilities.AllProperties);
                 }
             }
         }
@@ -922,7 +922,6 @@ namespace BL
 
             return this.usersById[userId];
         }
-
 
         public static void SetSite(String resourceBasePath, String webServiceBasePath, String userContentBasePath, String versionHash, String feedbackUrl, String secondaryFeedbackUrl, String scriptLibraryTemplate)
         {

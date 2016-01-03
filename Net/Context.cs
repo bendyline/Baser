@@ -1,22 +1,48 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Bendyline.Base
 {
     public partial class Context
     {
+        private Dictionary<String, User> usersByUniqueKey;
+        private Dictionary<long, User> usersById;
+
         private String feedbackUrl;
         private String secondaryFeedbackUrl;
         private String contentBasePath;
         private String resourceBasePath;
         private String secondaryResourceBasePath;
         private String webServiceBasePath;
+        private String userUniqueKey;
         private String userContentBasePath;
+        private User user;
         private long tokenId;
-        private long userId;
+        private IAppObjectProvider objectProvider;
+        private long? userId;
         private bool isAuthenticated = false;
         private String versionToken;
         private static Context current;
+        private String imageResourceSubPath;
+        public event PropertyChangedEventHandler UserChanged;
+
+        private PropertyChangedEventHandler userPropertyChanged;
+
+
+        public String ImageResourceSubPath
+        {
+            get
+            {
+                return this.imageResourceSubPath;
+            }
+
+            set
+            {
+                this.imageResourceSubPath = value;
+            }
+        }
 
         public long TokenId
         {
@@ -31,7 +57,7 @@ namespace Bendyline.Base
             }
         }
 
-        public long UserId
+        public long? UserId
         {
             get
             {
@@ -57,6 +83,94 @@ namespace Bendyline.Base
             get
             {
                 return current;
+            }
+        }
+
+        public IAppObjectProvider ObjectProvider
+        {
+            get
+            {
+                return this.objectProvider;
+            }
+
+            set
+            {
+                this.objectProvider = value;
+            }
+        }
+
+        public String UserUniqueKey
+        {
+            get
+            {
+                if (this.user != null)
+                {
+                    return this.user.UniqueKey;
+                }
+
+                return this.userUniqueKey;
+            }
+
+            set
+            {
+                if (this.userUniqueKey == value)
+                {
+                    return;
+                }
+
+                this.userUniqueKey = value;
+
+                if ((this.user == null && this.userUniqueKey != null) || (this.user != null && this.userUniqueKey != this.user.UniqueKey))
+                {
+                    if (this.userUniqueKey == null)
+                    {
+                        this.User = null;
+                    }
+                    else
+                    {
+                        this.User = this.EnsureUserByUniqueKey(this.userUniqueKey);
+                    }
+                }
+            }
+        }
+
+        public User User
+        {
+            get
+            {
+                return this.user;
+            }
+
+            set
+            {
+                if (this.user == value)
+                {
+                    return;
+                }
+
+                if (this.user != null)
+                {
+                    this.user.PropertyChanged -= this.userPropertyChanged;
+                }
+
+                this.user = value;
+
+                if (this.user != null && !String.IsNullOrEmpty(this.user.NickName))
+                {
+                    this.user.IsLoaded = true;
+                }
+
+                if (this.user != null)
+                {
+                    UserManager.Current.AddUser(this.user);
+
+                    this.User.PropertyChanged += this.userPropertyChanged;
+                }
+
+                if (this.UserChanged != null)
+                {
+                    this.UserChanged(this, Utilities.AllProperties);
+                }
             }
         }
 
@@ -227,6 +341,65 @@ namespace Bendyline.Base
         {
             this.Initialize();
         }
+
+        public void SetUserUniqueKeyAndId(String uniqueKey, Nullable<long> id)
+        {
+            this.userUniqueKey = uniqueKey;
+            this.userId = id;
+
+            if (id != null || uniqueKey != null)
+            {
+                User u = this.EnsureUserByUniqueKey(this.userUniqueKey);
+                u.Id = id;
+
+                if (id != null)
+                {
+                    if (this.usersById[(long)id] == null)
+                    {
+                        this.usersById[(long)id] = this.User;
+                    }
+                }
+
+                this.User = u;
+            }
+            else
+            {
+                this.User = null;
+            }
+        }
+
+        public User EnsureUserByUniqueKey(String userUniqueKey)
+        {
+            if (this.usersByUniqueKey[userUniqueKey] == null)
+            {
+                User user = new User();
+
+                user.UniqueKey = userUniqueKey;
+
+                this.usersByUniqueKey[userUniqueKey] = user;
+
+                return user;
+            }
+
+            return this.usersByUniqueKey[userUniqueKey];
+        }
+
+        public User EnsureUserById(long userId)
+        {
+            if (this.usersById[userId] == null)
+            {
+                User user = new User();
+
+                user.Id = userId;
+
+                this.usersById[userId] = user;
+
+                return user;
+            }
+
+            return this.usersById[userId];
+        }
+
 
         private void Initialize()
         {

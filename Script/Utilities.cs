@@ -19,6 +19,14 @@ namespace BL
             return value.ToString();
         }
 
+        public static PropertyChangedEventArgs AllProperties
+        {
+            get
+            {
+                return new PropertyChangedEventArgs("*");
+            }
+        }
+
         public static bool IsValidEmail(String email)
         {
             int indexOfAt = email.IndexOf("@");
@@ -219,7 +227,6 @@ namespace BL
             Script.Literal("{0}=IntToStr.toInt({1})", result, shortStringAsNumber);
             return result;
         }
-
 
         public static int GetDayOfYear(Date compare)
         {
