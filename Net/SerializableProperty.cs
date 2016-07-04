@@ -141,6 +141,7 @@ namespace Bendyline.Base
             {
                 return name;
             }
+
             set
             {
                 name = value;

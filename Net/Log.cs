@@ -139,10 +139,10 @@ namespace Bendyline.Base
             LogItem item = new LogItem(message, document, status, timeTaken, null);
             item.Id = id;
             item.Details = details;
-            //lock (logItems)
-            //{
+            lock (logItems)
+            {
             logItems.Add(item);
-            //}
+            }
 
             if (ItemAdded != null)
             {

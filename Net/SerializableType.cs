@@ -11,6 +11,7 @@ namespace Bendyline.Base
     {
         private readonly Type type;
         private readonly Dictionary<String, SerializableProperty> properties;
+        private readonly Dictionary<String, SerializableProperty> propertiesBySerializationName;
         private String tagName;
         private SerializableTypeManager typeManager;
 
@@ -40,11 +41,42 @@ namespace Bendyline.Base
             }
         }
 
+
+        public SerializableProperty this[String value]
+        {
+            get
+            {
+                if (this.properties.ContainsKey(value))
+                {
+                    return this.properties[value];
+                }
+
+                return null;
+            }
+        }
+
         internal SerializableType(SerializableTypeManager stm, Type t)
         {
             this.typeManager = stm;
             this.type = t;
             this.properties = new Dictionary<string, SerializableProperty>();
+            this.propertiesBySerializationName = new Dictionary<string, SerializableProperty>();
+        }
+
+        public bool HasProperty(String propertyName)
+        {
+            return this.properties.ContainsKey(propertyName);
+        }
+
+
+        public SerializableProperty GetPropertyBySerializationName(String serializationName)
+        {
+            if (this.propertiesBySerializationName.ContainsKey(serializationName))
+            {
+                return this.propertiesBySerializationName[serializationName];
+            }
+
+            return null;
         }
 
         public SerializableProperty EnsureCollection(String propertyName, String itemName, String containerNodeName, String propertyToAddObjectTo, String itemTypeName)
@@ -70,6 +102,7 @@ namespace Bendyline.Base
 
             this.EnsurePropertyLocal(sp);
             this.properties[propertyName] = sp;
+            this.propertiesBySerializationName[propertyName] = sp;
 
             return sp;
         }
@@ -93,6 +126,7 @@ namespace Bendyline.Base
             sp.IsAttribute = false;
             this.EnsurePropertyLocal(sp);
             this.properties[propertyName] = sp;
+            this.propertiesBySerializationName[serializationName] = sp;
 
             return sp;
         }
@@ -116,6 +150,7 @@ namespace Bendyline.Base
             sp.Type = SerializablePropertyType.Enum;
             this.EnsurePropertyLocal(sp);
             this.properties[propertyName] = sp;
+            this.propertiesBySerializationName[serializationName] = sp;
 
             return sp;
         }
@@ -139,6 +174,7 @@ namespace Bendyline.Base
             sp.Type = SerializablePropertyType.Integer;
             this.EnsurePropertyLocal(sp);
             this.properties[propertyName] = sp;
+            this.propertiesBySerializationName[serializationName] = sp;
 
             return sp;
         }
@@ -162,6 +198,7 @@ namespace Bendyline.Base
             sp.Type = SerializablePropertyType.Double;
             this.EnsurePropertyLocal(sp);
             this.properties[propertyName] = sp;
+            this.propertiesBySerializationName[serializationName] = sp;
 
             return sp;
         }
@@ -184,6 +221,7 @@ namespace Bendyline.Base
             sp.IsAttribute = true;
             this.EnsurePropertyLocal(sp);
             this.properties[propertyName] = sp;
+            this.propertiesBySerializationName[serializationName] = sp;
 
             return sp;
         }
@@ -206,6 +244,7 @@ namespace Bendyline.Base
             sp.IsAttribute = true;
             this.EnsurePropertyLocal(sp);
             this.properties[propertyName] = sp;
+            this.propertiesBySerializationName[serializationName] = sp;
 
             return sp;
         }
@@ -227,6 +266,7 @@ namespace Bendyline.Base
             sp.Name = propertyName;
             this.EnsurePropertyLocal(sp);
             this.properties[propertyName] = sp;
+            this.propertiesBySerializationName[serializationName] = sp;
 
             return sp;
         }

@@ -38,8 +38,9 @@
     <Compile Include="EnsureContentContainerRequest.cs" />
     <Compile Include="ErrorAction.cs" />
     <Compile Include="GeoBoundingBox.cs" />
-    <Compile Include="Geopoint.cs" />
-    <Compile Include="GeopointEvent.cs" />
+    <Compile Include="GeoLocationCollection.cs" />
+    <Compile Include="GeoLocation.cs" />
+    <Compile Include="GeoLocationEvent.cs" />
     <Compile Include="GeoUtilities.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="IAppObjectProvider.cs" />
@@ -101,8 +102,8 @@
     <Compile Include="_gen\verassemblyinfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\QuallaSDK\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\Strat\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

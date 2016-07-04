@@ -38,6 +38,47 @@ namespace Bendyline.Base
         /// </summary>
         public void EndInit()
         {
+
+        }
+
+        public void EnsureBaseProperties(SerializableObject serializableObject)
+        {
+            Type t = serializableObject.GetType();
+
+            PropertyInfo[] props = t.GetProperties();
+
+            foreach (PropertyInfo propertyInfo in props)
+            {
+                object[] attributes = propertyInfo.GetCustomAttributes(true);
+
+                foreach (object o in attributes)
+                {
+                    if (o is SerializablePropertyAttribute)
+                    {
+                        SerializablePropertyAttribute spa = (SerializablePropertyAttribute)o;
+
+                        String propertyName = propertyInfo.Name;
+
+                        if (spa != null)
+                        {
+                            propertyName = spa.Name;
+                        }
+
+                        Type propertyType = propertyInfo.PropertyType;
+
+                        switch (propertyType.Name)
+                        {
+                            case "String":
+                                this.EnsureString(propertyInfo.Name, propertyName);
+                                break;
+
+                            default:
+                                throw new NotImplementedException();
+                                break;
+                        }
+                    }
+                }
+            }
         }
 
         internal void ReadXml(object so, XmlReader reader)
@@ -79,7 +120,7 @@ namespace Bendyline.Base
 
                 if (reader.NodeType == XmlNodeType.Element)
                 {
-                    String nodeName = reader.Name;
+                    String nodeName = reader.Name;                   
 
                     if (this.properties.ContainsKey(nodeName))
                     {
@@ -233,17 +274,23 @@ namespace Bendyline.Base
             }
         }
 
-        private void SetProperty(object so, String property, object value)
+        internal void SetProperty(object so, String property, object value)
         {
             if (this.properties.ContainsKey(property))
             {
                 this.SetProperty(so, this.properties[property], value);
+                return;
+            }
+            else if (this.propertiesBySerializationName.ContainsKey(property))
+            {
+                this.SetProperty(so, this.propertiesBySerializationName[property], value);
+                return;
             }
 
             Debug.Assert(false, String.Format("Expected property '{0}' not found.", property));
         }
 
-        private void SetProperty(object so, SerializableProperty property, object value)
+        internal void SetProperty(object so, SerializableProperty property, object value)
         {
             if (value is String)
             {

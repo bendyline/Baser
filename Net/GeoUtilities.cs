@@ -13,10 +13,11 @@ namespace Bendyline.Base
     {
         private const double EarthsRadius = 6371.009; // Earth's mean radius
         private const int MetersPerLatitudeDegree = 111133; // pi * 6,367,444 / 180
+        private const int CircumferenceOfEarthInMeters = 40075000;
 
         public static GeoBoundingBox BoundingBoxFromLatLong(double latitude, double longitude, double distanceInKm)
         {
-            Geopoint point = new Geopoint();
+            GeoLocation point = new GeoLocation();
 
             point.Latitude = latitude;
             point.Longitude = longitude;
@@ -24,10 +25,15 @@ namespace Bendyline.Base
             return BoundingBoxFromPoint(point, distanceInKm);
         }
 
-        public static GeoBoundingBox BoundingBoxFromPoint(Geopoint point, double distanceInKm)
+        public static int GetMetersPerPixel(double latitude, double zoomLevel)
         {
-            Geopoint northwestPoint = GeoUtilities.GetDestination(point.Latitude, point.Longitude, distanceInKm, 315);
-            Geopoint southeastPoint = GeoUtilities.GetDestination(point.Latitude, point.Longitude, distanceInKm, 135);
+            return Math.Max(Convert.ToInt32(CircumferenceOfEarthInMeters * Math.Cos(latitude * Math.PI / 180 ) / Math.Pow(2, zoomLevel + 8)), 1);
+        }
+
+        public static GeoBoundingBox BoundingBoxFromPoint(GeoLocation point, double distanceInKm)
+        {
+            GeoLocation northwestPoint = GeoUtilities.GetDestination(point.Latitude, point.Longitude, distanceInKm, 315);
+            GeoLocation southeastPoint = GeoUtilities.GetDestination(point.Latitude, point.Longitude, distanceInKm, 135);
 
             GeoBoundingBox gbb = new GeoBoundingBox();
 
@@ -41,9 +47,9 @@ namespace Bendyline.Base
         }
 
 
-        public static Geopoint PointFromLatLong(double latitude, double longitude)
+        public static GeoLocation PointFromLatLong(double latitude, double longitude)
         {
-            Geopoint gp = new Geopoint();
+            GeoLocation gp = new GeoLocation();
 
             gp.Longitude = longitude;
             gp.Latitude = latitude;
@@ -51,7 +57,7 @@ namespace Bendyline.Base
             return gp;
         }
 
-        public static Geopoint PointFromString(String val)
+        public static GeoLocation PointFromString(String val)
         {
             val = val.Trim();
 
@@ -67,7 +73,7 @@ namespace Bendyline.Base
                 return null;
             }
 
-            Geopoint gp = new Geopoint();
+            GeoLocation gp = new GeoLocation();
 
             gp.Longitude = Double.Parse(vals[0]);
             gp.Latitude = Double.Parse(vals[1]);
@@ -75,7 +81,7 @@ namespace Bendyline.Base
             return gp;
         }
 
-        public static String GetStringValue(Geopoint point)
+        public static String GetStringValue(GeoLocation point)
         {
             return "[" + point.Longitude + ", " + point.Latitude + "]";
         }
@@ -109,11 +115,28 @@ namespace Bendyline.Base
             return EarthsRadius * c;
         }
 
-        public static Geopoint GetDestination(double latitude1, double longitude1, double distanceInKm, double bearing)
+
+        public static double YToMercatorLatitude(double y)
+        {
+            return 180.0 / System.Math.PI *
+                (2 *
+                 System.Math.Atan(
+                    System.Math.Exp(y * System.Math.PI / 180)) - System.Math.PI / 2);
+        }
+
+        public static double MercatorLatitudeToY(double latitude)
+        {
+            return 180.0 / System.Math.PI *
+                System.Math.Log(
+                    System.Math.Tan(
+                        System.Math.PI / 4.0 + latitude * (System.Math.PI / 180.0) / 2));
+        }
+
+        public static GeoLocation GetDestination(double latitude1, double longitude1, double distanceInKm, double bearing)
         {
             double bearingRad = ConvertToRadians(bearing);
 
-            Geopoint newLocation = new Geopoint();
+            GeoLocation newLocation = new GeoLocation();
 
             double angularDistance = distanceInKm / EarthsRadius;
 

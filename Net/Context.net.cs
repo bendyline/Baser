@@ -15,7 +15,7 @@ namespace Bendyline.Base
 
             if (ConfigurationManager.AppSettings["secondaryFeedbackUrl"] != null)
             {
-                secondaryFeedbackUrl = ConfigurationManager.AppSettings["secondaryFeedbackUrl"];
+       //         secondaryFeedbackUrl = ConfigurationManager.AppSettings["secondaryFeedbackUrl"];
             }
 
             if (ConfigurationManager.AppSettings["webServiceBasePath"] != null)

@@ -7,6 +7,19 @@ namespace Bendyline.Base
 {
     public class SerializablePropertyAttribute : Attribute
     {
+        private String name;
 
+        public String Name
+        {
+            get
+            {
+                return this.name;
+            }
+
+            set
+            {
+                this.name = value;
+            }
+        }
     }
 }

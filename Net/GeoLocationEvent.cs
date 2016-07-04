@@ -5,13 +5,13 @@ using System;
 
 namespace Bendyline.Base
 {
-    public delegate void GeopointEventHandler(object sender, GeopointEventArgs e);
+    public delegate void GeoLocationEvent(object sender, GeoLocationEventArgs e);
 
-    public class GeopointEventArgs : EventArgs
+    public class GeoLocationEventArgs : EventArgs
     {
-        private Geopoint geopointValue;
+        private GeoLocation geopointValue;
 
-        public Geopoint Value
+        public GeoLocation Value
         {
             get
             {
@@ -23,7 +23,7 @@ namespace Bendyline.Base
             }
         }
 
-        public GeopointEventArgs(Geopoint geopointValue)
+        public GeoLocationEventArgs(GeoLocation geopointValue)
         {
             this.geopointValue = geopointValue;
         }

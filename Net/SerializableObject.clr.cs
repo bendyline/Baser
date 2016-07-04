@@ -15,6 +15,7 @@ namespace Bendyline.Base
 {
     public partial class SerializableObject : INotifyPropertyChanged, ISerializableObject
     {
+
         [XmlIgnore]
         public String Xml
         {
@@ -53,6 +54,11 @@ namespace Bendyline.Base
                     }
                 }
             }
+        }
+
+        public SerializableObject()
+        {
+            this.EnsureInitializedForSerialization();
         }
 
         public void ReadXml(XmlReader reader)

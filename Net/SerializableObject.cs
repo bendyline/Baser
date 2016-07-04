@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Bendyline.Base
 {
@@ -31,6 +33,7 @@ namespace Bendyline.Base
             }
         }
 
+
         protected virtual void InitializeForSerialization()
         {
 
@@ -49,10 +52,13 @@ namespace Bendyline.Base
                 if (this.serializableType == null)
                 {
                     this.serializableType = SerializableTypeManager.Current.Ensure(t);
+
                     this.serializableType.TagName = this.TagName;
                     this.serializableType.BeginInit();
                     this.InitializeForSerialization();
                     this.serializableType.EndInit();
+
+                    this.serializableType.EnsureBaseProperties(this);
                 }
             }
         }
@@ -63,8 +69,7 @@ namespace Bendyline.Base
             if (this.PropertyChanged != null)
             {
                 PropertyChangedEventArgs pcea = new PropertyChangedEventArgs(propertyName);
-          //      pcea.PreviousValue = previousValue;
-            //    pcea.NewValue = newValue;
+
                 this.PropertyChanged(this, pcea);
             }
         }
@@ -104,7 +109,24 @@ namespace Bendyline.Base
 
         public void LoadFromJson(String jsonContent)
         {
-            throw new NotImplementedException();
+            JsonTextReader reader = new JsonTextReader(new StringReader(jsonContent));
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonToken.PropertyName)
+                {
+                    SerializableProperty sp = this.serializableType.GetPropertyBySerializationName(reader.Path);
+                    if (sp != null)
+                    {
+                        if (sp.Type == SerializablePropertyType.String)
+                        {
+                            String val = reader.ReadAsString();
+
+                            this.SerializableType.SetProperty(this, reader.Path, val);
+                        }
+                    }
+                }
+            }
         }
 
         protected void NotifyPropertyChanged(String propertyName)

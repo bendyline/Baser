@@ -2,16 +2,14 @@
     You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Bendyline.Base
 {
-    /// <summary>
-    /// Simple description of a point on the earth (note: this object does not include altitude.)
-    /// </summary>
-    public class Geopoint
+
+    public class GeoLocationCollection : List<GeoLocation>
     {
-        public double Latitude;
-        public double Longitude;
+
     }
 }

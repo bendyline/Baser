@@ -11,7 +11,6 @@ namespace Bendyline.Base
         private Dictionary<long, User> usersById;
 
         private String feedbackUrl;
-        private String secondaryFeedbackUrl;
         private String contentBasePath;
         private String resourceBasePath;
         private String secondaryResourceBasePath;
@@ -329,13 +328,6 @@ namespace Bendyline.Base
                 return feedbackUrl;
             }
         }
-        public String SecondaryFeedbackUrl
-        {
-            get
-            {
-                return secondaryFeedbackUrl;
-            }
-        }
 
         public Context()
         {
@@ -404,6 +396,11 @@ namespace Bendyline.Base
         private void Initialize()
         {
             this.InitializeDebug();
+
+            this.versionToken = null;
+
+            this.usersByUniqueKey = new Dictionary<string, User>();
+            this.usersById = new Dictionary<long, User>();
 
             this.LoadFromConfiguration();
 
