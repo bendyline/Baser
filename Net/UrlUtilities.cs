@@ -31,6 +31,24 @@ namespace Bendyline.Base
 
             return false;
         }
+        public static bool HasSafeCharacters(String url)
+        {
+            foreach (char c in url)
+            {
+                if (!((c >= 'a' && c <= 'z') ||
+                        (c >= 'A' && c <= 'Z') ||
+                        (c >= '0' && c <= '9') ||
+                        c == '/' || c == '.' || c == ':' || c == '_'
+                     )
+                   )
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
+        }
 
         public static String GetCanonicalBaseUrl(String url)
         {

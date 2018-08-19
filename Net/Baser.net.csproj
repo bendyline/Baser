@@ -92,6 +92,7 @@
     <Compile Include="BooleanEvent.cs" />
     <Compile Include="CallbackResult.cs" />
     <Compile Include="CallbackState.cs" />
+    <Compile Include="ImageFit.cs" />
     <Compile Include="ColorDefinition.cs" />
     <Compile Include="CommandResult.cs" />
     <Compile Include="CommandBase.cs" />
