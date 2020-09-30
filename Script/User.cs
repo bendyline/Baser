@@ -202,7 +202,7 @@ namespace BL
             {
                 XmlHttpRequest xhr = new XmlHttpRequest();
 
-                HttpRequest.SendWithCredentials(xhr);
+                HttpRequest.AddWithCredentialsToXmlHttpRequest(xhr);
 
                 String endpoint = UrlUtilities.EnsurePathEndsWithSlash(Context.Current.WebServiceBasePath) + "api/ensurecontentcontainer";
 
@@ -275,7 +275,7 @@ namespace BL
             {
                 XmlHttpRequest xhr = new XmlHttpRequest();
 
-                HttpRequest.SendWithCredentials(xhr);
+                HttpRequest.AddWithCredentialsToXmlHttpRequest(xhr);
 
                 this.userLoadedOperation.Tag = xhr;
                 String endpoint = UrlUtilities.EnsurePathEndsWithSlash(Context.Current.WebServiceBasePath) + "api/user/" + this.UniqueKey;

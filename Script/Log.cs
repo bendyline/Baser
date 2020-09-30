@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Serialization;
 
 namespace BL
 {
@@ -93,6 +94,45 @@ namespace BL
         public static void DebugMessageStatus(String message, LogStatus status)
         {
             Full(-6, message, status);
+        }
+
+        [Conditional("DEBUG")]
+        public static void DA(String message)
+        {
+            DebugAlert(message);
+        }
+
+        [Conditional("DEBUG")]
+        public static void DebugAlert(String message)
+        {
+            Script.Alert(message);
+
+            FullTime(-6, message, LogStatus.Verbose, -1, null);
+        }
+
+        [Conditional("DEBUG")]
+        public static void DAO(String message, object o)
+        {
+            DebugAlertObject(message, o);
+        }
+
+        [Conditional("DEBUG")]
+        public static void DebugAlertObject(String message, object o)
+        {
+            String alertM = message;
+
+            try
+            {
+                alertM += "\r\n\r\n" + Json.Stringify(o);
+            }
+            catch
+            {
+                alertM += "\r\n\r\n<TS>" + o.ToString();
+            }
+
+            Script.Alert(alertM);
+
+            FullTime(-6, alertM, LogStatus.Verbose, -1, null);
         }
 
         [Conditional("DEBUG")]

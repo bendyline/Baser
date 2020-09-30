@@ -25,6 +25,7 @@ namespace BL
         private String originalBody;
         private Action onReadyStateChange;
         private Action onComplete;
+        private String authorization;
         private ErrorAction onError;
         private object completionData = null;
 
@@ -34,7 +35,7 @@ namespace BL
         private Operation operation;
         private object jsonResponseData;
 
-        public object CompletionData
+        public object Source
         {
             get
             {
@@ -165,15 +166,60 @@ namespace BL
             }
         }
 
-        public HttpRequest()
+        public String Verb
         {
+            get
+            {
+                return this.originalVerb;
+            }
+
+            set
+            {
+                this.originalVerb = value;
+            }
         }
 
-        public void InitializeAsJsonReadRequest(String url)        
+        public String Body
         {
-            this.originalUrl = url;
+            get
+            {
+                return this.originalBody;
+            }
 
-            this.webRequestType = HttpRequestType.JsonRead;
+            set
+            {
+                this.originalBody = value;
+            }
+        }
+
+        public String Url
+        {
+            get
+            {
+                return this.originalUrl = Url;
+            }
+
+            set
+            {
+                this.originalUrl = value;
+            }
+        }
+
+        public HttpRequestType RequestType
+        {
+            get
+            {
+                return this.webRequestType;
+            }
+
+            set
+            {
+                this.webRequestType = value;
+            }
+        }
+
+        public HttpRequest()
+        {
         }
 
         public void Initialize(HttpRequestType requestType)
@@ -181,10 +227,9 @@ namespace BL
             this.webRequestType = requestType;
         }
 
-        private void InternalInitializeAsJsonRequest()
+        public void SetBearerToken(String token)
         {
-            this.request.SetRequestHeader("Accept", "application/json;odata=minimalmetadata");
-            this.request.SetRequestHeader("Content-Type", "application/json");
+            this.authorization = "Bearer " + token;
         }
 
         private void HandleReadyStateChange()
@@ -254,12 +299,6 @@ namespace BL
             }
         }
 
-        public void Open(String verb, String url)
-        {
-            this.originalUrl = url;
-            this.originalVerb = verb;
-        }
-
         public void Send()
         {
             if (this.authenticationRequired && !Context.Current.IsAuthenticated)
@@ -279,13 +318,6 @@ namespace BL
             }
         }
 
-        public void SendWithBody(String body)
-        {
-            this.originalBody = body;
-
-            this.SendRequest();
-        }
-
         private void SendRequest()
         {
             this.request = new XmlHttpRequest();
@@ -295,43 +327,51 @@ namespace BL
 
             urlToRequest = urlToRequest.Replace(" ", "%20");
 
-            if (this.webRequestType == HttpRequestType.JsonRead)
+            if (this.webRequestType == HttpRequestType.JsonRead || String.IsNullOrEmpty(this.originalVerb))
             {
                 this.request.Open(HttpVerb.Get, urlToRequest);
-            }
-            else if (!String.IsNullOrEmpty(this.originalVerb))
-            {
-                this.request.Open(this.originalVerb, urlToRequest);
             }
             else
             {
-                this.request.Open(HttpVerb.Get, urlToRequest);
+                this.request.Open(this.originalVerb, urlToRequest);
             }
 
             if (this.webRequestType == HttpRequestType.JsonWrite || this.webRequestType == HttpRequestType.JsonRead)
             {
-                this.InternalInitializeAsJsonRequest();
-            }
+                this.request.SetRequestHeader("Accept", "application/json;odata.metadata=minimal;odata.streaming=true");
+                this.request.SetRequestHeader("Content-Type", "application/json");
+            }         
 
+            if (this.authorization != null)
+            {
+                this.request.SetRequestHeader("Authorization", authorization);
+            }
 
             if (this.authenticationRequired)
             {
-                HttpRequest.SendWithCredentials(this.request);
+                HttpRequest.AddWithCredentialsToXmlHttpRequest(this.request);
             }
 
-            if (this.originalBody != null)
+            try
             {
-                this.request.Send(this.originalBody);
+                if (this.originalBody != null)
+                {
+                    this.request.Send(this.originalBody);
+                }
+                else
+                {
+                    this.request.Send();
+                }
             }
-            else
+            catch (Exception e)
             {
-                this.request.Send();
+                this.HandleError(this.Status.ToString(), e.Message);
             }
 
             this.requestSent = true;
         }
 
-        public static void SendWithCredentials(XmlHttpRequest xmlHttpRequest)
+        public static void AddWithCredentialsToXmlHttpRequest(XmlHttpRequest xmlHttpRequest)
         {
             Script.Literal("{0}.withCredentials=true", xmlHttpRequest);
         }
