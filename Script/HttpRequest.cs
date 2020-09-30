@@ -13,8 +13,10 @@ namespace BL
     public enum HttpRequestType
     {
         General = 0,
-        JsonRead = 1,
-        JsonWrite = 2
+        ODataV2JsonRead = 1,
+        ODataV2JsonWrite = 2,
+        ODataV4JsonRead = 3,
+        ODataV4JsonWrite = 4
     }
 
     public class HttpRequest
@@ -245,7 +247,10 @@ namespace BL
                 {
                     if (this.Status == 200)
                     {
-                        if (this.webRequestType == HttpRequestType.JsonRead || this.webRequestType == HttpRequestType.JsonWrite)
+                        if (this.webRequestType == HttpRequestType.ODataV2JsonRead || 
+                            this.webRequestType == HttpRequestType.ODataV2JsonWrite ||
+                            this.webRequestType == HttpRequestType.ODataV4JsonRead ||
+                            this.webRequestType == HttpRequestType.ODataV4JsonWrite)
                         {
                             try
                             {
@@ -327,7 +332,7 @@ namespace BL
 
             urlToRequest = urlToRequest.Replace(" ", "%20");
 
-            if (this.webRequestType == HttpRequestType.JsonRead || String.IsNullOrEmpty(this.originalVerb))
+            if (this.webRequestType == HttpRequestType.ODataV2JsonRead || this.webRequestType == HttpRequestType.ODataV4JsonRead || String.IsNullOrEmpty(this.originalVerb))
             {
                 this.request.Open(HttpVerb.Get, urlToRequest);
             }
@@ -336,7 +341,12 @@ namespace BL
                 this.request.Open(this.originalVerb, urlToRequest);
             }
 
-            if (this.webRequestType == HttpRequestType.JsonWrite || this.webRequestType == HttpRequestType.JsonRead)
+            if (this.webRequestType == HttpRequestType.ODataV2JsonWrite || this.webRequestType == HttpRequestType.ODataV2JsonRead)
+            {
+                this.request.SetRequestHeader("Accept", "application/json;odata=minimalmetadata");
+                this.request.SetRequestHeader("Content-Type", "application/json");
+            }
+            else if (this.webRequestType == HttpRequestType.ODataV4JsonWrite || this.webRequestType == HttpRequestType.ODataV4JsonRead)
             {
                 this.request.SetRequestHeader("Accept", "application/json;odata.metadata=minimal;odata.streaming=true");
                 this.request.SetRequestHeader("Content-Type", "application/json");
