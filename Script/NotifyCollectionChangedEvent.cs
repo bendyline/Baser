@@ -119,5 +119,14 @@ namespace BL
             return ncea;
         }
 
+        public static NotifyCollectionChangedEventArgs ItemClearing(IEnumerable items)
+        {
+            NotifyCollectionChangedEventArgs ncea = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Clearing);
+
+            ncea.OldItems = items;
+
+            return ncea;
+        }
+
     }
 }

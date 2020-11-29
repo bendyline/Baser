@@ -17,6 +17,7 @@ namespace BL
        n = number
        y = byte (unsigned 0-255)
        o = object
+       p = collection of objects
        e = element
        s = string
        u = url (string)
@@ -24,7 +25,7 @@ namespace BL
     public partial class SerializableObject : INotifyPropertyChanged
     {
         private SerializableType serializableType;
-        protected bool isInitializedForSerialization;
+        protected bool isInitialized;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -36,7 +37,7 @@ namespace BL
             }
         }
 
-        protected SerializableType SerializableType
+        public SerializableType SerializableType
         {
             get
             {
@@ -49,7 +50,7 @@ namespace BL
             this.EnsureInitializedForSerialization();
         }
 
-        protected virtual void InitForSerialization()
+        protected virtual void InitType(SerializableType type)
         {
 
         }
@@ -93,6 +94,7 @@ namespace BL
             this.ApplyObject(o);
         }
 
+
         public void LoadFromJson(String jsonObject)
         {
             object o = Json.Parse(jsonObject);
@@ -113,6 +115,13 @@ namespace BL
             {
                 throw new Exception("Applying empty object");
             }
+
+            /*
+             Uncomment for debugging serialization for certain objects..
+            if (this.serializableType.Type.FullName == "QLA.AppList")
+            {
+                // Log.DA("Serializing app list");
+            }*/
 
             foreach (SerializableProperty sp in properties)
             {
@@ -182,9 +191,9 @@ namespace BL
 
         private void EnsureInitializedForSerialization()
         {
-            if (!isInitializedForSerialization)
+            if (!isInitialized)
             {
-                isInitializedForSerialization = true;
+                isInitialized = true;
 
                 Type t = this.GetType();
 
@@ -193,12 +202,32 @@ namespace BL
                 if (this.serializableType == null)
                 {
                     this.serializableType = SerializableTypeManager.Current.Ensure(t);
-                    this.serializableType.TagName = this.SerializationName;
-                    this.serializableType.BeginInit();
 
-                    Script.Literal("for (var s in this)  {{ if (s.length > 6) {{ if (s.substring(0,4) == \"get_\" && s.charAt(5) == '_') {{ var sp = new BL.SerializableProperty(); sp.set_name(s.substring(6, s.length)); sp.setTypeByShortName(s.charAt(4)); {0}.addProperty(sp); }}}}}}", this.serializableType);
-                    this.InitForSerialization();
-                    this.serializableType.EndInit();
+                    if (!this.serializableType.IsInitialized)
+                    {
+                        this.serializableType.TagName = this.SerializationName;
+
+                        this.serializableType.BeginInit();
+
+                        /// NOTE NOTE NOTE 
+                        /// ISSUE10001
+                        /// If derived objects attempt to ScriptName/serialize a property defined in an implemented interface, do NOTE that the ScriptName (e.g., "s_title")
+                        /// won't apply.  So if you are wondering why a property isn't getting serialized, check the underlying implemented interfaces to make sure
+                        /// that property isn't defined there.
+
+                        Script.Literal("for (var s in this)  {{ if (s.length > 6) {{ if (s.substring(0,4) == \"get_\" && s.charAt(5) == '_') {{ var sp = new BL.SerializableProperty(); sp.set_name(s.substring(6, s.length)); sp.setTypeByShortName(s.charAt(4)); {0}.addProperty(sp); }}}}}}", this.serializableType);
+                        this.InitType(this.serializableType);
+
+                        /*
+                            Uncomment for debugging initialization of certain objects.
+                        if (this.serializableType.Type.FullName == "QLA.AppList")
+                        {
+                            // Log.DA("Creating app list type");
+                        }
+                        */
+
+                        this.serializableType.EndInit();
+                    }
                 }
             }
         }

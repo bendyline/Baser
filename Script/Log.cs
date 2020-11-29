@@ -102,12 +102,71 @@ namespace BL
             DebugAlert(message);
         }
 
+        private static Dictionary<string, bool> suppressedLogs = new Dictionary<string, bool>();
+
         [Conditional("DEBUG")]
         public static void DebugAlert(String message)
         {
-            Script.Alert(message);
+            // suppressed logs = null = suppress all messages.
+            if (suppressedLogs == null)
+            {
+                return;
+            }
+
+            if (suppressedLogs.ContainsKey(message))
+            {
+                return;
+            }
+
+            String stack = "";
+            String header = "";
+            Script.Literal("var err = new Error(); {0} = err.stack;", stack);
+
+            int i = stack.LastIndexOf("at Function.BL_Log$");
+
+            if (i >= 0)
+            {
+                i = stack.IndexOf("at ", i + 1);
+                if (i >= 4)
+                {
+                    i -= 4;
+                    stack = stack.Substring(i , stack.Length);
+                    int nextSpace = stack.IndexOf(" ", 8);
+
+                    if (nextSpace >= 0)
+                    {
+                        header = stack.Substring(7, nextSpace).ToUpperCase() + "\r\n";
+                    }
+                }
+            }
+
+            String val = Script.Prompt(header + message + "\r\n\r\n" + stack, "b to break, s to suppress, a = suppress all");
+
+            if (val == "s")
+            {
+                suppressedLogs[message] = true;
+                return;
+            }
+            else if (val == "b")
+            {
+                Script.Literal("debugger;");
+            }
+            else if (val == "a")
+            {
+                suppressedLogs = null;
+            }
 
             FullTime(-6, message, LogStatus.Verbose, -1, null);
+        }
+
+
+        [Conditional("DEBUG")]
+        public static void Assert(bool truthStatement, String message)
+        {
+            if (!truthStatement)
+            {
+                DebugAlert(message);
+            }
         }
 
         [Conditional("DEBUG")]
@@ -117,22 +176,36 @@ namespace BL
         }
 
         [Conditional("DEBUG")]
+        public static void AssertObject(bool truthStatement, String message, object o)
+        {
+            if (!truthStatement)
+            {
+                DebugAlertObject(message, o);
+            }
+        }
+
+        [Conditional("DEBUG")]
         public static void DebugAlertObject(String message, object o)
         {
             String alertM = message;
 
-            try
+            if (o == null)
             {
-                alertM += "\r\n\r\n" + Json.Stringify(o);
+                alertM += "\r\n\r\n<NULL OBJECT>";
             }
-            catch
+            else
             {
-                alertM += "\r\n\r\n<TS>" + o.ToString();
+                try
+                {
+                    alertM += "\r\n\r\n<JSON>" + Json.Stringify(o);
+                }
+                catch
+                {
+                    alertM += "\r\n\r\n<TS>" + o.ToString();
+                }
             }
 
-            Script.Alert(alertM);
-
-            FullTime(-6, alertM, LogStatus.Verbose, -1, null);
+            DebugAlert(alertM);        
         }
 
         [Conditional("DEBUG")]

@@ -5,8 +5,16 @@ using System.Serialization;
 
 namespace BL
 {
+    public enum UserManagerSystem
+    {
+        Local = 0,
+        Custom = 1,
+        MicrosoftIdentityCommerical = 2,
+        MicrosoftIdentityConsumer = 3
+    }
+
     /// <summary>
-    /// Specifies an abstract, implementation agnostic definition of a color.
+    /// Specifies an abstract, implementation agnostic definition of a user.
     /// </summary>
     public class User : UserReference
     {
@@ -15,11 +23,25 @@ namespace BL
         private String contentContainer;
         private String thumbnailImage;
         private String preferencesData;
+        private UserManagerSystem system;
         private Nullable<long> profileAppId;
         private Operation ensureContentContainerOperation;
 
         private Operation userLoadedOperation;
         private bool isLoaded = false;
+
+        public UserManagerSystem System
+        {
+            get
+            {
+                return this.system;
+            }
+
+            set
+            {
+                this.system = value;
+            }
+        }
 
         public bool IsLoaded
         {

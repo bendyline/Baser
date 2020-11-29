@@ -14,6 +14,15 @@ namespace BL
         private readonly List<SerializableProperty> propertiesAsList;
         private String tagName;
         private SerializableTypeManager typeManager;
+        private bool isInitialized = false;
+
+        public bool IsInitialized
+        {
+            get
+            {
+                return this.isInitialized;
+            }
+        }
 
 
         public ICollection<SerializableProperty> Properties
@@ -70,6 +79,7 @@ namespace BL
 
         public void EndInit()
         {
+            this.isInitialized = true;
 
         }
 

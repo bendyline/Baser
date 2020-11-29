@@ -74,12 +74,12 @@ namespace BL
             this.document = document;
         }
 
-        protected override void InitForSerialization()
+        protected override void InitType(SerializableType type)
         {
-            base.InitForSerialization();
+            base.InitType(type);
 
-            this.SerializableType.EnsureObject("foreground", null);
-            this.SerializableType.EnsureObject("background", null);
+            type.EnsureObject("foreground", null);
+            type.EnsureObject("background", null);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace BL
         Remove = 3,
         Replace = 4,
         Reset = 5,
-        ItemStateChanged = 6
+        Clearing = 6,
+        ItemStateChanged = 7
     }
 }
