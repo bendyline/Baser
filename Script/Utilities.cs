@@ -13,7 +13,8 @@ namespace BL
         private static String versionHash;
         private static bool initialized;
 
-        private static RegularExpression EmailValidator;
+        private static RegularExpression EmailValidator = null;
+
         public static String GetString(object value)
         {
             return value.ToString();

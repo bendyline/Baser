@@ -13,10 +13,12 @@ namespace BL
         Bool = 3,
         Number = 4,
         Object = 5,
-        ScalarCollection = 6,
+        VariantArray = 6,
         Date = 7,
         SmallInteger = 8,
         UrlString = 9,
-        ObjectCollection=10
+        ObjectCollection = 10,
+        StringArray = 11, 
+        IntegerArray = 12
     }
 }

@@ -21,6 +21,8 @@ namespace BL
        e = element
        s = string
        u = url (string)
+       t = array of strings
+       j = array of ints
      */
     public partial class SerializableObject : INotifyPropertyChanged
     {
@@ -170,7 +172,10 @@ namespace BL
             }
 
             // for lists of strings, convert a comma seperated list to a list of strings
-            if (sp.Type == SerializablePropertyType.ScalarCollection && value is String)
+            if ((   sp.Type == SerializablePropertyType.VariantArray ||
+                    sp.Type == SerializablePropertyType.IntegerArray ||
+                    sp.Type == SerializablePropertyType.StringArray)
+                    && value is String)
             {
                 String[] values = ((String)value).Split(',');
 

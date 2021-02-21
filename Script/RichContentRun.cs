@@ -9,7 +9,6 @@ namespace BL
     {
         private bool isLink;
         private String linkId;
-        private RichContentContainer container;
         private String text;
 
         public override String Text
@@ -51,14 +50,6 @@ namespace BL
             }
         }
 
-        public RichContentContainer Container
-        {
-            get
-            {
-                return this.container;
-            }
-        }
-
         public String FormatHash
         {
             get
@@ -97,7 +88,7 @@ namespace BL
 
         public RichContentRun(RichContentContainer container) : base(container)
         {
-            this.container = container;
+
         }
 
         /*

@@ -5,17 +5,12 @@ using System;
 
 namespace Bendyline.Base
 {
-    public enum SerializablePropertyType
+    public class ScriptAssemblyAttribute : Attribute
     {
-        String,
-        Integer,
-        Enum,
-        Bool,
-        Double,
-        Object,
-        Date,
-        Choice,
-        Number,
-        Collection
+
+        public ScriptAssemblyAttribute(String name)
+        {
+            
+        }
     }
 }

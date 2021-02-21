@@ -100,7 +100,7 @@ namespace BL
             SerializableProperty sp = new SerializableProperty();
             sp.Name = propertyName;
             sp.IsAttribute = false;
-            sp.Type = SerializablePropertyType.ScalarCollection;
+            sp.Type = SerializablePropertyType.VariantArray;
             sp.ContainerNodeName = containerNodeName;
             sp.PropertyToAddObjectTo = propertyToAddObjectTo;
             sp.ItemName = itemName;

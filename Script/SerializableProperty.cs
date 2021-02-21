@@ -141,6 +141,9 @@ namespace BL
                 case SerializablePropertyType.String:
                     return 's';
 
+                case SerializablePropertyType.StringArray:
+                    return 't';
+
                 case SerializablePropertyType.Date:
                     return 'd';
 
@@ -150,13 +153,16 @@ namespace BL
                 case SerializablePropertyType.Integer:
                     return 'i';
 
+                case SerializablePropertyType.IntegerArray:
+                    return 'j';
+
                 case SerializablePropertyType.Object:
                     return 'o';
 
                 case SerializablePropertyType.ObjectCollection:
                     return 'p';
 
-                case SerializablePropertyType.ScalarCollection:
+                case SerializablePropertyType.VariantArray:
                     return 'q';
 
                 case SerializablePropertyType.Bool:
@@ -180,17 +186,23 @@ namespace BL
                 case 's':
                     this.propertyType = SerializablePropertyType.String;
                     break;
+                case 't':
+                    this.propertyType = SerializablePropertyType.StringArray;
+                    break;
                 case 'p':
                     this.propertyType = SerializablePropertyType.ObjectCollection;
                     break;
                 case 'q':
-                    this.propertyType = SerializablePropertyType.ScalarCollection;
+                    this.propertyType = SerializablePropertyType.VariantArray;
                     break;
                 case 'u':
                     this.propertyType = SerializablePropertyType.UrlString;
                     break;
                 case 'i':
                     this.propertyType = SerializablePropertyType.Integer;
+                    break;
+                case 'j':
+                    this.propertyType = SerializablePropertyType.IntegerArray;
                     break;
                 case 'y':
                     this.propertyType = SerializablePropertyType.SmallInteger;

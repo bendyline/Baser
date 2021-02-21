@@ -79,6 +79,16 @@ namespace Bendyline.Base
             return null;
         }
 
+        internal void EnsureBaseProperties(SerializableObject so)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetProperty(SerializableObject so, String propertyName, object value)
+        {
+            throw new NotImplementedException();
+        }
+
         public SerializableProperty EnsureCollection(String propertyName, String itemName, String containerNodeName, String propertyToAddObjectTo, String itemTypeName)
         {
             if (this.properties.ContainsKey(propertyName))

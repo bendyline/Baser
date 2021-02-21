@@ -13,7 +13,7 @@ namespace BL
         private String line;
         private String trace;
 
-        public static event PageErrorEventHandler Occurred;
+        // public static event PageErrorEventHandler Occurred;
 
         public PageError(String message, String url, String line, String trace)
         {
